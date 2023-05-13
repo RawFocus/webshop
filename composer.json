@@ -12,7 +12,14 @@
         {
             "name": "Nick Verheijen",
             "email": "verheijen.webdevelopment@gmail.com"
+        },
+        {
+            "name": "Yvo von Berg",
+            "email": "pobox99991@protonmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "^10.0"
+    }
 }
