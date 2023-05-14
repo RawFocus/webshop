@@ -2,6 +2,8 @@
 
 This is a Laravel 10 package that provides you with an API to handle a simple webshop powered by Stripe.
 
+[Check out the official Laravel docs](https://laravel.com/docs/10.x/packages)
+
 ## Development
 
 First of all clone the repository in a directory next to your `climbing-buddies-backend` directory with the following command:
@@ -37,8 +39,6 @@ composer require raw/webshop:dev-master
 The `dev-` tells composer we want to load a local package and not a tag and the `master` is the branch we want to load.
 
 After that the package should be loaded and you can develop it in it's own directory without having to update.
-
-[Check out the official Laravel docs](https://laravel.com/docs/10.x/packages)
 
 ## Publishing
 
