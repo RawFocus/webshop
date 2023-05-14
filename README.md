@@ -32,11 +32,18 @@ Notice the `repositories` entry in the `composer.json` file:
 ]
 ```
 
+Since we are running Laravel sail (aka Docker) the package won't be automatically available within our docker environment. To make the package directory available we add the following to the `volumes` section of the `docker-compose.yaml` of the `climbing-buddies-backend` project, like so:
+```
+volumes:
+    - '.:/var/www/html'
+    - '../package-webshop:/var/www/package-webshop'
+```
+
 Afterwards run the following command to symlink the package into the climbing buddies backend:
 ```sh
 composer require raw/webshop:dev-master
 ```
-The `dev-` tells composer we want to load a local package and not a tag and the `master` is the branch we want to load.
+The `dev-` tells composer we want to load a local package and not a tag and the `master` is the branch we want to load. 
 
 After that the package should be loaded and you can develop it in it's own directory without having to update.
 
@@ -45,5 +52,11 @@ After that the package should be loaded and you can develop it in it's own direc
 
 
 ## Installation
+
+After installing the package you should:
+```
+sail artisan migrate
+sail artisan lang:publish --provider=Raw\Webshop\Providers\WebshopServiceProvider
+```
 
 ## Usage

@@ -1,13 +1,6 @@
 {
     "name": "raw/webshop",
     "description": "A simple webshop module for Laravel 10+ applications.",
-    "type": "library",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Raw\\Webshop\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Nick Verheijen",
@@ -18,6 +11,13 @@
             "email": "pobox99991@protonmail.com"
         }
     ],
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Raw\\Webshop\\": "src/"
+        }
+    },
     "require": {
         "php": "^8.0",
         "illuminate/support": "^10.0",
