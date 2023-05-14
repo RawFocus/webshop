@@ -14,12 +14,12 @@ class WebshopService
         return Product::all();
     }
 
-    public function findById(int $id): ?Product
+    public function findProductById(int $id): ?Product
     {
         return Product::find($id);
     }
 
-    public function findBySlug(string $slug): ?Product
+    public function findProductBySlug(string $slug): ?Product
     {
         return Product::where("slug", $slug)->first();
     }

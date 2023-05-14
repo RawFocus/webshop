@@ -47,4 +47,33 @@ class OrderController extends Controller
             ]);
         }
     }
+
+    public function getFindOrderByUuid($uuid)
+    {
+        try
+        {
+            $order = Webshop::findOrderByUuid($uuid);
+    
+            if (!$order) throw new OrderNotFoundException(__("webshop::validation.order_not_found"));
+    
+            return response()->json([
+                "status" => "success",
+                "order" => $order,
+            ]);
+        }
+        catch (OrderNotFoundException $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => $e->getMessage()
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
+            ]);
+        }
+    }
 }
