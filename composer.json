@@ -21,6 +21,7 @@
     "require": {
         "php": "^8.0",
         "illuminate/support": "^10.0",
+        "illuminate/database": "^10.0",
         "cviebrock/eloquent-sluggable": "^10.0"
     },
     "extra": {
