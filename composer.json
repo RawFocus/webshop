@@ -20,6 +20,17 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/support": "^10.0"
+        "illuminate/support": "^10.0",
+        "cviebrock/eloquent-sluggable": "^10.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Raw\\Webshop\\Providers\\WebshopServiceProvider"
+            ],
+            "aliases": {
+                "Webshop": "Raw\\Webshop\\Facades\\WebshopFacade"
+            }
+        }
     }
 }
