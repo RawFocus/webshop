@@ -33,13 +33,20 @@ Notice the `repositories` entry in the `composer.json` file:
 ```
 
 Since we are running Laravel sail (aka Docker) the package won't be automatically available within our docker environment. To make the package directory available we add the following to the `volumes` section of the `docker-compose.yaml` of the `climbing-buddies-backend` project, like so:
+
 ```
 volumes:
     - '.:/var/www/html'
     - '../package-webshop:/var/www/package-webshop'
 ```
 
-Afterwards run the following command to symlink the package into the climbing buddies backend:
+Then restart your docker containers using sail:
+```
+Ctrl+C
+sail up
+```
+
+Run the following command to symlink the package into the climbing buddies backend:
 ```sh
 composer require raw/webshop:dev-master
 ```
