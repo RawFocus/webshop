@@ -101,6 +101,8 @@ class PaymentService
             ];
         }
 
+        dd($sessionData);
+
         return Session::create($sessionData, ["idempotency_key" => (string) Uuid::generate(4)]);
     }
 
