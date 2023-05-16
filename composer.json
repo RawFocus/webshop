@@ -23,7 +23,8 @@
         "illuminate/support": "^10.0",
         "illuminate/database": "^10.0",
         "cviebrock/eloquent-sluggable": "^10.0",
-        "stripe/stripe-php": "^10.13"
+        "stripe/stripe-php": "^10.13",
+        "webpatser/laravel-uuid": "^4.0"
     },
     "extra": {
         "laravel": {
