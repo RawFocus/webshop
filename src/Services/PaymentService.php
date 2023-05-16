@@ -2,8 +2,17 @@
 
 namespace Raw\Webshop\Services;
 
-use App\Http\Requests\Api\BuddyRequests\CheckoutRequest;
+use Log;
+use Uuid;
+
 use Raw\Webshop\Models\Order;
+
+use Stripe\Stripe;
+use Stripe\Charge;
+use Stripe\Checkout\Session;
+use Stripe\Exception\InvalidRequestException;
+use Raw\Webshop\Http\Requests\CheckoutRequest;
+
 
 class PaymentService
 {
