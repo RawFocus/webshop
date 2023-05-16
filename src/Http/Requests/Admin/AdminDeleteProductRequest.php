@@ -4,7 +4,7 @@ namespace Raw\Webshop\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminCreateProductRequest extends FormRequest
+class AdminDeleteProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

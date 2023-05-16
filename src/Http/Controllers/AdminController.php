@@ -7,7 +7,7 @@ use Exception;
 
 use App\Http\Controllers\Controller;
 
-class CheckoutController extends Controller
+class AdminController extends Controller
 {
     public function postCreate(CheckoutRequest $request)
     {
