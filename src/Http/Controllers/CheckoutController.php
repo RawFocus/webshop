@@ -10,7 +10,7 @@ use App\Http\Requests\CheckoutRequest;
 
 class CheckoutController extends Controller
 {
-    public function checkout(CheckoutRequest $request)
+    public function postCheckout(CheckoutRequest $request)
     {
         try
         {
