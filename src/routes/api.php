@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Raw\Webshop\Http\Controllers\CheckoutController;
 use Raw\Webshop\Http\Controllers\OrderController;
 use Raw\Webshop\Http\Controllers\ProductController;
 
@@ -11,7 +11,7 @@ Route::group(["prefix" => "webshop"], function() {
         return "ewa";
     });
 
-    Route::post("checkout", [ProductController::class, "postCheckout"])->name("webshop.checkout");
+    Route::post("checkout", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
 
     Route::group(["prefix" => "products"], function() {
         Route::get("/", [ProductController::class, "getAll"])->name("webshop.products.all");
