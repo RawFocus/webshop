@@ -12,7 +12,7 @@ Route::group(["prefix" => "webshop"], function() {
     });
 
     Route::group(["prefix" => "checkout"], function() {
-        Route::get("/", [ProductController::class, "getAll"])->name("webshop.products.all");
+        Route::get("/", [ProductController::class, "getAll"])->name("webshop.checkout");
     });
 
     Route::group(["prefix" => "products"], function() {
