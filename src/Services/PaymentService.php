@@ -72,10 +72,8 @@ class PaymentService
         // Create session
         $sessionData = [
             "client_reference_id" => $order->id,
-            // "success_url" => config("webshop.payments.urls.success"),
-            // "cancel_url" => config("webshop.payments.urls.cancel"),
-            "success_url" => "https://staging.klimbuddies.nl/",
-            "cancel_url" => "https://staging.klimbuddies.nl/",
+            "success_url" => config("webshop.payments.urls.success"),
+            "cancel_url" => config("webshop.payments.urls.cancel"),
             "payment_method_types" => ['ideal'],
             "mode" => "payment",
             "metadata" => [
@@ -97,8 +95,7 @@ class PaymentService
                     "unit_amount_decimal" => round($product->price * 100)
                 ],
                 "quantity" => $product->pivot->quantity,
-                // "tax_rates" => [config("payments.tax_rates.high")],
-                "tax_rates" => [21],
+                "tax_rates" => [config("payments.tax_rates.high")],
             ];
         }
 
