@@ -3,8 +3,8 @@
 return [
     "payments" => [
         "urls" => [
-            "success" => "",
-            "cancel" => "",
+            "success" => "https://staging.klimbuddies.nl/",
+            "cancel" => "https://staging.klimbuddies.nl/",
         ],
         "tax_rates" => [
             "high" => 21
