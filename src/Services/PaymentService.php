@@ -72,8 +72,10 @@ class PaymentService
         // Create session
         $sessionData = [
             "client_reference_id" => $order->id,
-            "success_url" => config("webshop.payments.urls.success"),
-            "cancel_url" => config("webshop.payments.urls.cancel"),
+            // "success_url" => config("webshop.payments.urls.success"),
+            // "cancel_url" => config("webshop.payments.urls.cancel"),
+            "success_url" => "https://staging.klimbuddies.nl/",
+            "cancel_url" => "https://staging.klimbuddies.nl/",
             "payment_method_types" => ['ideal'],
             "mode" => "payment",
             "metadata" => [
