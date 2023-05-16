@@ -11,7 +11,7 @@ Route::group(["prefix" => "webshop"], function() {
         return "ewa";
     });
 
-    Route::post("", [ProductController::class, "postCheckout"])->name("webshop.checkout");
+    Route::post("checkout", [ProductController::class, "postCheckout"])->name("webshop.checkout");
 
     Route::group(["prefix" => "products"], function() {
         Route::get("/", [ProductController::class, "getAll"])->name("webshop.products.all");
