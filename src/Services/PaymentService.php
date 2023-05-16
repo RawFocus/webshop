@@ -60,7 +60,7 @@ class PaymentService
         $out = 0;
         foreach ($productData as $productItem)
         {
-            $out += $productItem->price * $productItem->pivot->quantity;
+            $out += $productItem->price * $productItem->quantity;
         }  
 
         return $out;     
