@@ -89,7 +89,7 @@ class PaymentService
             $sessionData["line_items"][] = [
                 "price_data" => [
                     // Stripe only accepts lowercase for currency
-                    "currency" => "eu",
+                    "currency" => "eur",
                     "product_data" => [
                         "name" => $product->title,
                     ],
