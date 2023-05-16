@@ -8,9 +8,9 @@ use Webshop;
 use Orders;
 use Payments;
 use Exception;
-use PaymentStatuses;
 
 use App\Http\Controllers\Controller;
+use App\Enums\PaymentStatusEnum;
 use App\Http\Requests\Api\Stripe\StripeWebhookRequest;
 
 use Stripe\Stripe;
@@ -39,7 +39,7 @@ class StripeController extends Controller
             ]);
         }
 
-        $payment = Webshop::getPayment($stripeObject->payment_intent);
+        $payment = Payments::getPayment($stripeObject->payment_intent);
         if (!$payment) {
             Log::debug("StripeController::handleCheckoutEvent: unable to find payment information: " . $stripeObject);
             return response("Unable to find payment information", 399);
@@ -55,33 +55,28 @@ class StripeController extends Controller
             return response("Unable to find order", 404);
         }
 
-        // Resolve payment status label to payment status object
-        // https://stripe.com/docs/api/checkout/sessions/object#checkout_session_object-payment_status
-        // The payment status of the Checkout Session, one of paid, unpaid, or no_payment_required. You can use this value to decide when to fulfill your customer’s order.
-        // $paymentStatus = PaymentStatuses::findByName($stripeObject->payment_status);
-
         // Check if the order has been set to paid already, it should never be able to change after that
         // Once the order is paid this webhook should not be able to change data ever
-        if ($order->payment_status == "paid")
+        if ($order->payment_status == PaymentStatusEnum::PAID)
         {
             Log::debug("Received duplicated webhook event from Stripe. Order: " . $order->uuid);
             return response()->json(["status" => "already_paid"]);
         }
 
         // Update order's payment status
-        $order->payment_status = "paid";
+        $order->payment_status = PaymentStatusEnum::PAID;
         $order->payment_method = "ideal";
         $order->payment_id = $stripeObject->payment_intent;
         $order->payment_method = $paymentMethod;
         $order->save();
 
         // Check if the payment has been made
-        if ($stripeObject->payment_status == "paid")
+        if ($stripeObject->payment_status == PaymentStatusEnum::PAID)
         {
             // Flag order as paid
-            $order->payment_status = "paid";
+            $order->payment_status = PaymentStatusEnum::PAID;
 
-            // Send payment received email
+            // TODO: Send payment received email
             // event(new PaymentReceived($order));
         }
         // The payment has failed (or is pending or whatever)
@@ -128,8 +123,7 @@ class StripeController extends Controller
         }
 
         // Set the payment status to 'pending'
-        $paymentStatus = PaymentStatuses::findByName("pending");
-        $order->payment_status_id = $paymentStatus->id;
+        $order->payment_status = PaymentStatusEnum::PENDING;
         $order->save();
 
         return response()->json([
@@ -185,13 +179,13 @@ class StripeController extends Controller
                 );
             }
         }
-        catch(\UnexpectedValueException $exception)
+        catch(\UnexpectedValueException $e)
         {
             // Invalid payload
             Log::error("Invalid payload coming from Stripe! " . $request->ip());
             return response('Invalid payload', 400);
         }
-        catch(\Stripe\Exception\SignatureVerificationException $exception)
+        catch(\Stripe\Exception\SignatureVerificationException $e)
         {
             // Invalid payload
             Log::error("Signature verification mismatch! " . $request->ip());
@@ -206,7 +200,7 @@ class StripeController extends Controller
         // Handle the event
         if ($stripeEvent->type == "checkout.session.completed") return $this->handleCheckoutEvent($stripeEvent);
         if ($stripeEvent->type == "payment_intent.created") return $this->handlePaymentIntentCreated($stripeEvent);
-        if ($stripeEvent->type == "customer.created") return $this->handleCustomerCreated($stripeEvent);
+        // TODO: if ($stripeEvent->type == "customer.created") return $this->handleCustomerCreated($stripeEvent);
 
         // Unknown or unsupported checkout event type
         Log::error("Unknown or unsupported checkout event type: " . $stripeEvent->type . " ID: " . $stripeEvent->id);

@@ -33,5 +33,8 @@
                 "Webshop": "Raw\\Webshop\\Facades\\WebshopFacade"
             }
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.1"
     }
 }

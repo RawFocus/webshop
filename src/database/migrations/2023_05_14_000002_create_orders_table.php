@@ -21,6 +21,9 @@ class CreateOrdersTable extends Migration
             $table->string('address_postal_code');
             $table->string('address_city');
             $table->string('address_country');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_id')->nullable();
+            $table->enum('payment_status', ['paid', 'unpaid', 'pending'])->default('unpaid');
             $table->unsignedInteger('total_price');
             $table->timestamps();
         });

@@ -23,6 +23,9 @@ class Order extends Model
         "payment_method",
         "payment_id"
     ];
+    protected $casts = [
+        'payment_status' => ServerStatus::class,
+    ];
 
     //
     // Relationships
