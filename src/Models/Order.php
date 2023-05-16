@@ -19,6 +19,9 @@ class Order extends Model
         "address_postal_code",
         "address_city",
         "total_price",
+        "payment_status",
+        "payment_method",
+        "payment_id"
     ];
 
     //
@@ -27,7 +30,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('quantity');
     }
 
     //
