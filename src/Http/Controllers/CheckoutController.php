@@ -6,7 +6,7 @@ use Webshop;
 use Exception;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CheckoutRequest;
+use Raw\Webshop\Http\Requests\CheckoutRequest;
 
 class CheckoutController extends Controller
 {
