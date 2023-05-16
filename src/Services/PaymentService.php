@@ -97,7 +97,8 @@ class PaymentService
                     "unit_amount_decimal" => round($product->price * 100)
                 ],
                 "quantity" => $product->pivot->quantity,
-                "tax_rates" => [config("payments.tax_rates.high")],
+                // "tax_rates" => [config("payments.tax_rates.high")],
+                "tax_rates" => ["txr_1M3fr0KnEV82zsZasVlNH3g8"],
             ];
         }
 
