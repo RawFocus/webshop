@@ -18,6 +18,8 @@ class CreateProductsTable extends Migration
             $table->json('title');
             $table->json('summary');
             $table->unsignedInteger('price');
+            $table->unsignedInteger('stock');
+            $table->boolean('listed')->default(false);
             $table->timestamps();
         });
     }

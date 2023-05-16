@@ -15,7 +15,8 @@ class Product extends Model
         "title",
         "summary",
         "price",
-        "stock"
+        "stock",
+        "listed"
     ];
 
     //

@@ -28,9 +28,12 @@ Route::group(["prefix" => "webshop"], function() {
     });
 
     Route::group(["prefix" => "admin"], function() {
-        Route::get("/", [OrderController::class, "getAll"])->name("webshop.orders.all");
-        Route::get("find-by-id/{id}", [OrderController::class, "getFindById"])->name("webshop.orders.find-by-id");
-        Route::get("find-by-uuid/{uuid}", [OrderController::class, "getFindByUuid"])->name("webshop.orders.find-by-uuid");
+        Route::group(["prefix" => "products"], function() {
+            Route::get("create", [AdminController::class, "postCreate"])->name("webshop.admin.products.create");
+            Route::get("update", [AdminController::class, "postUpdate"])->name("webshop.admin.products.update");
+            Route::get("delete", [AdminController::class, "postDelete"])->name("webshop.admin.products.delete");
+        });
+    
     });
 
 });

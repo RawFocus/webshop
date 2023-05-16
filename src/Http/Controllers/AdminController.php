@@ -6,17 +6,17 @@ use Webshop;
 use Exception;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CheckoutRequest;
 
 class CheckoutController extends Controller
 {
-    public function checkout(CheckoutRequest $request)
+    public function postCreate(CheckoutRequest $request)
     {
         try
         {
+            Webshop::checkoutFromRequest($request);
+
             return response()->json([
                 "status" => "success",
-                "url" => Webshop::checkoutFromRequest($request)
             ]);
         }
         catch (Exception $e)

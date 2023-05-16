@@ -7,6 +7,11 @@ use Raw\Webshop\Models\Order;
 
 class PaymentService
 {
+    public function __construct()
+    {
+        Stripe::setApiKey(env("STRIPE_PRIVATE_KEY"));
+    }
+
     public function checkoutFromRequest(CheckoutRequest $checkoutRequest)
     {
         $user = auth()->user();
@@ -37,7 +42,9 @@ class PaymentService
             $product->save();
         }
 
-        $this->createPaymentSession($order);
+        $session = $this->createPaymentSession($order);
+
+        return $session->url;
     }
 
     private function calculateTotalPrice(array $productData)
@@ -75,7 +82,7 @@ class PaymentService
             ];
         }
 
-        return Session::create($sessionData);
+        return Session::create($sessionData, ["idempotency_key" => (string) Uuid::generate(4)]);
     }
 
     public function getPayment(string $paymentId): Charge|null
