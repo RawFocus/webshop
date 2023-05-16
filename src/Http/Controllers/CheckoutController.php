@@ -2,6 +2,7 @@
 
 namespace Raw\Webshop\Http\Controllers;
 
+use Log;
 use Payments;
 use Exception;
 
@@ -21,6 +22,7 @@ class CheckoutController extends Controller
         }
         catch (Exception $e)
         {
+            Log::error($e);
             return response()->json([
                 "status" => "error",
                 "error" => __("webshop::validation.general_error")
