@@ -19,8 +19,14 @@ class ProductSeeder extends Seeder
         DB::table("products")->delete();
 
         Product::create([
-            "title" => "title",
-            "summary" => "summary",
+            "title" => [
+                "nl" => "Product",
+                "en" => "Product"
+            ],
+            "summary" => [
+                "nl" => "Summary",
+                "en" => "Summary"
+            ],
             "price" => 26,
             "stock" => 10,
             "listed" => true

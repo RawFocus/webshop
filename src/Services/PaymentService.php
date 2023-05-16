@@ -91,7 +91,7 @@ class PaymentService
                     // Stripe only accepts lowercase for currency
                     "currency" => "eur",
                     "product_data" => [
-                        "name" => "test",
+                        "name" => $product->title["nl"],
                     ],
                     // Stripe api handles 10,00 like 1000. Hence, why the value is multiplied by 100
                     "unit_amount_decimal" => round($product->price * 100)
@@ -100,8 +100,6 @@ class PaymentService
                 "tax_rates" => [config("payments.tax_rates.high")],
             ];
         }
-
-        dd($sessionData);
 
         return Session::create($sessionData, ["idempotency_key" => (string) Uuid::generate(4)]);
     }
