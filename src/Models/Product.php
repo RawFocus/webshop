@@ -19,7 +19,8 @@ class Product extends Model
         "price",
         "stock",
         "listed",
-        "uuid"
+        "uuid",
+        "slug"
     ];
 
     //
