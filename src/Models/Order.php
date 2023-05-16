@@ -5,11 +5,9 @@ namespace Raw\Webshop\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Cviebrock\EloquentSluggable\Sluggable;
-
 class Order extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory;
 
     protected $fillable = [
         "name",
