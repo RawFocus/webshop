@@ -23,13 +23,12 @@ class PaymentService
 
     public function checkoutFromRequest(CheckoutRequest $checkoutRequest)
     {
-        $user = auth()->user();
         $decodedProducts = json_decode($checkoutRequest->products);
 
         // Create order
         $order = Order::create([
-            "name" => $user->name,
-            "email" => $user->email,
+            "name" => $checkoutRequest->name,
+            "email" => $checkoutRequest->email,
             "address_street" => $checkoutRequest->address_street,
             "address_country" => $checkoutRequest->address_country,
             "address_postal_code" => $checkoutRequest->address_country,
