@@ -87,7 +87,15 @@ class PaymentService
         foreach ($order->products as $product)
         {
             $sessionData["line_items"][] = [
-                "price" => $product->price,
+                "price_data" => [
+                    // Stripe only accepts lowercase for currency
+                    "currency" => "eu",
+                    "product_data" => [
+                        "name" => $product->title,
+                    ],
+                    // Stripe api handles 10,00 like 1000. Hence, why the value is multiplied by 100
+                    "unit_amount_decimal" => round($product->price * 100)
+                ],
                 "quantity" => $product->pivot->quantity,
                 "tax_rates" => [config("payments.tax_rates.high")],
             ];
