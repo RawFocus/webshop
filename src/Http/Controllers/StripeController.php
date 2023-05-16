@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Http\Controllers\Stripe;
+namespace Raw\Webshop\Http\Controllers;
 
 use Log;
 use Users;
@@ -10,7 +10,6 @@ use Payments;
 use Exception;
 
 use App\Http\Controllers\Controller;
-use App\Enums\PaymentStatusEnum;
 use App\Http\Requests\Api\Stripe\StripeWebhookRequest;
 
 use Stripe\Stripe;
