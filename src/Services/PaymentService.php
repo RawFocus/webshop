@@ -91,7 +91,7 @@ class PaymentService
                     // Stripe only accepts lowercase for currency
                     "currency" => "eur",
                     "product_data" => [
-                        "name" => $product->title,
+                        "name" => "test",
                     ],
                     // Stripe api handles 10,00 like 1000. Hence, why the value is multiplied by 100
                     "unit_amount_decimal" => round($product->price * 100)
