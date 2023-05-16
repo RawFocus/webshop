@@ -16,7 +16,8 @@ class Product extends Model
         "summary",
         "price",
         "stock",
-        "listed"
+        "listed",
+        "uuid"
     ];
 
     //
@@ -30,6 +31,18 @@ class Product extends Model
                 'source' => 'title.nl'
             ]
         ];
+    }
+
+    //
+    // UUID
+    //
+    
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string) Uuid::generate(4);
+        });
     }
 
     //

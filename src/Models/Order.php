@@ -19,11 +19,24 @@ class Order extends Model
         "total_price",
         "payment_status",
         "payment_method",
-        "payment_id"
+        "payment_id",
+        "uuid"
     ];
     protected $casts = [
         'payment_status' => ServerStatus::class,
     ];
+
+    //
+    // UUID
+    //
+    
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string) Uuid::generate(4);
+        });
+    }
 
     //
     // Relationships
