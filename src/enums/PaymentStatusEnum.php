@@ -2,7 +2,7 @@
 
 namespace Raw\Webshop\Enums;
 
-enum PaymentStatusEnum:string
+enum PaymentStatusEnum: string
 {
     case PAID = 'paid';
     case UNPAID = 'unpaid';
