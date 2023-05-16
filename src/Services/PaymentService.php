@@ -4,6 +4,7 @@ namespace Raw\Webshop\Services;
 
 use Log;
 use Uuid;
+use Webshop;
 
 use Raw\Webshop\Models\Order;
 
@@ -40,7 +41,7 @@ class PaymentService
         foreach ($decodedProducts as $productData)
         {
             // Fetch product
-            $product = $this->findProductByUuid($productData->uuid);
+            $product = Webshop::findProductByUuid($productData->uuid);
 
             // Attach product to order
             $order->products()->attach($product->id, ['quantity' => $productData->quantity]);
