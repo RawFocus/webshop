@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Raw\Webshop\database\seeders;
 
 use DB;
 
