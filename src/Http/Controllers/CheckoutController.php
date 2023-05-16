@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 namespace Raw\Webshop\Http\Controllers;
 
-use Webshop;
+use Payments;
 use Exception;
 
 use App\Http\Controllers\Controller;

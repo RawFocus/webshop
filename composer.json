@@ -30,7 +30,8 @@
                 "Raw\\Webshop\\Providers\\WebshopServiceProvider"
             ],
             "aliases": {
-                "Webshop": "Raw\\Webshop\\Facades\\WebshopFacade"
+                "Webshop": "Raw\\Webshop\\Facades\\WebshopFacade",
+                "Payments": "Raw\\Webshop\\Facades\\PaymentsFacade"
             }
         }
     },
