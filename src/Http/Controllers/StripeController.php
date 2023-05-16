@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Stripe;
+namespace Raw\Webshop\Controllers\Api\Stripe;
 
 use Log;
 use Users;

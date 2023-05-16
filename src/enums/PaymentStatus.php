@@ -1,5 +1,5 @@
 <?php
-namespace App\Enums;
+namespace Raw\Webshop\Enums;
 
 
 enum PaymentStatusEnum:string
