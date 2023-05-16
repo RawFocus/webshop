@@ -37,7 +37,7 @@ class PaymentService
         ]);
 
         // Attach products
-        foreach ($checkoutRequest->products as $productData)
+        foreach ($decodedProducts as $productData)
         {
             // Fetch product
             $product = $this->findProductByUuid($productData->uuid);
