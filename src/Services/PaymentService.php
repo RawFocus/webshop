@@ -20,6 +20,7 @@ class PaymentService
     public function __construct()
     {
         Stripe::setApiKey(env("STRIPE_PRIVATE_KEY"));
+        // test
     }
 
     public function checkoutFromRequest(CheckoutRequest $checkoutRequest)
