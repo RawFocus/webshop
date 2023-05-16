@@ -1,8 +1,8 @@
-<?php 
+<?php
 
 namespace Raw\Webshop\Http\Controllers;
 
-use Webshop;
+use Payments;
 use Exception;
 
 use App\Http\Controllers\Controller;
@@ -16,7 +16,7 @@ class CheckoutController extends Controller
         {
             return response()->json([
                 "status" => "success",
-                "url" => Webshop::checkoutFromRequest($request)
+                "url" => Payments::checkoutFromRequest($request)
             ]);
         }
         catch (Exception $e)
