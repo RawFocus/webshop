@@ -15,7 +15,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Raw\\Webshop\\": "src",
+            "Raw\\Webshop\\": "src/",
             "Raw\\Webshop\\Tests\\": "tests"
         }
     },
