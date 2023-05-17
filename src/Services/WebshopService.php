@@ -44,6 +44,23 @@ class WebshopService
         return Order::where("uuid", $uuid)->first();
     }
 
+    /**
+     * Calculate the total price of the products
+     *
+     * @param array $productData
+     * @return float
+     */
+    public function calculateTotalOrderPrice(array $productData)
+    {
+        $out = 0;
+        foreach ($productData as $productItem)
+        {
+            $out += $productItem->price * $productItem->quantity;
+        }  
+
+        return $out;     
+    }
+
     public function revertStockDecreases(Order $order)
     {
         foreach ($order->products as $product)

@@ -41,7 +41,7 @@ class PaymentService
             "address_country" => $checkoutRequest->address_country,
             "address_postal_code" => $checkoutRequest->address_country,
             "address_city" => $checkoutRequest->address_city,
-            "total_price" => $this->calculateTotalPrice($decodedProducts)
+            "total_price" => Webshop::calculateTotalOrderPrice($decodedProducts)
         ]);
 
         // Attach products
@@ -61,23 +61,6 @@ class PaymentService
         $session = $this->createPaymentSession($order);
 
         return $session->url;
-    }
-
-    /**
-     * Calculate the total price of the products
-     *
-     * @param array $productData
-     * @return float
-     */
-    private function calculateTotalPrice(array $productData)
-    {
-        $out = 0;
-        foreach ($productData as $productItem)
-        {
-            $out += $productItem->price * $productItem->quantity;
-        }  
-
-        return $out;     
     }
 
     /**
@@ -118,10 +101,8 @@ class PaymentService
         // Create session
         $sessionData = [
             "client_reference_id" => $order->uuid,
-            // "success_url" => config("webshop.payments.urls.success"),
-            // "cancel_url" => config("webshop.payments.urls.cancel"),
-            "success_url" => "https://staging.klimbuddies.nl/",
-            "cancel_url" => "https://staging.klimbuddies.nl/",
+            "success_url" => config("webshop.payments.urls.success"),
+            "cancel_url" => config("webshop.payments.urls.cancel"),
             "payment_method_types" => ['ideal'],
             "mode" => "payment",
             "metadata" => [
