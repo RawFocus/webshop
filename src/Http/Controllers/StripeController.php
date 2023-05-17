@@ -38,7 +38,7 @@ class StripeController extends Controller
             ]);
         }
 
-        $payment = Payments::getPayment($stripeObject->payment_intent);
+        $payment = Payments::getStripePayment($stripeObject->payment_intent);
         if (!$payment) {
             Log::debug("StripeController::handleCheckoutEvent: unable to find payment information: " . $stripeObject);
             return response("Unable to find payment information", 399);

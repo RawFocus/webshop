@@ -58,7 +58,7 @@ class PaymentService
             $product->save();
         }
 
-        $session = $this->createPaymentSession($order);
+        $session = $this->createStripePaymentSession($order);
 
         return $session->url;
     }
@@ -96,7 +96,7 @@ class PaymentService
      * @param Order $order
      * @return StripeObject
      */
-    private function createPaymentSession(Order $order)
+    private function createStripePaymentSession(Order $order)
     {
         // Create session
         $sessionData = [
@@ -138,7 +138,7 @@ class PaymentService
      * @param string $paymentId
      * @return Charge|null
      */
-    public function getPayment(string $paymentId): Charge|null
+    public function getStripePayment(string $paymentId): Charge|null
     {
         try
         {
@@ -159,7 +159,7 @@ class PaymentService
         catch (InvalidRequestException $exception)
         {
             Log::error(
-                "getPayment: InvalidRequestException exception occurred. " .
+                "getStripePayment: InvalidRequestException exception occurred. " .
                 $exception->getStripeCode() . " paymentId:" . $paymentId
             );
             Log::error($exception);
