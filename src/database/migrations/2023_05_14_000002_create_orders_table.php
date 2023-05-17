@@ -25,6 +25,7 @@ class CreateOrdersTable extends Migration
             $table->string('payment_method')->nullable();
             $table->string('payment_id')->nullable();
             $table->enum('payment_status', ['paid', 'unpaid', 'pending'])->default('unpaid');
+            $table->enum('order_status', ['open', 'fulfilled', 'shipped', 'arrived', 'refunded'])->default('open');
             $table->unsignedInteger('total_price');
             $table->timestamps();
         });

@@ -4,9 +4,11 @@ namespace Raw\Webshop\Models;
 
 use Uuid;
 
+use Raw\Webshop\Enums\OrderStatusEnum;
+use Raw\Webshop\Enums\PaymentStatusEnum;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Raw\Webshop\Enums\PaymentStatusEnum;
 
 class Order extends Model
 {
@@ -20,13 +22,15 @@ class Order extends Model
         "address_postal_code",
         "address_city",
         "total_price",
+        "status",
         "payment_status",
         "payment_method",
         "payment_id",
         "uuid"
     ];
     protected $casts = [
-        "payment_status" => PaymentStatusEnum::class
+        "payment_status" => PaymentStatusEnum::class,
+        "order_status" => OrderStatusEnum::class,
     ];
 
     //

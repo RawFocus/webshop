@@ -1,15 +1,12 @@
 <?php
 
-namespace Tests;
+namespace Raw\Webshop\Tests;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Orchestra\Testbench\TestCase as Orchestra;
 
-abstract class TestCase extends BaseTestCase
+abstract class TestCase extends Orchestra
 {
-    use CreatesApplication;
-    use RefreshDatabase;
-
     protected function setUp(): void
     {
         parent::setUp();
