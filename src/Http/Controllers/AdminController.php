@@ -13,8 +13,7 @@ class AdminController extends Controller
     {
         try
         {
-            Webshop::checkoutFromRequest($request);
-
+            // TODO: create product
             return response()->json([
                 "status" => "success",
             ]);
