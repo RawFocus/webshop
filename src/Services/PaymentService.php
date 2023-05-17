@@ -2,6 +2,7 @@
 
 namespace Raw\Webshop\Services;
 
+use Exception;
 use Log;
 use Uuid;
 use Webshop;
@@ -144,11 +145,11 @@ class PaymentService
         {
             // Get the paymentIntent from Stripe
             $paymentIntent = PaymentIntent::retrieve($paymentId);
-            if (!$paymentIntent) return null;
+            if (!$paymentIntent) return throw new PaymentNotFoundException("PaymentIntent not found: " . $paymentId);
 
             // Get all the charges that where used
             $chargeData = $paymentIntent->charges->data;
-            if (!$chargeData) return null;
+            if (!$chargeData) return throw new PaymentNotFoundException("No charge data found for paymentIntent: " . $paymentId);
 
             // Assuming there was only a single charge
             $charge = Charge::retrieve($chargeData[0]->id);
@@ -156,11 +157,11 @@ class PaymentService
             $charge->amount = $charge->amount / 100;
             return $charge;
         }
-        catch (InvalidRequestException $exception)
+        catch (Exception $exception)
         {
             Log::error(
-                "getStripePayment: InvalidRequestException exception occurred. " .
-                $exception->getStripeCode() . " paymentId:" . $paymentId
+                "getStripePayment: exception occurred. " .
+                $exception . " paymentId:" . $paymentId
             );
             Log::error($exception);
             return null;

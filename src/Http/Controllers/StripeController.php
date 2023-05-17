@@ -135,6 +135,7 @@ class StripeController extends Controller
      */
     public function handleCustomerCreated(StripeObject $stripeEvent)
     {
+        // TODO: save some details on the user this will be used to set some default settings for a next order
         // $customer = $stripeEvent->data->object;
         // $user = Users::findByEmail($customer->email);
         // if (!$user) response("Unable to find user", 404);
