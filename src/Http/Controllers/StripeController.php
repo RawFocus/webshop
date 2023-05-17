@@ -80,7 +80,7 @@ class StripeController extends Controller
         // The payment has failed
         else
         {
-            Payments::revertStockDecreases($order);
+            Webshop::revertStockDecreases($order);
             $order->payment_status = PaymentStatusEnum::FAILED;
         }
 
@@ -101,11 +101,8 @@ class StripeController extends Controller
         $paymentIntent = $stripeEvent->data->object;
 
         // Get original stripe session from Stripe
-        $sessions = Payments::getSessions($paymentIntent->id);
-        if ($sessions->count() == 0) return response("Unable to find session", 403);
-
-        // Get the first session
-        $session = $sessions[0];
+        $session = Payments::getSession($paymentIntent->id);
+        if (!$session) return response("Unable to find session", 403);
 
         // Skip events that don't match the source
         if (!$stripeEvent->livemode && $session->metadata["source"] != env("APP_ENV"))

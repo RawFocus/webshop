@@ -74,4 +74,21 @@ class WebshopServiceTest extends TestCase
 
         $this->assertEquals($order->uuid, $foundOrder->uuid);
     }
+
+    public function testRevertStockDecreases()
+    {
+        $product = Product::factory()->create([
+            'stock' => 5,
+        ]);
+
+        $order = Order::factory()->create();
+        $order->products()->attach($product->id, ['quantity' => 3]);
+
+        Webshop::revertStockDecreases($order);
+
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'stock' => 8,
+        ]);
+    }
 }

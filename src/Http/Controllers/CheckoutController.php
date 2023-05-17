@@ -17,7 +17,7 @@ class CheckoutController extends Controller
         {
             return response()->json([
                 "status" => "success",
-                "url" => Payments::checkoutFromRequest($request)
+                "url" => Payments::processCheckoutFromRequest($request)
             ]);
         }
         catch (Exception $e)

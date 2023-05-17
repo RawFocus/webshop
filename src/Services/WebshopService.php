@@ -43,4 +43,13 @@ class WebshopService
     {
         return Order::where("uuid", $uuid)->first();
     }
+
+    public function revertStockDecreases(Order $order)
+    {
+        foreach ($order->products as $product)
+        {
+            $product->stock += $product->pivot->quantity;
+            $product->save();
+        }
+    }
 }

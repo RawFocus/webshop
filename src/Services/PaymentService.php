@@ -10,6 +10,7 @@ use Raw\Webshop\Models\Order;
 
 use Stripe\Stripe;
 use Stripe\Charge;
+use \Stripe\PaymentIntent;
 use Stripe\Checkout\Session;
 use Stripe\Exception\InvalidRequestException;
 use Raw\Webshop\Http\Requests\CheckoutRequest;
@@ -28,7 +29,7 @@ class PaymentService
      * @param CheckoutRequest $checkoutRequest
      * @return string
      */
-    public function checkoutFromRequest(CheckoutRequest $checkoutRequest)
+    public function processCheckoutFromRequest(CheckoutRequest $checkoutRequest)
     {
         $decodedProducts = json_decode($checkoutRequest->products);
 
@@ -85,7 +86,7 @@ class PaymentService
      * @param string $paymentId
      * @return StripeObject
      */        
-    public function getSessions(string $paymentId)
+    public function getSession(string $paymentId)
     {
         try
         {
@@ -93,7 +94,7 @@ class PaymentService
             $sessions = Session::all(["payment_intent" => $paymentId]);
             if (!$sessions) return collect([]);
 
-            return collect($sessions->data);
+            return collect($sessions->data)->first();
         }
         catch (InvalidRequestException $exception)
         {
@@ -161,7 +162,7 @@ class PaymentService
         try
         {
             // Get the paymentIntent from Stripe
-            $paymentIntent = \Stripe\PaymentIntent::retrieve($paymentId);
+            $paymentIntent = PaymentIntent::retrieve($paymentId);
             if (!$paymentIntent) return null;
 
             // Get all the charges that where used
@@ -189,14 +190,5 @@ class PaymentService
     {
         $order->payment_status = "paid";
         $order->save();
-    }
-    
-    public function revertStockDecreases(Order $order)
-    {
-        foreach ($order->products as $product)
-        {
-            $product->stock += $product->pivot->quantity;
-            $product->save();
-        }
     }
 }

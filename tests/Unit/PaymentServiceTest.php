@@ -12,7 +12,7 @@ class PaymentServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function testCheckoutFromRequest()
+    public function testprocessCheckoutFromRequest()
     {
         $product = Product::factory()->create();
         $checkoutRequest = new CheckoutRequest([
@@ -30,7 +30,7 @@ class PaymentServiceTest extends TestCase
             'address_city' => 'Test City',
         ]);
 
-        $url = Payments::checkoutFromRequest($checkoutRequest);
+        $url = Payments::processCheckoutFromRequest($checkoutRequest);
 
         $this->assertNotNull($url);
         $this->assertDatabaseHas('orders', [
@@ -58,23 +58,6 @@ class PaymentServiceTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'id' => $order->id,
             'payment_status' => 'paid',
-        ]);
-    }
-
-    public function testRevertStockDecreases()
-    {
-        $product = Product::factory()->create([
-            'stock' => 5,
-        ]);
-
-        $order = Order::factory()->create();
-        $order->products()->attach($product->id, ['quantity' => 3]);
-
-        Payments::revertStockDecreases($order);
-
-        $this->assertDatabaseHas('products', [
-            'id' => $product->id,
-            'stock' => 8,
         ]);
     }
 }
