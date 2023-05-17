@@ -34,12 +34,12 @@ class WebshopService
         return Order::all();
     }
 
-    public function getOrderById(int $id): ?Order
+    public function findOrderById(int $id): ?Order
     {
         return Order::find($id);
     }
 
-    public function getOrderByUuid(string $uuid): ?Order
+    public function findOrderByUuid(string $uuid): ?Order
     {
         return Order::where("uuid", $uuid)->first();
     }

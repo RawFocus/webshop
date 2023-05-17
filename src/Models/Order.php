@@ -6,6 +6,7 @@ use Uuid;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Raw\Webshop\Enums\PaymentStatusEnum;
 
 class Order extends Model
 {
@@ -25,7 +26,7 @@ class Order extends Model
         "uuid"
     ];
     protected $casts = [
-        'payment_status' => ServerStatus::class,
+        "payment_status" => PaymentStatusEnum::class
     ];
 
     //

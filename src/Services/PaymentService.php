@@ -20,9 +20,14 @@ class PaymentService
     public function __construct()
     {
         Stripe::setApiKey(env("STRIPE_PRIVATE_KEY"));
-        // test
     }
 
+    /**
+     * Checkout from request
+     *
+     * @param CheckoutRequest $checkoutRequest
+     * @return string
+     */
     public function checkoutFromRequest(CheckoutRequest $checkoutRequest)
     {
         $decodedProducts = json_decode($checkoutRequest->products);
@@ -57,6 +62,12 @@ class PaymentService
         return $session->url;
     }
 
+    /**
+     * Calculate the total price of the products
+     *
+     * @param array $productData
+     * @return float
+     */
     private function calculateTotalPrice(array $productData)
     {
         $out = 0;
@@ -68,11 +79,44 @@ class PaymentService
         return $out;     
     }
 
+    /**
+     * Get a payment session from Stripe
+     *
+     * @param string $paymentId
+     * @return StripeObject
+     */        
+    public function getSessions(string $paymentId)
+    {
+        try
+        {
+            // Get the payment session from Stripe
+            $sessions = Session::all(["payment_intent" => $paymentId]);
+            if (!$sessions) return collect([]);
+
+            return collect($sessions->data);
+        }
+        catch (InvalidRequestException $exception)
+        {
+            Log::error(
+                "getSession: InvalidRequestException exception occurred. " .
+                $exception->getStripeCode() . " paymentId:" . $paymentId
+            );
+            Log::error($exception);
+            return collect([]);
+        }
+    }
+
+    /**
+     * Create a payment session
+     *
+     * @param Order $order
+     * @return StripeObject
+     */
     private function createPaymentSession(Order $order)
     {
         // Create session
         $sessionData = [
-            "client_reference_id" => $order->id,
+            "client_reference_id" => $order->uuid,
             // "success_url" => config("webshop.payments.urls.success"),
             // "cancel_url" => config("webshop.payments.urls.cancel"),
             "success_url" => "https://staging.klimbuddies.nl/",
@@ -106,6 +150,12 @@ class PaymentService
         return Session::create($sessionData, ["idempotency_key" => (string) Uuid::generate(4)]);
     }
 
+    /**
+     * Get a payment from Stripe
+     *
+     * @param string $paymentId
+     * @return Charge|null
+     */
     public function getPayment(string $paymentId): Charge|null
     {
         try

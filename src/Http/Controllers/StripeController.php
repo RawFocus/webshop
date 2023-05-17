@@ -3,18 +3,18 @@
 namespace Raw\Webshop\Http\Controllers;
 
 use Log;
-use Users;
 use Webshop;
-use Orders;
 use Payments;
 use Exception;
-
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\Stripe\StripeWebhookRequest;
 
 use Stripe\Stripe;
 use Stripe\StripeObject;
 use Stripe\Event as StripeEvent;
+
+use App\Http\Controllers\Controller;
+use Raw\Webshop\Enums\PaymentStatusEnum;
+use Raw\Webshop\Http\Requests\StripeWebhookRequest;
+
 
 class StripeController extends Controller
 {
@@ -47,7 +47,7 @@ class StripeController extends Controller
         $paymentMethod = $payment->payment_method_details->type;
 
         // Attempt to find order using client_reference_id
-        $order = Webshop::getOrderByUuid($stripeObject->client_reference_id);
+        $order = Webshop::findOrderByUuid($stripeObject->client_reference_id);
         if (!$order)
         {
             Log::debug("StripeController::handleCheckoutEvent: Unable to find order with id: " . $stripeObject->client_reference_id);
@@ -63,14 +63,13 @@ class StripeController extends Controller
         }
 
         // Update order's payment status
-        $order->payment_status = PaymentStatusEnum::PAID;
+        $order->payment_status = PaymentStatusEnum::PENDING;
         $order->payment_method = "ideal";
         $order->payment_id = $stripeObject->payment_intent;
         $order->payment_method = $paymentMethod;
-        $order->save();
 
         // Check if the payment has been made
-        if ($stripeObject->payment_status == PaymentStatusEnum::PAID)
+        if ($stripeObject->payment_status == PaymentStatusEnum::PAID->value)
         {
             // Flag order as paid
             $order->payment_status = PaymentStatusEnum::PAID;
@@ -78,10 +77,11 @@ class StripeController extends Controller
             // TODO: Send payment received email
             // event(new PaymentReceived($order));
         }
-        // The payment has failed (or is pending or whatever)
+        // The payment has failed
         else
         {
-            $order = Webshop::revertStockDecreases($order);
+            Payments::revertStockDecreases($order);
+            $order->payment_status = PaymentStatusEnum::FAILED;
         }
 
         $order->save();
@@ -115,7 +115,7 @@ class StripeController extends Controller
             ]);
         }
 
-        $order = Orders::findByUuid($session->client_reference_id);
+        $order = Webshop::findOrderByUuid($session->client_reference_id);
         if (!$order)
         {
             return response("Unable to find order", 404);
@@ -138,14 +138,14 @@ class StripeController extends Controller
      */
     public function handleCustomerCreated(StripeObject $stripeEvent)
     {
-        $customer = $stripeEvent->data->object;
-        $user = Users::findByEmail($customer->email);
-        if (!$user) response("Unable to find user", 404);
+        // $customer = $stripeEvent->data->object;
+        // $user = Users::findByEmail($customer->email);
+        // if (!$user) response("Unable to find user", 404);
 
-        if (!Users::setPaymentDriverID($customer->id, $user))
-        {
-            return response("Unable to save payment driver ID", 500);
-        }
+        // if (!Users::setPaymentDriverID($customer->id, $user))
+        // {
+        //     return response("Unable to save payment driver ID", 500);
+        // }
 
         return response()->json([
             "status" => "succeeded"
