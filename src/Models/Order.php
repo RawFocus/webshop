@@ -2,14 +2,17 @@
 
 namespace Raw\Webshop\Models;
 
+use Uuid;
+
+use Raw\Webshop\Enums\OrderStatusEnum;
+use Raw\Webshop\Enums\PaymentStatusEnum;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Cviebrock\EloquentSluggable\Sluggable;
-
 class Order extends Model
 {
-    use HasFactory, Sluggable;
+    use HasFactory;
 
     protected $fillable = [
         "name",
@@ -19,7 +22,28 @@ class Order extends Model
         "address_postal_code",
         "address_city",
         "total_price",
+        "status",
+        "payment_status",
+        "payment_method",
+        "payment_id",
+        "uuid"
     ];
+    protected $casts = [
+        "payment_status" => PaymentStatusEnum::class,
+        "order_status" => OrderStatusEnum::class,
+    ];
+
+    //
+    // UUID
+    //
+    
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string) Uuid::generate(4);
+        });
+    }
 
     //
     // Relationships
@@ -27,7 +51,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot('quantity');
     }
 
     //

@@ -2,6 +2,8 @@
 
 namespace Raw\Webshop\Models;
 
+use Uuid;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,6 +17,10 @@ class Product extends Model
         "title",
         "summary",
         "price",
+        "stock",
+        "listed",
+        "uuid",
+        "slug"
     ];
 
     //
@@ -31,12 +37,24 @@ class Product extends Model
     }
 
     //
+    // UUID
+    //
+    
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->uuid = (string) Uuid::generate(4);
+        });
+    }
+
+    //
     // Relationships
     //
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsToMany(Order::class)->withPivot('quantity');
     }
 
     //

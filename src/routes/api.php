@@ -1,14 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Raw\Webshop\Http\Controllers\CheckoutController;
 use Raw\Webshop\Http\Controllers\OrderController;
 use Raw\Webshop\Http\Controllers\ProductController;
+use Raw\Webshop\Http\Controllers\StripeController;
 
 Route::group(["prefix" => "webshop"], function() {
 
     Route::get("/", function() {
         return "ewa";
+    });
+
+    Route::post("checkout", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
+
+    // Stripe Endpoints
+    Route::group(["prefix" => "stripe"], function() {
+        // Main webhook that is used to catch completed checkout events
+        Route::post("endpoint", [StripeController::class, "postWebhook"])->name("stripe.webhook.endpoint");
     });
 
     Route::group(["prefix" => "products"], function() {

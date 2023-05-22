@@ -15,12 +15,17 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->uuid("uuid")->unique();
             $table->string('name');
             $table->string('email');
             $table->string('address_street');
             $table->string('address_postal_code');
             $table->string('address_city');
             $table->string('address_country');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_id')->nullable();
+            $table->enum('payment_status', ['paid', 'unpaid', 'pending'])->default('unpaid');
+            $table->enum('order_status', ['open', 'fulfilled', 'shipped', 'arrived', 'refunded'])->default('open');
             $table->unsignedInteger('total_price');
             $table->timestamps();
         });

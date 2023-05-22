@@ -15,14 +15,17 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Raw\\Webshop\\": "src/"
+            "Raw\\Webshop\\": "src/",
+            "Raw\\Webshop\\Tests\\": "tests"
         }
     },
     "require": {
         "php": "^8.0",
         "illuminate/support": "^10.0",
         "illuminate/database": "^10.0",
-        "cviebrock/eloquent-sluggable": "^10.0"
+        "cviebrock/eloquent-sluggable": "^10.0",
+        "stripe/stripe-php": "^10.13",
+        "webpatser/laravel-uuid": "^4.0"
     },
     "extra": {
         "laravel": {
@@ -30,8 +33,13 @@
                 "Raw\\Webshop\\Providers\\WebshopServiceProvider"
             ],
             "aliases": {
-                "Webshop": "Raw\\Webshop\\Facades\\WebshopFacade"
+                "Webshop": "Raw\\Webshop\\Facades\\WebshopFacade",
+                "Payments": "Raw\\Webshop\\Facades\\PaymentsFacade"
             }
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.1",
+        "orchestra/testbench": "^8.5"
     }
 }

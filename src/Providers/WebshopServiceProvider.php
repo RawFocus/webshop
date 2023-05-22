@@ -3,6 +3,7 @@
 namespace Raw\Webshop\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Raw\Webshop\Services\PaymentService;
 use Raw\Webshop\Services\WebshopService;
 
 class WebshopServiceProvider extends ServiceProvider
@@ -17,6 +18,10 @@ class WebshopServiceProvider extends ServiceProvider
         // Register the webshop service as a singleton
         $this->app->singleton("webshop", function() {
             return new WebshopService;
+        });
+
+        $this->app->singleton("payments", function() {
+            return new PaymentService;
         });
     }
 

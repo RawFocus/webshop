@@ -15,9 +15,13 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
+            $table->uuid("uuid")->unique();
+            $table->string("slug");
             $table->json('title');
             $table->json('summary');
             $table->unsignedInteger('price');
+            $table->unsignedInteger('stock');
+            $table->boolean('listed')->default(false);
             $table->timestamps();
         });
     }

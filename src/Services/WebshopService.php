@@ -19,6 +19,11 @@ class WebshopService
         return Product::find($id);
     }
 
+    public function findProductByUuid(string $uuid): ?Product
+    {
+        return Product::where("uuid", $uuid)->first();
+    }
+
     public function findProductBySlug(string $slug): ?Product
     {
         return Product::where("slug", $slug)->first();
@@ -29,13 +34,39 @@ class WebshopService
         return Order::all();
     }
 
-    public function getOrderById(int $id): ?Order
+    public function findOrderById(int $id): ?Order
     {
         return Order::find($id);
     }
 
-    public function getOrderByUuid(string $uuid): ?Order
+    public function findOrderByUuid(string $uuid): ?Order
     {
         return Order::where("uuid", $uuid)->first();
+    }
+
+    /**
+     * Calculate the total price of the products
+     *
+     * @param array $productData
+     * @return float
+     */
+    public function calculateTotalOrderPrice(array $productData)
+    {
+        $out = 0;
+        foreach ($productData as $productItem)
+        {
+            $out += $productItem->price * $productItem->quantity;
+        }  
+
+        return $out;     
+    }
+
+    public function revertStockDecreases(Order $order)
+    {
+        foreach ($order->products as $product)
+        {
+            $product->stock += $product->pivot->quantity;
+            $product->save();
+        }
     }
 }
