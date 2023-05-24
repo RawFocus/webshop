@@ -69,4 +69,10 @@ class WebshopService
             $product->save();
         }
     }
+
+    public function getAllOrdersForCurrentUser()
+    {
+        if (!auth()->check()) return [];
+        return Order::where("user_id", auth()->user()->id)->get();
+    }
 }

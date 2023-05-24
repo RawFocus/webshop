@@ -16,7 +16,7 @@ class ProductController extends Controller
     {
         return response()->json([
             "status" => "success",
-            "products" => Webshop::getAllProducts(),
+            "products" => Webshop::getProducts(),
         ]);
     }
 

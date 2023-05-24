@@ -2,15 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use Raw\Webshop\Http\Controllers\CheckoutController;
+use Raw\Webshop\Http\Controllers\DataController;
 use Raw\Webshop\Http\Controllers\OrderController;
 use Raw\Webshop\Http\Controllers\ProductController;
 use Raw\Webshop\Http\Controllers\StripeController;
 
-Route::group(["prefix" => "webshop"], function() {
+Route::group(["prefix" => "api/webshop"], function() {
 
     Route::get("/", function() {
         return "ewa";
     });
+
+    Route::get("/all", [DataController::class, "getAll"])->name("webshop.data.all");
 
     Route::post("checkout", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
 
