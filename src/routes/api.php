@@ -10,7 +10,7 @@ use Raw\Webshop\Http\Controllers\StripeController;
 Route::group(["prefix" => "api/webshop"], function() {
 
     Route::get("/", function() {
-        return "ewa";
+        return "webshop";
     });
 
     Route::get("/all", [DataController::class, "getAll"])->name("webshop.data.all");

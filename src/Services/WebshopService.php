@@ -68,7 +68,7 @@ class WebshopService
         $out = 0;
         foreach ($productData as $productItem)
         {
-            $out += $productItem->price * $productItem->quantity;
+            $out += $productItem["price"] * $productItem["quantity"];
         }  
 
         return $out;     

@@ -32,30 +32,28 @@ class PaymentService
      */
     public function processCheckoutFromRequest(CheckoutRequest $checkoutRequest)
     {
-        $decodedProducts = json_decode($checkoutRequest->products);
-
         // Create order
         $order = Order::create([
             "name" => $checkoutRequest->name,
             "email" => $checkoutRequest->email,
-            "address_street" => $checkoutRequest->address_street,
+            "address_street" => $checkoutRequest->address,
             "address_country" => $checkoutRequest->address_country,
             "address_postal_code" => $checkoutRequest->address_country,
             "address_city" => $checkoutRequest->address_city,
-            "total_price" => Webshop::calculateTotalOrderPrice($decodedProducts)
+            "total_price" => Webshop::calculateTotalOrderPrice($checkoutRequest->products)
         ]);
 
         // Attach products
-        foreach ($decodedProducts as $productData)
+        foreach ($checkoutRequest->products as $productData)
         {
             // Fetch product
-            $product = Webshop::findProductByUuid($productData->uuid);
+            $product = Webshop::findProductByUuid($productData["uuid"]);
 
             // Attach product to order
-            $order->products()->attach($product->id, ['quantity' => $productData->quantity]);
+            $order->products()->attach($product->id, ['quantity' => $productData["quantity"]]);
 
             // Decrease stock from product
-            $product->stock -= $productData->quantity;
+            $product->stock -= $productData["quantity"];
             $product->save();
         }
 
@@ -102,8 +100,8 @@ class PaymentService
         // Create session
         $sessionData = [
             "client_reference_id" => $order->uuid,
-            "success_url" => config("webshop.payments.urls.success"),
-            "cancel_url" => config("webshop.payments.urls.cancel"),
+            "success_url" => "https://staging.klimbuddies.nl/",
+            "cancel_url" => "https://staging.klimbuddies.nl/",
             "payment_method_types" => ['ideal'],
             "mode" => "payment",
             "metadata" => [
