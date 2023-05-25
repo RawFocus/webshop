@@ -14,6 +14,19 @@ class WebshopService
         return Product::all();
     }
 
+    public function getPreloadedProducts(): Collection
+    {
+        return Product::all()->map(function ($product) {
+            $images = [];
+            foreach ($product->images as $image) {
+                $images[] = asset($image->path);
+            }
+
+            $product->images = $images;
+            return $product;
+        });
+    }
+
     public function findProductById(int $id): ?Product
     {
         return Product::find($id);

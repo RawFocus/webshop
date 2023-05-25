@@ -3,6 +3,7 @@
 namespace Raw\Webshop\database\seeders;
 
 use DB;
+use Raw\Webshop\Models\ProductImage;
 
 use Illuminate\Database\Seeder;
 use Raw\Webshop\Models\Product;
@@ -18,7 +19,7 @@ class ProductSeeder extends Seeder
     {
         DB::table("products")->delete();
 
-        Product::create([
+        $product = Product::create([
             "title" => [
                 "nl" => "Product",
                 "en" => "Product"
@@ -30,6 +31,11 @@ class ProductSeeder extends Seeder
             "price" => 26,
             "stock" => 10,
             "listed" => true
+        ]);
+
+        ProductImage::create([
+            "product_id" => $product->id,
+            "path" => "/storage/images/webshop/products/default.jpg"
         ]);
 
     }
