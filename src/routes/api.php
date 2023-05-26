@@ -15,7 +15,9 @@ Route::group(["prefix" => "api/webshop"], function() {
 
     Route::get("/all", [DataController::class, "getAll"])->name("webshop.data.all");
 
-    Route::post("checkout", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
+    Route::group(["prefix" => "checkout"], function() {
+        Route::post("/", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
+    });
 
     // Stripe Endpoints
     Route::group(["prefix" => "stripe"], function() {

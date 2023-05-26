@@ -25,7 +25,7 @@ class CheckoutController extends Controller
             Log::error($e);
             return response()->json([
                 "status" => "error",
-                "error" => __("webshop::validation.general_error")
+                "error" => __("webshop.validation.general_error")
             ]);
         }
     }

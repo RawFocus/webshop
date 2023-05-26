@@ -160,7 +160,7 @@ class StripeController extends Controller
         // Attempt to parse the stripe request
         try
         {
-            if (!config("payments.enable_webhook_signature_validation"))
+            if (!config("webshop.enable_webhook_signature_validation"))
             {
                 // Create event without checking the signature
                 $stripeEvent = StripeEvent::constructFrom($request->all());

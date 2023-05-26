@@ -8,6 +8,8 @@ return [
         ],
         "tax_rates" => [
             "high" => env("STRIPE_HIGH_BTW", "txr_1M3fr0KnEV82zsZasVlNH3g8")
-        ]
-    ]
+        ],
+        "payment_method_types" => [split(",", env("STRIPE_PAYMENT_METHODS", "ideal"))]
+    ],
+    "enable_webhook_signature_validation" => env("STRIPE_ENABLE_WEBHOOK_SIGNATURE_VALIDATION", true),
 ];

@@ -5,8 +5,9 @@ namespace Raw\Webshop\Providers;
 use Illuminate\Support\ServiceProvider;
 use Raw\Webshop\Services\PaymentService;
 use Raw\Webshop\Services\WebshopService;
+use Illuminate\Contracts\Support\DeferrableProvider;
 
-class WebshopServiceProvider extends ServiceProvider
+class PackageServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Register any application services.
