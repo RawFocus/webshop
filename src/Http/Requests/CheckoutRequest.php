@@ -25,8 +25,6 @@ class CheckoutRequest extends FormRequest
     {
         return [
             "products" => "required",
-            "name" => "required",
-            "email" => "required",
             "address" => "required",
             "address_country" => "required",
             "address_postal_code" => "required",

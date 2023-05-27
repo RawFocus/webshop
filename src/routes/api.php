@@ -7,7 +7,7 @@ use Raw\Webshop\Http\Controllers\OrderController;
 use Raw\Webshop\Http\Controllers\ProductController;
 use Raw\Webshop\Http\Controllers\StripeController;
 
-Route::group(["prefix" => "api/webshop"], function() {
+Route::group(["prefix" => "api/webshop", "middleware" => ["auth:sanctum", "registration"]], function() {
 
     Route::get("/", function() {
         return "webshop";

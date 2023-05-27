@@ -17,12 +17,10 @@ class WebshopService
     public function getPreloadedProducts(): Collection
     {
         return Product::all()->map(function ($product) {
-            $images = [];
             foreach ($product->images as $image) {
-                $images[] = asset($image->path);
+                $image->path = asset($image->path);
             }
 
-            $product->images = $images;
             return $product;
         });
     }
@@ -77,8 +75,9 @@ class WebshopService
         }
     }
 
-    public function getAllOrdersForCurrentUser($user)
+    public function getAllOrdersForCurrentUser()
     {
+        $user = auth("sanctum")->user();
         if (!$user) return [];
         return Order::where("user_id", $user->id)->get();
     }

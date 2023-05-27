@@ -32,10 +32,13 @@ class PaymentService
      */
     public function processCheckoutFromRequest(CheckoutRequest $checkoutRequest)
     {
+        $user = auth("sanctum")->user();
+
         // Create order
         $order = Order::create([
-            "name" => $checkoutRequest->name,
-            "email" => $checkoutRequest->email,
+            "name" => $user->name,
+            "email" => $user->email,
+            "user_id" => $user->id,
             "address_street" => $checkoutRequest->address,
             "address_country" => $checkoutRequest->address_country,
             "address_postal_code" => $checkoutRequest->address_country,
