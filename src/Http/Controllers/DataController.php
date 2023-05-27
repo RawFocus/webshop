@@ -10,10 +10,11 @@ class DataController extends Controller
 {
     public function getAll()
     {
+        $user = auth()->user();
         return response()->json([
             "status" => "success",
             "products" => Webshop::getPreloadedProducts(),
-            "orders" => Webshop::getAllOrdersForCurrentUser(),
+            "orders" => Webshop::getAllOrdersForCurrentUser($user),
         ]);
     }
 }

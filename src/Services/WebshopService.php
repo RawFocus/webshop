@@ -77,9 +77,9 @@ class WebshopService
         }
     }
 
-    public function getAllOrdersForCurrentUser()
+    public function getAllOrdersForCurrentUser($user)
     {
-        if (!auth()->check()) return [];
-        return Order::where("user_id", auth()->user()->id)->get();
+        if (!$user) return [];
+        return Order::where("user_id", $user->id)->get();
     }
 }

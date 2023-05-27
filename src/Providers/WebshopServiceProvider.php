@@ -5,9 +5,8 @@ namespace Raw\Webshop\Providers;
 use Illuminate\Support\ServiceProvider;
 use Raw\Webshop\Services\PaymentService;
 use Raw\Webshop\Services\WebshopService;
-use Illuminate\Contracts\Support\DeferrableProvider;
 
-class PackageServiceProvider extends ServiceProvider implements DeferrableProvider
+class WebshopServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -46,10 +45,10 @@ class PackageServiceProvider extends ServiceProvider implements DeferrableProvid
         $this->publishes([
             __DIR__.'/../lang' => $this->app->langPath('vendor/webshop'),
         ]);
-        
+
         // Setup publishing of the configuration file
         $this->publishes([
-            __DIR__."/../config/webshop.php" => config_path("webshop.php"),
-        ]);
+            __DIR__.'/../config/webshop.php' => config_path('webshop.php'),
+        ], 'webshop-config');
     }
 }
