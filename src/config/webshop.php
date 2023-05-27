@@ -11,5 +11,5 @@ return [
         ],
         "payment_method_types" => [explode(",", env("STRIPE_PAYMENT_METHODS", "ideal"))]
     ],
-    "enable_webhook_signature_validation" => env("STRIPE_ENABLE_WEBHOOK_SIGNATURE_VALIDATION", true),
+    "enable_webhook_signature_validation" => env("STRIPE_ENABLE_WEBHOOK_SIGNATURE_VALIDATION", false),
 ];
