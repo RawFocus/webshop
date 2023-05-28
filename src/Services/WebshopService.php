@@ -9,6 +9,24 @@ use Illuminate\Database\Eloquent\Collection;
 
 class WebshopService
 {
+
+    public function preloadProduct(Product $product)
+    {
+        foreach ($product->images as $image) {
+            $image->path = asset($image->path);
+        }
+        return $product;
+    }
+
+    public function preloadOrder(Order $order)
+    {
+        $order->products = $order->products->map(function ($product) {
+            return $this->preloadProduct($product);
+        });
+
+        return $order;
+    }
+
     public function getProducts(): Collection
     {
         return Product::all();
@@ -75,10 +93,12 @@ class WebshopService
         }
     }
 
-    public function getAllOrdersForCurrentUser()
+    public function getAllPreloadedOrdersForCurrentUser()
     {
         $user = auth("sanctum")->user();
         if (!$user) return [];
-        return Order::where("user_id", $user->id)->get();
+        return Order::where("user_id", $user->id)->get()->map(function ($order) {
+            return $this->preloadOrder($order);
+        });
     }
 }
