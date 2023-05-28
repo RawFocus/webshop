@@ -5,6 +5,7 @@ namespace Raw\Webshop\Events;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Raw\Webshop\Models\Order;
 
 class PaymentReceived
 {

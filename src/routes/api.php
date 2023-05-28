@@ -7,7 +7,7 @@ use Raw\Webshop\Http\Controllers\OrderController;
 use Raw\Webshop\Http\Controllers\ProductController;
 use Raw\Webshop\Http\Controllers\StripeController;
 
-Route::group(["prefix" => "api/webshop", "middleware" => ["auth:sanctum", "registration"]], function() {
+Route::group(["prefix" => "api/webshop"], function() {
 
     Route::get("/", function() {
         return "webshop";
@@ -15,7 +15,7 @@ Route::group(["prefix" => "api/webshop", "middleware" => ["auth:sanctum", "regis
 
     Route::get("/all", [DataController::class, "getAll"])->name("webshop.data.all");
 
-    Route::group(["prefix" => "checkout"], function() {
+    Route::group(["prefix" => "checkout", "middleware" => ["auth:sanctum", "registration"]], function() {
         Route::post("/", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
         Route::post("/retry", [CheckoutController::class, "postPaymentRetry"])->name("webshop.checkout.retry");
     });
