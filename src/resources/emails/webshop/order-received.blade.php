@@ -1,0 +1,1 @@
+{{-- Publish this template to the laravel application in order to override --}}

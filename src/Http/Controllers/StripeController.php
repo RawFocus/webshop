@@ -13,6 +13,7 @@ use Stripe\Event as StripeEvent;
 
 use App\Http\Controllers\Controller;
 use Raw\Webshop\Enums\PaymentStatusEnum;
+use Raw\Webshop\Events\PaymentReceived;
 use Raw\Webshop\Http\Requests\StripeWebhookRequest;
 
 
@@ -74,8 +75,8 @@ class StripeController extends Controller
             // Flag order as paid
             $order->payment_status = PaymentStatusEnum::PAID;
 
-            // TODO: Send payment received email
-            // event(new PaymentReceived($order));
+            // Payment received
+            event(new PaymentReceived($order));
         }
         // The payment has failed
         else

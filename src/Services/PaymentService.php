@@ -2,10 +2,10 @@
 
 namespace Raw\Webshop\Services;
 
-use Exception;
 use Log;
 use Uuid;
 use Webshop;
+use Exception;
 
 use Raw\Webshop\Models\Order;
 
@@ -13,6 +13,7 @@ use Stripe\Stripe;
 use Stripe\Charge;
 use \Stripe\PaymentIntent;
 use Stripe\Checkout\Session;
+use Raw\Webshop\Events\OrderCreated;
 use Stripe\Exception\InvalidRequestException;
 use Raw\Webshop\Http\Requests\CheckoutRequest;
 use Raw\Webshop\Http\Requests\PaymentRetryRequest;
@@ -61,6 +62,8 @@ class PaymentService
         }
 
         $session = $this->createStripePaymentSession($order);
+
+        event(new OrderCreated($order));
 
         return $session->url;
     }
