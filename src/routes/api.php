@@ -17,6 +17,7 @@ Route::group(["prefix" => "api/webshop", "middleware" => ["auth:sanctum", "regis
 
     Route::group(["prefix" => "checkout"], function() {
         Route::post("/", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
+        Route::post("/retry", [CheckoutController::class, "postPaymentRetry"])->name("webshop.checkout.retry");
     });
 
     // Stripe Endpoints

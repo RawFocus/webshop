@@ -15,7 +15,7 @@ use \Stripe\PaymentIntent;
 use Stripe\Checkout\Session;
 use Stripe\Exception\InvalidRequestException;
 use Raw\Webshop\Http\Requests\CheckoutRequest;
-
+use Raw\Webshop\Http\Requests\PaymentRetryRequest;
 
 class PaymentService
 {
@@ -66,6 +66,21 @@ class PaymentService
     }
 
     /**
+     * Process payment retry from request
+     *
+     * @param PaymentRetryRequest $paymentRetryRequest
+     * @return string
+     */
+    public function processPaymentRetryFromRequest(PaymentRetryRequest $paymentRetryRequest)
+    {
+        $order = Webshop::findOrderByUuid($paymentRetryRequest->order_uuid);
+
+        $session = $this->createStripePaymentSession($order);
+
+        return $session->url;
+    }
+
+    /**
      * Get a payment session from Stripe
      *
      * @param string $paymentId
@@ -103,8 +118,8 @@ class PaymentService
         // Create session
         $sessionData = [
             "client_reference_id" => $order->uuid,
-            "success_url" => config("webshop.payments.urls.success"),
-            "cancel_url" => config("webshop.payments.urls.cancel"),
+            "success_url" => config("webshop.payments.urls.success") . "/" . $order->uuid,
+            "cancel_url" => config("webshop.payments.urls.cancel") . "/" . $order->uuid,
             "payment_method_types" => [config("webshop.payments.payment_method_types")],
             "mode" => "payment",
             "metadata" => [
