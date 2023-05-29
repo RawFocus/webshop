@@ -3,6 +3,7 @@
 namespace Raw\Webshop\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Raw\Webshop\Rules\ValidProducts;
 
 class CheckoutRequest extends FormRequest
 {
@@ -24,11 +25,11 @@ class CheckoutRequest extends FormRequest
     public function rules()
     {
         return [
-            "products" => "required",
+            "products" => ["required", new ValidProducts],
             "address" => "required",
             "address_country" => "required",
             "address_postal_code" => "required",
-            "address_city" => "required",
+            "address_city" => "required"
         ];
     }
 }

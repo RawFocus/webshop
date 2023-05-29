@@ -1,4 +1,18 @@
 <?php
 
+namespace Tests\Unit\Services;
 
-// Create test for StripeController::handleCheckoutEvent
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Raw\Webshop\Tests\TestCase;
+
+class StripeControllerTest extends TestCase
+{
+    use RefreshDatabase;
+
+
+    public function testWebhook()
+    {
+      
+    }
+
+}
