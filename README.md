@@ -56,6 +56,13 @@ After that the package should be loaded and you can develop it in it's own direc
 
 ## Publishing
 
+## Stripe
+
+Install the Stripe CLI: https://stripe.com/docs/stripe-cli
+
+1. Run the Stripe login command: stripe login
+2. stripe listen --forward-to http://localhost/api/webshop/stripe/endpoint
+3. The backend application should now be able to receive webhook requests from Stripe
 
 
 ## Installation

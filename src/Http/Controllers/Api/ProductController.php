@@ -25,7 +25,7 @@ class ProductController extends Controller
         {
             $product = Webshop::findProductById($id);
 
-            if (!$product) throw new ProductNotFoundException(__("validation.product_not_found"));
+            if (!$product) throw new ProductNotFoundException(__("webshop::validation.product_not_found"));
 
             return response()->json([
                 "status" => "success",

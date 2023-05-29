@@ -26,7 +26,6 @@ class StripeController extends Controller
      */
     private function handleCheckoutEvent(StripeObject $stripeEvent)
     {
-        Log::debug($stripeEvent);
         // Grab the stripe object from the stripe event
         $stripeObject = $stripeEvent->data->object;
         $metadata = $stripeObject->metadata;
