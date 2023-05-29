@@ -40,7 +40,7 @@ class PaymentService
             "name" => $user->name,
             "email" => $user->email,
             "user_id" => $user->id,
-            "address_street" => $checkoutRequest->address_street,
+            "address_street" => $checkoutRequest->address,
             "address_country" => $checkoutRequest->address_country,
             "address_postal_code" => $checkoutRequest->address_postal_code,
             "address_city" => $checkoutRequest->address_city,

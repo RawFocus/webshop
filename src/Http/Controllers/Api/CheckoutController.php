@@ -1,12 +1,12 @@
 <?php
 
-namespace Raw\Webshop\Http\Controllers;
+namespace Raw\Webshop\Http\Controllers\Api;
 
 use Log;
 use Payments;
 use Exception;
 
-use App\Http\Controllers\Controller;
+use Raw\Webshop\Http\Controllers\Controller;
 use Raw\Webshop\Http\Requests\CheckoutRequest;
 use Raw\Webshop\Http\Requests\PaymentRetryRequest;
 

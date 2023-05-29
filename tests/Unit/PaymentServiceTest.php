@@ -50,7 +50,7 @@ class PaymentServiceTest extends TestCase
                     'price' => 26,
                 ]
             ],
-            'address_street' => 'Test Street',
+            'address' => 'Test Street',
             'address_country' => 'NL',
             'address_postal_code' => '1234 AA',
             'address_city' => 'Test City',

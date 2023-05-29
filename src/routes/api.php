@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Raw\Webshop\Http\Controllers\CheckoutController;
-use Raw\Webshop\Http\Controllers\DataController;
-use Raw\Webshop\Http\Controllers\OrderController;
-use Raw\Webshop\Http\Controllers\ProductController;
-use Raw\Webshop\Http\Controllers\StripeController;
+use Raw\Webshop\Http\Controllers\Api\CheckoutController;
+use Raw\Webshop\Http\Controllers\Api\DataController;
+use Raw\Webshop\Http\Controllers\Api\OrderController;
+use Raw\Webshop\Http\Controllers\Api\ProductController;
+use Raw\Webshop\Http\Controllers\Api\StripeController;
 
 Route::group(["prefix" => "api/webshop"], function() {
 

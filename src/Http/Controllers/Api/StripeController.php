@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Http\Controllers;
+namespace Raw\Webshop\Http\Controllers\Api;
 
 use Log;
 use Webshop;
@@ -11,11 +11,10 @@ use Stripe\Stripe;
 use Stripe\StripeObject;
 use Stripe\Event as StripeEvent;
 
-use App\Http\Controllers\Controller;
 use Raw\Webshop\Enums\PaymentStatusEnum;
 use Raw\Webshop\Events\PaymentReceived;
+use Raw\Webshop\Http\Controllers\Controller;
 use Raw\Webshop\Http\Requests\StripeWebhookRequest;
-
 
 class StripeController extends Controller
 {

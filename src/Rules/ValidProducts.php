@@ -25,7 +25,7 @@ class ValidProducts implements Rule
                 return false;
             }
         }
-        return false;
+        return true;
     }
 
     /**
