@@ -8,6 +8,7 @@ use Raw\Webshop\database\factories\ProductFactory;
 use Raw\Webshop\database\factories\OrderFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Raw\Webshop\Facades\PaymentsFacade;
+use Raw\Webshop\Models\Order;
 use Raw\Webshop\Tests\TestCase;
 
 class PaymentServiceTest extends TestCase
@@ -16,7 +17,6 @@ class PaymentServiceTest extends TestCase
 
     public function testprocessCheckoutFromRequest()
     {
-
         // Create a mock user object
         $mockUser = new \stdClass;
         $mockUser->id = 1;
@@ -34,38 +34,81 @@ class PaymentServiceTest extends TestCase
         // Register the mock auth manager
         $this->app->instance('auth', $mockAuth);
 
-        $product = ProductFactory::new()->create();
+        // Create new product
+        $product = ProductFactory::new()->create([
+            "title" => [
+                "nl" => "Test product dutch",
+                "en" => "Test product english",
+            ],
+            "stock" => 10,
+        ]);
         $checkoutRequest = new CheckoutRequest([
             'products' => [
                 [
                     'uuid' => $product->uuid,
-                    'quantity' => 1,
+                    'quantity' => 2,
                     'price' => 26,
                 ]
             ],
-            'name' => 'Test User',
-            'email' => 'test@test.com',
             'address_street' => 'Test Street',
-            'address_country' => 'US',
-            'address_postal_code' => '10000',
+            'address_country' => 'NL',
+            'address_postal_code' => '1234 AA',
             'address_city' => 'Test City',
         ]);
 
+        // Test the method
         $url = PaymentsFacade::processCheckoutFromRequest($checkoutRequest);
 
         $this->assertNotNull($url);
         $this->assertDatabaseHas('orders', [
-            'name' => 'Test User',
-            'email' => 'test@test.com',
+            'name' => 'John Doe',
+            'email' => 'john@example.com',
             'address_street' => 'Test Street',
-            'address_country' => 'US',
-            'address_postal_code' => '10000',
+            'address_country' => 'NL',
+            'address_postal_code' => '1234 AA',
             'address_city' => 'Test City',
+            'total_price' => 5200,
         ]);
         $this->assertDatabaseHas('order_product', [
             'product_id' => $product->id,
-            'quantity' => 1,
+            'quantity' => 2,
         ]);
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'stock' => 8,
+        ]);
+        $order = Order::first();
+
+        $sessionData = [
+            "client_reference_id" => $order->uuid,
+            "success_url" => config("webshop.payments.urls.success") . "/" . $order->uuid,
+            "cancel_url" => config("webshop.payments.urls.cancel") . "/" . $order->uuid,
+            "payment_method_types" => [config("webshop.payments.payment_method_types")],
+            "mode" => "payment",
+            "metadata" => [
+                "source" => env("APP_ENV"),
+            ]
+        ];
+
+        // Add products to session
+        $sessionData["line_items"][] = [
+            "price_data" => [
+                // Stripe only accepts lowercase for currency
+                "currency" => "eur",
+                "product_data" => [
+                    "name" => "Test product dutch"
+                ],
+                // Stripe api handles 10,00 like 1000. Hence, why the value is multiplied by 100
+                "unit_amount_decimal" => 2600
+            ],
+            "quantity" => 2,
+            "tax_rates" => [config("webshop.payments.tax_rates.high")],
+        ];
+
+        $this->assertEquals(
+           $sessionData,
+            $this->stripeClient->getParamsByType("sessions")
+        );
     }
 
     public function testMarkOrderAsPaid()

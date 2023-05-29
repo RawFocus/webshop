@@ -42,7 +42,7 @@ class PaymentService
             "user_id" => $user->id,
             "address_street" => $checkoutRequest->address_street,
             "address_country" => $checkoutRequest->address_country,
-            "address_postal_code" => $checkoutRequest->address_country,
+            "address_postal_code" => $checkoutRequest->address_postal_code,
             "address_city" => $checkoutRequest->address_city,
             "total_price" => Webshop::calculateTotalOrderPrice($checkoutRequest->products)
         ]);
