@@ -23,7 +23,7 @@ class Order extends Model
         "address_postal_code",
         "address_city",
         "total_price",
-        "status",
+        "order_status",
         "payment_status",
         "payment_method",
         "payment_id",

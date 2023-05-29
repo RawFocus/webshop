@@ -1,18 +1,18 @@
 <?php
 
-namespace Database\Factories;
+namespace Raw\Webshop\database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Raw\Webshop\Models\Product;
+use Raw\Webshop\Models\Order;
 
-class ProductFactory extends Factory
+class OrderFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Product::class;
+    protected $model = Order::class;
 
     /**
      * Define the model's default state.
@@ -22,17 +22,18 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            "title" => [
-                "nl" => "Product",
-                "en" => "Product"
-            ],
-            "summary" => [
-                "nl" => "Summary",
-                "en" => "Summary"
-            ],
-            "price" => 26,
-            "stock" => 10,
-            "listed" => true
+            "user_id" => 1,
+            "name" => $this->faker->name,
+            "email" => $this->faker->email,
+            "address_street" => $this->faker->streetAddress,
+            "address_country" => "NL",
+            "address_postal_code" => $this->faker->postcode,
+            "address_city" => $this->faker->city,
+            "total_price" => $this->faker->randomFloat(2, 0, 100),
+            "order_status" => "open",
+            "payment_status" => "pending",
+            "payment_method" => "ideal",
+            "payment_id" => null
         ];
     }
 }

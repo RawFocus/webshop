@@ -2,10 +2,12 @@
 
 namespace Tests\Unit\Services;
 
-use Raw\Webshop\Models\Order;
-use Raw\Webshop\Models\Product;
+use Mockery;
 use Raw\Webshop\Http\Requests\CheckoutRequest;
+use Raw\Webshop\database\factories\ProductFactory;
+use Raw\Webshop\database\factories\OrderFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Raw\Webshop\Facades\PaymentsFacade;
 use Raw\Webshop\Tests\TestCase;
 
 class PaymentServiceTest extends TestCase
@@ -14,14 +16,33 @@ class PaymentServiceTest extends TestCase
 
     public function testprocessCheckoutFromRequest()
     {
-        $product = Product::factory()->create();
+
+        // Create a mock user object
+        $mockUser = new \stdClass;
+        $mockUser->id = 1;
+        $mockUser->name = 'John Doe';
+        $mockUser->email = 'john@example.com';
+
+        // Create a mock guard
+        $mockGuard = Mockery::mock();
+        $mockGuard->shouldReceive('user')->andReturn($mockUser);
+
+        // Create a mock auth manager
+        $mockAuth = Mockery::mock('Illuminate\Auth\AuthManager');
+        $mockAuth->shouldReceive('guard')->with('sanctum')->andReturn($mockGuard);
+
+        // Register the mock auth manager
+        $this->app->instance('auth', $mockAuth);
+
+        $product = ProductFactory::new()->create();
         $checkoutRequest = new CheckoutRequest([
-            'products' => json_encode([
+            'products' => [
                 [
                     'uuid' => $product->uuid,
                     'quantity' => 1,
+                    'price' => 26,
                 ]
-            ]),
+            ],
             'name' => 'Test User',
             'email' => 'test@test.com',
             'address_street' => 'Test Street',
@@ -30,7 +51,7 @@ class PaymentServiceTest extends TestCase
             'address_city' => 'Test City',
         ]);
 
-        $url = Payments::processCheckoutFromRequest($checkoutRequest);
+        $url = PaymentsFacade::processCheckoutFromRequest($checkoutRequest);
 
         $this->assertNotNull($url);
         $this->assertDatabaseHas('orders', [
@@ -49,11 +70,11 @@ class PaymentServiceTest extends TestCase
 
     public function testMarkOrderAsPaid()
     {
-        $order = Order::factory()->create([
+        $order = OrderFactory::new()->create([
             'payment_status' => 'pending',
         ]);
 
-        Payments::markOrderAsPaid($order);
+        PaymentsFacade::markOrderAsPaid($order);
 
         $this->assertDatabaseHas('orders', [
             'id' => $order->id,

@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Raw\Webshop\database\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Raw\Webshop\Models\Product;

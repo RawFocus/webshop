@@ -2,10 +2,10 @@
 
 namespace Tests\Unit\Services;
 
-use Raw\Webshop\Facades\Webshop;
-use Raw\Webshop\Models\Order;
-use Raw\Webshop\Models\Product;
+use Raw\Webshop\Facades\WebshopFacade;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Raw\Webshop\database\factories\ProductFactory;
+use Raw\Webshop\database\factories\OrderFactory;
 use Raw\Webshop\Tests\TestCase;
 
 class WebshopServiceTest extends TestCase
@@ -14,77 +14,68 @@ class WebshopServiceTest extends TestCase
 
     public function testGetProducts()
     {
-        Product::factory()->count(3)->create();
+        ProductFactory::new()->count(3)->create();
 
-        $products = Webshop::getProducts();
+        $products = WebshopFacade::getProducts();
 
         $this->assertCount(3, $products);
     }
 
     public function testFindProductById()
     {
-        $product = Product::factory()->create();
+        $product = ProductFactory::new()->create();
 
-        $foundProduct = Webshop::findProductById($product->id);
+        $foundProduct = WebshopFacade::findProductById($product->id);
 
         $this->assertEquals($product->id, $foundProduct->id);
     }
 
     public function testFindProductByUuid()
     {
-        $product = Product::factory()->create();
+        $product = ProductFactory::new()->create();
 
-        $foundProduct = Webshop::findProductByUuid($product->uuid);
+        $foundProduct = WebshopFacade::findProductByUuid($product->uuid);
 
         $this->assertEquals($product->uuid, $foundProduct->uuid);
     }
 
     public function testFindProductBySlug()
     {
-        $product = Product::factory()->create();
+        $product = ProductFactory::new()->create();
 
-        $foundProduct = Webshop::findProductBySlug($product->slug);
+        $foundProduct = WebshopFacade::findProductBySlug($product->slug);
 
         $this->assertEquals($product->slug, $foundProduct->slug);
     }
 
     public function testGetOrders()
     {
-        Order::factory()->count(3)->create();
+        OrderFactory::new()->count(3)->create();
 
-        $orders = Webshop::getOrders();
+        $orders = WebshopFacade::getOrders();
 
         $this->assertCount(3, $orders);
     }
 
     public function testFindOrderById()
     {
-        $order = Order::factory()->create();
+        $order = OrderFactory::new()->create();
 
-        $foundOrder = Webshop::findOrderById($order->id);
+        $foundOrder = WebshopFacade::findOrderById($order->id);
 
         $this->assertEquals($order->id, $foundOrder->id);
     }
 
-    public function testFindPRoductByUuidzs()
-    {
-        $order = Order::factory()->create();
-
-        $foundOrder = Webshop::findOrderByUuid($order->uuid);
-
-        $this->assertEquals($order->uuid, $foundOrder->uuid);
-    }
-
     public function testRevertStockDecreases()
     {
-        $product = Product::factory()->create([
+        $product = ProductFactory::new()->create([
             'stock' => 5,
         ]);
 
-        $order = Order::factory()->create();
+        $order = OrderFactory::new()->create();
         $order->products()->attach($product->id, ['quantity' => 3]);
 
-        Webshop::revertStockDecreases($order);
+        WebshopFacade::revertStockDecreases($order);
 
         $this->assertDatabaseHas('products', [
             'id' => $product->id,

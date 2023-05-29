@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Raw\Webshop\database\factories\ProductFactory;
 
 class Product extends Model
 {

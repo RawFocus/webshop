@@ -50,5 +50,6 @@ class WebshopServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/webshop.php' => config_path('webshop.php'),
         ], 'webshop-config');
+
     }
 }
