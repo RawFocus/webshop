@@ -38,8 +38,7 @@ class PaymentReceivedMail extends Mailable
 
         // Send the email
         return $this->subject($subject)
-            ->view("emails.order-created", [
-                "user" => $this->user,
+            ->view("webshop::emails.webshop.payment-received", [
                 "link" => $link,
                 "title" => __("webshop::emails.order_created.title"),
                 "textOne" => __("webshop::emails.order_created.text_one", [

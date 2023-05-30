@@ -12,19 +12,19 @@ class OrderEventSubscriber
 {
     public function handlePaymentReceived(OrderCreated $event): void
     {
-        SendPaymentReceivedEmail::dispatch($event->order);
+        SendPaymentReceivedEmail::dispatch($event->getOrder());
     }
 
     public function handleOrderReceived(PaymentReceived $event): void
     {
-        SendOrderCreatedEmail::dispatch($event->order);
+        SendOrderCreatedEmail::dispatch($event->getOrder());
     }
 
     public function subscribe(Dispatcher $events): array
     {
         return [
-            OrderCreated::class => "handlePaymentReceived",
-            PaymentReceived::class => "handleOrderReceived",
+            PaymentReceived::class => "handlePaymentReceived",
+            OrderCreated::class => "handleOrderReceived",
         ];
     }
 }

@@ -25,7 +25,7 @@ class SendOrderCreatedEmail implements ShouldQueue
     
     public function handle()
     {
-        Mail::to($this->user->email)
+        Mail::to($this->order->email)
             ->send(new OrderCreatedMail($this->order));
     }
 }

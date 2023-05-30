@@ -3,6 +3,7 @@
 namespace Raw\Webshop\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Raw\Webshop\Listeners\OrderEventSubscriber;
 use Raw\Webshop\Services\PaymentService;
 use Raw\Webshop\Services\WebshopService;
 
@@ -59,8 +60,17 @@ class WebshopServiceProvider extends ServiceProvider
 
         // Publish view files for users to override
         $this->publishes([
-            $source . '/emails' => resource_path('views/vendor/webshop/emails'),
+            $source . '/emails' => resource_path('views/emails/vendor/webshop/emails'),
         ], 'webshop-views');
 
     }
+
+    /**
+     * The subscriber classes to register.
+     *
+     * @var array
+     */
+    protected $subscribe = [
+        OrderEventSubscriber::class,
+    ];
 }

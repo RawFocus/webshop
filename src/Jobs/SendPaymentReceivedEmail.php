@@ -25,7 +25,7 @@ class SendPaymentReceivedEmail implements ShouldQueue
     
     public function handle()
     {
-        Mail::to($this->user->email)
+        Mail::to($this->order->email)
             ->send(new PaymentReceivedMail($this->order));
     }
 }
