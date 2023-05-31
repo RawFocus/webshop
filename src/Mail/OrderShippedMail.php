@@ -34,19 +34,19 @@ class OrderShippedMail extends Mailable
         $link = env("FRONTEND_WEB_URL") . "/webshop/order/" . $this->order->uuid;
 
         // Generate subject
-        $subject = __("webshop::emails.order_created.subject");
+        $subject = __("webshop::emails.order_shipped.subject");
 
         // Send the email
         return $this->subject($subject)
-            ->view("webshop::emails.webshop.order-created", [
+            ->view("webshop::emails.webshop.order-shipped", [
                 "link" => $link,
-                "title" => __("webshop::emails.order_created.title"),
-                "textOne" => __("webshop::emails.order_created.text_one", [
+                "title" => __("webshop::emails.order_shipped.title"),
+                "textOne" => __("webshop::emails.order_shipped.text_one", [
                     "name" => $this->order->name,
                 ]),
-                "textTwo" => __("webshop::emails.order_created.text_two"),
-                "action" => __("webshop::emails.order_created.action"),
-                "textThree" => __("webshop::emails.order_created.text_three"),
+                "textTwo" => __("webshop::emails.order_shipped.text_two"),
+                "action" => __("webshop::emails.order_shipped.action"),
+                "textThree" => __("webshop::emails.order_shipped.text_three"),
                 "closing" => __("webshop::emails.general.closing"),
                 "copyright" => __("webshop::emails.general.copyright", [
                     "year" => now()->format("Y")

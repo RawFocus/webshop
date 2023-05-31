@@ -21,4 +21,22 @@ return [
         "action" => "View your order",
         "text_three" => "You can view your order by clicking the button below.",
     ],
+
+    "order_arrived" => [
+        "subject" => "Your order has arrived",
+        "title" => "Your order has arrived!",
+        "text_one" => "Your order has arrived, :name!",
+        "text_two" => "Your order has arrived and can be picked up.",
+        "action" => "View your order",
+        "text_three" => "You can view your order by clicking the button below.",
+    ],
+
+    "order_shipped" => [
+        "subject" => "Your order has been shipped",
+        "title" => "Your order has been shipped!",
+        "text_one" => "Your order has been shipped, :name!",
+        "text_two" => "Your order has been shipped and will be delivered as soon as possible.",
+        "action" => "View your order",
+        "text_three" => "You can view your order by clicking the button below.",
+    ],
 ];

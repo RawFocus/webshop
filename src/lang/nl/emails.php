@@ -21,4 +21,22 @@ return [
         "action" => "Bekijk je bestelling",
         "text_three" => "Je kan je bestelling bekijken door op de knop hieronder te klikken.",
     ],
+
+    "order_arrived" => [
+        "subject" => "Je bestelling is gearriveerd",
+        "title" => "Je bestelling is gearriveerd!",
+        "text_one" => "Je bestelling is gearriveerd, :name!",
+        "text_two" => "Je bestelling is gearriveerd en kan worden opgehaald.",
+        "action" => "Bekijk je bestelling",
+        "text_three" => "Je kan je bestelling bekijken door op de knop hieronder te klikken.",
+    ],
+
+    "order_shipped" => [
+        "subject" => "Je bestelling is verzonden",
+        "title" => "Je bestelling is verzonden!",
+        "text_one" => "Je bestelling is verzonden, :name!",
+        "text_two" => "Je bestelling is verzonden en zal zo snel mogelijk worden geleverd.",
+        "action" => "Bekijk je bestelling",
+        "text_three" => "Je kan je bestelling bekijken door op de knop hieronder te klikken.",
+    ],
 ];
