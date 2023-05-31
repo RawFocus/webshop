@@ -6,9 +6,14 @@ use Raw\Webshop\Models\Order;
 use Raw\Webshop\Models\Product;
 
 use Illuminate\Database\Eloquent\Collection;
+use Raw\Webshop\Http\Requests\Admin\AdminCreateProductRequest;
+use Raw\Webshop\Http\Requests\Admin\AdminDeleteProductRequest;
+use Raw\Webshop\Http\Requests\Admin\AdminUpdateProductRequest;
 
 class WebshopService
 {
+
+    // Preload methods
 
     public function preloadProduct(Product $product)
     {
@@ -27,6 +32,8 @@ class WebshopService
         return $order;
     }
 
+    // Get methods
+
     public function getProducts(): Collection
     {
         return Product::all();
@@ -43,6 +50,22 @@ class WebshopService
         });
     }
 
+    public function getOrders()
+    {
+        return Order::all();
+    }
+    
+    public function getAllPreloadedOrdersForCurrentUser()
+    {
+        $user = auth("sanctum")->user();
+        if (!$user) return [];
+        return Order::where("user_id", $user->id)->get()->map(function ($order) {
+            return $this->preloadOrder($order);
+        });
+    }
+
+    // Find methods
+
     public function findProductById(int $id): ?Product
     {
         return Product::find($id);
@@ -56,11 +79,6 @@ class WebshopService
     public function findProductBySlug(string $slug): ?Product
     {
         return Product::where("slug", $slug)->first();
-    }
-
-    public function getOrders()
-    {
-        return Order::all();
     }
 
     public function findOrderById(int $id): ?Order
@@ -93,12 +111,31 @@ class WebshopService
         }
     }
 
-    public function getAllPreloadedOrdersForCurrentUser()
+    public function processCreateProductFromRequest(AdminCreateProductRequest $request)
     {
-        $user = auth("sanctum")->user();
-        if (!$user) return [];
-        return Order::where("user_id", $user->id)->get()->map(function ($order) {
-            return $this->preloadOrder($order);
-        });
+        return Product::create([
+            "name" => $request->name,
+            "slug" => $request->slug,
+            "description" => $request->description,
+            "price" => $request->price,
+            "stock" => $request->stock,
+        ]);
+    }
+
+    public function processUpdateFromProductRequest(AdminUpdateProductRequest $request)
+    {
+        $product = $this->findProductByUuid($request->product_uuid);
+        $product->name = $request->name;
+        $product->slug = $request->slug;
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->stock = $request->stock;
+        $product->save();
+    }
+
+    public function processDeleteProductFromRequest(AdminCreateProductRequest $request)
+    {
+        $product = $this->findProductByUuid($request->product_uuid);
+        $product->delete();
     }
 }
