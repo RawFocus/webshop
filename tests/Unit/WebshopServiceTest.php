@@ -6,6 +6,9 @@ use Raw\Webshop\Facades\WebshopFacade;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Raw\Webshop\database\factories\ProductFactory;
 use Raw\Webshop\database\factories\OrderFactory;
+use Raw\Webshop\Http\Requests\Admin\AdminCreateProductRequest;
+use Raw\Webshop\Http\Requests\Admin\AdminDeleteProductRequest;
+use Raw\Webshop\Http\Requests\Admin\AdminUpdateProductRequest;
 use Raw\Webshop\Tests\TestCase;
 
 class WebshopServiceTest extends TestCase
@@ -80,6 +83,86 @@ class WebshopServiceTest extends TestCase
         $this->assertDatabaseHas('products', [
             'id' => $product->id,
             'stock' => 8,
+        ]);
+    }
+
+    public function testCalculateTotalOrderPrice()
+    {
+        $products = [
+            [
+                'quantity' => 2,
+                'price' => 26,
+            ]
+        ];
+
+        $totalPrice = WebshopFacade::calculateTotalOrderPrice($products);
+
+        $this->assertEquals(52, $totalPrice);
+    }
+
+    public function testProcessCreateProductFromRequest()
+    {
+        $request = new AdminCreateProductRequest([
+            'title_nl' => 'Test product nl',
+            'title_en' => 'Test product en',
+            'summary_nl' => 'Test summary nl',
+            'summary_en' => 'Test summary en',
+            'price' => 10,
+            'stock' => 5,
+            'listed' => 1,
+        ]);
+
+        $product = WebshopFacade::processCreateProductFromRequest($request);
+
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'title' => "{\"en\":\"Test product en\",\"nl\":\"Test product nl\"}",
+            'summary' => "{\"en\":\"Test summary en\",\"nl\":\"Test summary nl\"}",
+            'price' => 1000,
+            'stock' => 5,
+            'listed' => 1
+        ]);
+    }
+
+    public function testProcessUpdateProductFromRequest()
+    {
+        $product = ProductFactory::new()->create();
+
+        $request = new AdminUpdateProductRequest([
+            'product_uuid' => $product->uuid,
+            'title_nl' => 'Test product nl',
+            'title_en' => 'Test product en',
+            'summary_nl' => 'Test summary nl',
+            'summary_en' => 'Test summary en',
+            'price' => 10,
+            'stock' => 5,
+            'listed' => 0,
+        ]);
+
+        $product = WebshopFacade::processUpdateProductFromRequest($request);
+
+        $this->assertDatabaseHas('products', [
+            'id' => $product->id,
+            'title' => "{\"en\":\"Test product en\",\"nl\":\"Test product nl\"}",
+            'summary' => "{\"en\":\"Test summary en\",\"nl\":\"Test summary nl\"}",
+            'price' => 1000,
+            'stock' => 5,
+            'listed' => 0,
+        ]);
+    }
+
+    public function testProcessDeleteProductFromRequest()
+    {
+        $product = ProductFactory::new()->create();
+
+        $request = new AdminDeleteProductRequest([
+            'product_uuid' => $product->uuid,
+        ]);
+
+        WebshopFacade::processDeleteProductFromRequest($request);
+
+        $this->assertDatabaseMissing('products', [
+            'id' => $product->id,
         ]);
     }
 }

@@ -114,26 +114,40 @@ class WebshopService
     public function processCreateProductFromRequest(AdminCreateProductRequest $request)
     {
         return Product::create([
-            "name" => $request->name,
-            "slug" => $request->slug,
-            "description" => $request->description,
+            "title" => [
+                "en" => $request->title_en,
+                "nl" => $request->title_nl,
+            ],
+            "summary" => [
+                "en" => $request->summary_en,
+                "nl" => $request->summary_nl,
+            ],
             "price" => $request->price,
             "stock" => $request->stock,
+            "listed" => $request->listed,
         ]);
     }
 
-    public function processUpdateFromProductRequest(AdminUpdateProductRequest $request)
+    public function processUpdateProductFromRequest(AdminUpdateProductRequest $request)
     {
         $product = $this->findProductByUuid($request->product_uuid);
-        $product->name = $request->name;
-        $product->slug = $request->slug;
-        $product->description = $request->description;
+        $product->title = [
+            "en" => $request->title_en,
+            "nl" => $request->title_nl,
+        ];
+        $product->summary = [
+            "en" => $request->summary_en,
+            "nl" => $request->summary_nl,
+        ];
         $product->price = $request->price;
         $product->stock = $request->stock;
+        $product->listed = $request->listed;
         $product->save();
+
+        return $product->refresh();
     }
 
-    public function processDeleteProductFromRequest(AdminCreateProductRequest $request)
+    public function processDeleteProductFromRequest(AdminDeleteProductRequest $request)
     {
         $product = $this->findProductByUuid($request->product_uuid);
         $product->delete();

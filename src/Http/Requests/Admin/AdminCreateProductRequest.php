@@ -24,8 +24,8 @@ class AdminCreateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            "title" => "required",
-            "summary" => "required",
+            "title" => "required|string",
+            "summary" => "required|string",
             "price" => "required",
             "stock" => "required",
             "listed" => "required",
