@@ -6,8 +6,11 @@ use Raw\Webshop\Models\Order;
 use Raw\Webshop\Models\Product;
 
 use Illuminate\Database\Eloquent\Collection;
+use Raw\Webshop\Enums\OrderStatusEnum;
+use Raw\Webshop\Http\Requests\Admin\AdminArriveOrderRequest;
 use Raw\Webshop\Http\Requests\Admin\AdminCreateProductRequest;
 use Raw\Webshop\Http\Requests\Admin\AdminDeleteProductRequest;
+use Raw\Webshop\Http\Requests\Admin\AdminShipOrderRequest;
 use Raw\Webshop\Http\Requests\Admin\AdminUpdateProductRequest;
 
 class WebshopService
@@ -151,5 +154,19 @@ class WebshopService
     {
         $product = $this->findProductByUuid($request->product_uuid);
         $product->delete();
+    }
+
+    public function processShipOrderFromRequest(AdminArriveOrderRequest $request)
+    {
+        $order = $this->findOrderByUuid($request->order_uuid);
+        $order->status = OrderStatusEnum::ARRIVED;
+        $order->save();
+    }
+
+    public function processArriveOrderFromRequest(AdminShipOrderRequest $request)
+    {
+        $order = $this->findOrderByUuid($request->order_uuid);
+        $order->status = OrderStatusEnum::SHIPPED;
+        $order->save();
     }
 }

@@ -4,7 +4,9 @@ namespace Raw\Webshop\Http\Controllers\Api;
 
 use Exception;
 use Raw\Webshop\Http\Controllers\Controller;
+use Raw\Webshop\Http\Requests\Admin\AdminArriveOrderRequest;
 use Raw\Webshop\Http\Requests\Admin\AdminDeleteProductRequest;
+use Raw\Webshop\Http\Requests\Admin\AdminShipOrderRequest;
 use Raw\Webshop\Http\Requests\Admin\AdminUpdateProductRequest;
 
 class AdminController extends Controller
@@ -50,6 +52,42 @@ class AdminController extends Controller
         try
         {
             Webshop::processDeleteProductFromRequest($request);
+            return response()->json([
+                "status" => "success",
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
+            ]);
+        }
+    }
+
+    public function postShipOrder(AdminShipOrderRequest $request)
+    {
+        try
+        {
+            Webshop::processShipOrderFromRequest($request);
+            return response()->json([
+                "status" => "success",
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
+            ]);
+        }
+    }
+
+    public function postArriveOrder(AdminArriveOrderRequest $request)
+    {
+        try
+        {
+            Webshop::processArriveOrderFromRequest($request);
             return response()->json([
                 "status" => "success",
             ]);

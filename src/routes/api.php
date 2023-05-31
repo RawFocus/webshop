@@ -42,9 +42,15 @@ Route::group(["prefix" => "api/webshop"], function() {
         });
 
         Route::group(["prefix" => "admin", "middleware" => ["is_admin"]], function() {
-            Route::get("products/create", [AdminController::class, "postCreateProduct"])->name("webshop.admin.products.create");
-            Route::get("products/update", [AdminController::class, "postUpdateProduct"])->name("webshop.admin.products.update");
-            Route::get("products/delete", [AdminController::class, "postDeleteProduct"])->name("webshop.admin.products.delete");
+            Route::group(["prefix" => "products"], function() {
+                Route::get("create", [AdminController::class, "postCreateProduct"])->name("webshop.admin.products.create");
+                Route::get("update", [AdminController::class, "postUpdateProduct"])->name("webshop.admin.products.update");
+                Route::get("delete", [AdminController::class, "postDeleteProduct"])->name("webshop.admin.products.delete");
+            });
+            Route::group(["prefix" => "orders"], function() {
+                Route::get("ship", [AdminController::class, "postShipOrder"])->name("webshop.admin.orders.ship");
+                Route::get("arrive", [AdminController::class, "postArriveOrder"])->name("webshop.admin.orders.arrive");
+            });
         });
     });
 
