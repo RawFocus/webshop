@@ -10,18 +10,13 @@ use Raw\Webshop\Http\Controllers\Api\StripeController;
 
 Route::group(["prefix" => "api/webshop"], function() {
 
-    // Stripe Endpoints
-    Route::group(["prefix" => "stripe"], function() {
+    // Data retrieval 
+    Route::get("data", [DataController::class, "getAll"])->name("webshop.data");
 
-        // Main webhook that is used to catch completed checkout events
-        Route::post("endpoint", [StripeController::class, "postWebhook"])->name("stripe.webhook.endpoint");
+    // Authenticated only endpoints
+    Route::group(["middleware" => ["auth:sanctum", "registration"]], function() {
 
-    });
-
-    Route::group(["prefix" => "checkout", "middleware" => ["auth:sanctum", "registration"]], function() {
-
-        Route::get("/all", [DataController::class, "getAll"])->name("webshop.data.all");
-
+        // 
         Route::group(["prefix" => "checkout", "middleware" => ["auth:sanctum", "registration"]], function() {
             Route::post("/", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
             Route::post("/retry", [CheckoutController::class, "postPaymentRetry"])->name("webshop.checkout.retry");
@@ -52,4 +47,12 @@ Route::group(["prefix" => "api/webshop"], function() {
         });
     });
 
+    // Stripe Endpoints
+    Route::group(["prefix" => "stripe"], function() {
+
+        // Main webhook that is used to catch completed checkout events
+        Route::post("endpoint", [StripeController::class, "postWebhook"])->name("stripe.webhook.endpoint");
+
+    });
+    
 });
