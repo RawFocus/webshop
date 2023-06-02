@@ -36,7 +36,7 @@ class ProductController extends Controller
 
             return response()->json([
                 "status" => "success",
-                "product" => $product,
+                "product" => WebshopProducts::preload($product),
             ]);
         }
         catch (Exception $e)
@@ -65,7 +65,7 @@ class ProductController extends Controller
 
             return response()->json([
                 "status" => "success",
-                "product" => $product,
+                "product" => WebshopProducts::preload($product),
             ]);
         }
         catch (Exception $e)
@@ -92,7 +92,7 @@ class ProductController extends Controller
 
             return response()->json([
                 "status" => "success",
-                "product" => $product,
+                "product" => WebshopProducts::preload($product),
             ]);
         }
         catch (Exception $e)
@@ -112,7 +112,7 @@ class ProductController extends Controller
 
             return response()->json([
                 "status" => "success",
-                "product" => $product,
+                "product" => WebshopProducts::preload($product),
             ]);
         }
         catch (Exception $e)

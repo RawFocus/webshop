@@ -19,24 +19,27 @@ class ProductSeeder extends Seeder
     {
         DB::table("products")->delete();
 
-        $product = Product::create([
-            "title" => [
-                "nl" => "Product",
-                "en" => "Product"
-            ],
-            "summary" => [
-                "nl" => "Summary",
-                "en" => "Summary"
-            ],
-            "price" => 26,
-            "stock" => 10,
-            "listed" => true
-        ]);
-
-        ProductImage::create([
-            "product_id" => $product->id,
-            "path" => "/storage/images/webshop/products/default.jpg"
-        ]);
-
+        for ($i = 0; $i < 10; $i++)
+        {
+            $product = Product::create([
+                "type" => rand(0,1) == 0 ? "tshirt" : "hoodie",
+                "title" => [
+                    "nl" => "Product",
+                    "en" => "Product"
+                ],
+                "summary" => [
+                    "nl" => "Summary",
+                    "en" => "Summary"
+                ],
+                "price" => 26,
+                "stock" => 10,
+                "listed" => true
+            ]);
+    
+            ProductImage::create([
+                "product_id" => $product->id,
+                "path" => "/storage/images/webshop/products/default.jpg"
+            ]);
+        }
     }
 }

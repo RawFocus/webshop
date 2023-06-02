@@ -25,6 +25,8 @@ class ProductService
             $image->path = asset($image->path);
         }
 
+        $product->type_label = $product->type->label();
+
         return $product;
     }
 
@@ -46,11 +48,7 @@ class ProductService
     public function getAllPreloaded(): Collection
     {
         return Product::all()->map(function ($product) {
-            foreach ($product->images as $image) {
-                $image->path = asset($image->path);
-            }
-
-            return $product;
+            return $this->preload($product);
         });
     }
     
