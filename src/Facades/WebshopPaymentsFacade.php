@@ -4,7 +4,7 @@ namespace Raw\Webshop\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class PaymentsFacade extends Facade
+class WebshopPaymentsFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {

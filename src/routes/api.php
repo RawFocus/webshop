@@ -12,11 +12,11 @@ use Raw\Webshop\Http\Controllers\Api\CheckoutController;
 // Webshop routes
 Route::group(["prefix" => "api/webshop"], function() {
 
-    // Data retrieval 
-    Route::get("data", [DataController::class, "getAll"])->name("webshop.data");
-
     // Authenticated only endpoints
     Route::group(["middleware" => config("webshop.middleware.auth")], function() {
+
+        // Data retrieval 
+        Route::get("data", [DataController::class, "getAll"])->name("webshop.data");
 
         // Checkout endpoints
         Route::group(["prefix" => "checkout", "middleware" => config("webshop.middleware.checkout")], function() {
