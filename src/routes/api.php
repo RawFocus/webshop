@@ -44,8 +44,8 @@ Route::group(["prefix" => "api/webshop"], function() {
             Route::get("find-by-uuid/{uuid}", [OrderController::class, "getFindByUuid"])->name("webshop.orders.find-by-uuid");
             // Setters
             Route::group(["middleware" => ["is_admin"]], function() {
-                Route::post("ship", [OrderController::class, "postShip"])->name("webshop.orders.ship");
-                Route::post("arrive", [OrderController::class, "postArrive"])->name("webshop.orders.arrive");
+                Route::post("flag-as-shipped", [OrderController::class, "postFlagAsShipped"])->name("webshop.orders.flag-as-shipped");
+                Route::post("flag-as-arrived", [OrderController::class, "postFlagAsArrived"])->name("webshop.orders.flag-as-arrived");
             });
         });
         
