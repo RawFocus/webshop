@@ -16,9 +16,11 @@ class CheckoutController extends Controller
     {
         try
         {
+            $url = Payments::processCheckoutFromRequest($request);
+
             return response()->json([
                 "status" => "success",
-                "url" => Payments::processCheckoutFromRequest($request)
+                "url" => $url
             ]);
         }
         catch (Exception $e)
@@ -35,9 +37,11 @@ class CheckoutController extends Controller
     {
         try
         {
+            $url = Payments::processPaymentRetryFromRequest($request);
+            
             return response()->json([
                 "status" => "success",
-                "url" => Payments::processPaymentRetryFromRequest($request)
+                "url" => $url,
             ]);
         }
         catch (Exception $e)

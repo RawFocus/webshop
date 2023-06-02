@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
         return response()->json([
             "status" => "success",
-            "products" => Webshop::getProducts(),
+            "products" => WebshopProducts::getProducts(),
         ]);
     }
 
@@ -29,7 +29,7 @@ class ProductController extends Controller
     {
         try
         {
-            $product = Webshop::findProductById($id);
+            $product = WebshopProducts::findProductById($id);
 
             if (!$product) throw new ProductNotFoundException(__("webshop::validation.product_not_found"));
 
@@ -58,7 +58,7 @@ class ProductController extends Controller
     {
         try
         {
-            $product = Webshop::findProductBySlug($slug);
+            $product = WebshopProducts::findProductBySlug($slug);
 
             if (!$product) throw new ProductNotFoundException(__("validation.product_not_found"));
 
@@ -87,7 +87,7 @@ class ProductController extends Controller
     {
         try
         {
-            $product = Webshop::processCreateProductFromRequest($request);
+            $product = WebshopProducts::processCreateProductFromRequest($request);
 
             return response()->json([
                 "status" => "success",
@@ -107,7 +107,7 @@ class ProductController extends Controller
     {
         try
         {
-            $product = Webshop::processUpdateFromProductRequest($request);
+            $product = WebshopProducts::processUpdateFromProductRequest($request);
 
             return response()->json([
                 "status" => "success",
@@ -127,7 +127,7 @@ class ProductController extends Controller
     {
         try
         {
-            Webshop::processDeleteProductFromRequest($request);
+            WebshopProducts::processDeleteProductFromRequest($request);
 
             return response()->json([
                 "status" => "success",

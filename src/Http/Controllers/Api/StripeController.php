@@ -3,9 +3,9 @@
 namespace Raw\Webshop\Http\Controllers\Api;
 
 use Log;
-use Webshop;
 use Payments;
 use Exception;
+use WebshopOrders;
 
 use Stripe\Stripe;
 use Stripe\StripeObject;
@@ -50,7 +50,7 @@ class StripeController extends Controller
         $paymentMethod = $payment->payment_method_details->type;
 
         // Attempt to find order using client_reference_id
-        $order = Webshop::findOrderByUuid($stripeObject->client_reference_id);
+        $order = WebshopOrders::findOrderByUuid($stripeObject->client_reference_id);
         if (!$order)
         {
             Log::debug("StripeController::handleCheckoutEvent: Unable to find order with id: " . $stripeObject->client_reference_id);
@@ -83,7 +83,7 @@ class StripeController extends Controller
         // The payment has failed
         else
         {
-            Webshop::revertStockDecreases($order);
+            WebshopOrders::revertStockDecreases($order);
             $order->payment_status = PaymentStatusEnum::FAILED;
         }
 
@@ -115,7 +115,7 @@ class StripeController extends Controller
             ]);
         }
 
-        $order = Webshop::findOrderByUuid($session->client_reference_id);
+        $order = WebshopOrders::findOrderByUuid($session->client_reference_id);
         if (!$order)
         {
             return response("Unable to find order", 404);

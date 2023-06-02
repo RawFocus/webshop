@@ -19,7 +19,7 @@ class OrderController extends Controller
     {
         return response()->json([
             "status" => "success",
-            "orders" => Webshop::getAll(),
+            "orders" => WebshopOrders::getAll(),
         ]);
     }
 
@@ -29,7 +29,7 @@ class OrderController extends Controller
         {
             $user = auth("sanctum")->user();
 
-            $order = Webshop::findOrderById($id);
+            $order = WebshopOrders::findOrderById($id);
 
             if ($order->user_id != $user->id) throw new OrderNotYoursException(__("webshop::validation.order_not_found"));
     
@@ -69,7 +69,7 @@ class OrderController extends Controller
         {
             $user = auth("sanctum")->user();
 
-            $order = Webshop::findOrderByUuid($uuid);
+            $order = WebshopOrders::findOrderByUuid($uuid);
     
             if (!$order) throw new OrderNotFoundException(__("webshop::validation.order_not_found"));
 
@@ -107,7 +107,7 @@ class OrderController extends Controller
     {
         try
         {
-            Webshop::processShipOrderFromRequest($request);
+            WebshopOrders::processShipOrderFromRequest($request);
             return response()->json([
                 "status" => "success",
             ]);
@@ -125,7 +125,7 @@ class OrderController extends Controller
     {
         try
         {
-            Webshop::processArriveOrderFromRequest($request);
+            WebshopOrders::processArriveOrderFromRequest($request);
             return response()->json([
                 "status" => "success",
             ]);

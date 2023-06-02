@@ -2,7 +2,9 @@
 
 namespace Raw\Webshop\Http\Controllers\Api;
 
-use Webshop;
+use WebshopOrders;
+use WebshopProducts;
+
 use Raw\Webshop\Http\Controllers\Controller;
 
 class DataController extends Controller
@@ -11,8 +13,8 @@ class DataController extends Controller
     {
         return response()->json([
             "status" => "success",
-            "products" => Webshop::getPreloadedProducts(),
-            "orders" => Webshop::getAllPreloadedOrdersForCurrentUser(),
+            "products" => WebshopProducts::getPreloadedProducts(),
+            "orders" => WebshopOrders::getAllPreloadedOrdersForCurrentUser(),
         ]);
     }
 }
