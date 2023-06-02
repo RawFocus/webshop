@@ -1,10 +1,12 @@
 <?php
 
-namespace Raw\Webshop\Http\Requests\Admin;
+namespace Raw\Webshop\Http\Requests\Checkout;
+
+use Raw\Webshop\Rules\ValidProducts;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminDeleteProductRequest extends FormRequest
+class CheckoutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +15,7 @@ class AdminDeleteProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check() && auth()->user()->is_admin;
+        return true;
     }
 
     /**
@@ -24,7 +26,11 @@ class AdminDeleteProductRequest extends FormRequest
     public function rules()
     {
         return [
-            "product_uuid" => "required|exists:products,uuid",
+            "products" => ["required", new ValidProducts],
+            "address" => "required",
+            "address_country" => "required",
+            "address_postal_code" => "required",
+            "address_city" => "required"
         ];
     }
 }

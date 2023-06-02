@@ -12,9 +12,12 @@ use Stripe\StripeObject;
 use Stripe\Event as StripeEvent;
 
 use Raw\Webshop\Enums\PaymentStatusEnum;
+
 use Raw\Webshop\Events\PaymentReceived;
+
 use Raw\Webshop\Http\Controllers\Controller;
-use Raw\Webshop\Http\Requests\StripeWebhookRequest;
+
+use Raw\Webshop\Http\Requests\Checkout\StripeWebhookRequest;
 
 class StripeController extends Controller
 {

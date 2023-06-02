@@ -1,10 +1,10 @@
 <?php
 
-namespace Raw\Webshop\Http\Requests\Admin;
+namespace Raw\Webshop\Http\Requests\Checkout;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminShipOrderRequest extends FormRequest
+class RetryPaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class AdminShipOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check() && auth()->user()->is_admin;
+        return true;
     }
 
     /**
@@ -24,7 +24,7 @@ class AdminShipOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            "product_uuid" => "required|exists:products,uuid",
+            "order_uuid" => "required|exists:orders,uuid",
         ];
     }
 }

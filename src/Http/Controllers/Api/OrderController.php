@@ -6,6 +6,10 @@ use Webshop;
 use Exception;
 
 use Raw\Webshop\Http\Controllers\Controller;
+
+use Raw\Webshop\Http\Requests\Orders\FlagOrderShippedRequest;
+use Raw\Webshop\Http\Requests\Orders\FlagOrderArrivedRequest;
+
 use Raw\Webshop\Exceptions\OrderNotFoundException;
 use Raw\Webshop\Exceptions\OrderNotYoursException;
 
@@ -88,6 +92,42 @@ class OrderController extends Controller
             return response()->json([
                 "status" => "error",
                 "error" => $e->getMessage()
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
+            ]);
+        }
+    }
+    
+    public function postFlagOrderShipped(FlagOrderShippedRequest $request)
+    {
+        try
+        {
+            Webshop::processShipOrderFromRequest($request);
+            return response()->json([
+                "status" => "success",
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
+            ]);
+        }
+    }
+
+    public function postFlagOrderArrived(FlagOrderArrivedRequest $request)
+    {
+        try
+        {
+            Webshop::processArriveOrderFromRequest($request);
+            return response()->json([
+                "status" => "success",
             ]);
         }
         catch (Exception $e)

@@ -1,10 +1,10 @@
 <?php
 
-namespace Raw\Webshop\Http\Requests\Admin;
+namespace Raw\Webshop\Http\Requests\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminCreateProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class AdminCreateProductRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check() && auth()->user()->is_admin;
+        return true;
     }
 
     /**
@@ -24,8 +24,9 @@ class AdminCreateProductRequest extends FormRequest
     public function rules()
     {
         return [
-            "title" => "required|string",
-            "summary" => "required|string",
+            "product_uuid" => "required|exists:products,uuid",
+            "title" => "required",
+            "summary" => "required",
             "price" => "required",
             "stock" => "required",
             "listed" => "required",

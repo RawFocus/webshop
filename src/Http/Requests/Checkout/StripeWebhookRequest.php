@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Http\Requests;
+namespace Raw\Webshop\Http\Requests\Checkout;
 
 use Illuminate\Foundation\Http\FormRequest;
 

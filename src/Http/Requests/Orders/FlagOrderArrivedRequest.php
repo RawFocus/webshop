@@ -1,10 +1,10 @@
 <?php
 
-namespace Raw\Webshop\Http\Requests\Admin;
+namespace Raw\Webshop\Http\Requests\Orders;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminArriveOrderRequest extends FormRequest
+class FlagOrderArrivedRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class AdminArriveOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->check() && auth()->user()->is_admin;
+        return true;
     }
 
     /**

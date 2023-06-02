@@ -1,10 +1,10 @@
 <?php
 
-namespace Raw\Webshop\Http\Requests;
+namespace Raw\Webshop\Http\Requests\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PaymentRetryRequest extends FormRequest
+class DeleteProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class PaymentRetryRequest extends FormRequest
     public function rules()
     {
         return [
-            "order_uuid" => "required|exists:orders,uuid",
+            "product_uuid" => "required|exists:products,uuid",
         ];
     }
 }

@@ -6,8 +6,14 @@ use Webshop;
 use Exception;
 
 use Raw\Webshop\Models\Product;
-use Raw\Webshop\Exceptions\ProductNotFoundException;
+
 use Raw\Webshop\Http\Controllers\Controller;
+
+use Raw\Webshop\Http\Requests\Products\CreateProductRequest;
+use Raw\Webshop\Http\Requests\Products\UpdateProductRequest;
+use Raw\Webshop\Http\Requests\Products\DeleteProductRequest;
+
+use Raw\Webshop\Exceptions\ProductNotFoundException;
 
 class ProductController extends Controller
 {
@@ -73,6 +79,60 @@ class ProductController extends Controller
             return response()->json([
                 "status" => "error",
                 "error" => __("webshop::validation.product_not_found")
+            ]);
+        }
+    }
+
+    public function postCreateProduct(CreateProductRequest $request)
+    {
+        try
+        {
+            Webshop::processCreateProductFromRequest($request);
+            return response()->json([
+                "status" => "success",
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
+            ]);
+        }
+    }
+
+    public function postUpdateProduct(UpdateProductRequest $request)
+    {
+        try
+        {
+            Webshop::processUpdateFromProductRequest($request);
+            return response()->json([
+                "status" => "success",
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
+            ]);
+        }
+    }
+
+    public function postDeleteProduct(DeleteProductRequest $request)
+    {
+        try
+        {
+            Webshop::processDeleteProductFromRequest($request);
+            return response()->json([
+                "status" => "success",
+            ]);
+        }
+        catch (Exception $e)
+        {
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
             ]);
         }
     }

@@ -1,11 +1,10 @@
 <?php
 
-namespace Raw\Webshop\Http\Requests;
+namespace Raw\Webshop\Http\Requests\Products;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Raw\Webshop\Rules\ValidProducts;
 
-class CheckoutRequest extends FormRequest
+class CreateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +24,11 @@ class CheckoutRequest extends FormRequest
     public function rules()
     {
         return [
-            "products" => ["required", new ValidProducts],
-            "address" => "required",
-            "address_country" => "required",
-            "address_postal_code" => "required",
-            "address_city" => "required"
+            "title" => "required|string",
+            "summary" => "required|string",
+            "price" => "required",
+            "stock" => "required",
+            "listed" => "required",
         ];
     }
 }
