@@ -31,7 +31,7 @@ class ProductService
      * 
      * @return      Collection
      */
-    public function getProducts(): Collection
+    public function getAll(): Collection
     {
         return Product::all();
     }
@@ -41,7 +41,7 @@ class ProductService
      * 
      * @return      Collection
      */
-    public function getProductsPreloaded(): Collection
+    public function getAllPreloaded(): Collection
     {
         return Product::all()->map(function ($product) {
             foreach ($product->images as $image) {

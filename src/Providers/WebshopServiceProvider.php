@@ -19,16 +19,16 @@ class WebshopServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton("payments", function() {
-            return new PaymentService;
-        });
-
         $this->app->singleton("orders", function() {
             return new OrderService;
         });
 
         $this->app->singleton("products", function() {
             return new ProductService;
+        });
+        
+        $this->app->singleton("payments", function() {
+            return new PaymentService;
         });
     }
 

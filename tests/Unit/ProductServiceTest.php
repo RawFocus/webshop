@@ -38,7 +38,7 @@ class ProductServiceTest extends TestCase
     {
         ProductFactory::new()->count(3)->create();
 
-        $results = WebshopOrdersFacade::getProducts();
+        $results = WebshopOrdersFacade::getAll();
         $this->assertCount(3, $results);
         $this->assertInstanceOf(Product::class, $results->get(0));
     }
@@ -47,7 +47,7 @@ class ProductServiceTest extends TestCase
     {
         ProductFactory::new()->count(3)->create();
 
-        $results = WebshopOrdersFacade::getProductsPreloaded();
+        $results = WebshopOrdersFacade::getAllPreloaded();
         $this->assertCount(3, $results);
         $this->assertInstanceOf(Product::class, $results->get(0));
         $this->assertIsPreloaded($results->get(0));

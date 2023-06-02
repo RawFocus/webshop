@@ -31,7 +31,7 @@ class OrderService
      * 
      * @return      Collection
      */
-    public function getOrders(): Collection
+    public function getAll(): Collection
     {
         return Order::all();
     }
@@ -41,9 +41,9 @@ class OrderService
      * 
      * @return      Collection
      */
-    public function getOrdersPreloaded(): Collection
+    public function getAll(): Collection
     {
-        return $this->getOrders()->map(function($order) {
+        return $this->getAll()->map(function($order) {
             return $this->preload($order);
         });
     }
@@ -53,15 +53,17 @@ class OrderService
      * 
      * @return      Collection
      */
-    public function getOrdersPreloadedForCurrentUser(): Collection
+    public function getAllPreloadedForCurrentUser(): Collection
     {
         $user = auth("sanctum")->user();
         
         if (!$user) return collect([]);
 
-        return Order::where("user_id", $user->id)->get()->map(function ($order) {
-            return $this->preload($order);
-        });
+        return Order::where("user_id", $user->id)
+            ->get()
+            ->map(function($order) {
+                return $this->preload($order);
+            });
     }
     
     /**

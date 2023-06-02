@@ -13,8 +13,8 @@ class DataController extends Controller
     {
         return response()->json([
             "status" => "success",
-            "products" => WebshopProducts::getPreloadedProducts(),
-            "orders" => WebshopOrders::getAllPreloadedOrdersForCurrentUser(),
+            "products" => WebshopProducts::getAllPreloaded(),
+            "orders" => WebshopOrders::getAllPreloadedForCurrentUser(),
         ]);
     }
 }

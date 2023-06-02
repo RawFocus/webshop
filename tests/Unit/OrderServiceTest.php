@@ -25,20 +25,20 @@ class OrderServiceTest extends TestCase
         
     }
 
-    public function testGetOrders()
+    public function testGetAll()
     {
         OrderFactory::new()->count(3)->create();
 
-        $results = WebshopOrdersFacade::getOrders();
+        $results = WebshopOrdersFacade::getAll();
         $this->assertInstanceOf(Order::class, $results->get(0));
         $this->assertCount(3, $results);
     }
 
-    public function testGetOrdersPreloaded()
+    public function testGetAllPreloaded()
     {
         OrderFactory::new()->count(3)->create();
 
-        $results = WebshopOrdersFacade::getOrdersPreloaded();
+        $results = WebshopOrdersFacade::getAllPreloaded();
         $this->assertInstanceOf(Order::class, $results->get(0));
         $this->assertCount(3, $results);
     }
@@ -47,7 +47,7 @@ class OrderServiceTest extends TestCase
     {
         OrderFactory::new()->count(3)->create();
 
-        $results = WebshopOrdersFacade::getOrdersPreloadedForCurrentUser();
+        $results = WebshopOrdersFacade::getAllPreloadedForCurrentUser();
         $this->assertInstanceOf(Order::class, $results->get(0));
         $this->assertCount(3, $results);
     }

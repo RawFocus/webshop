@@ -15,11 +15,11 @@ use Raw\Webshop\Exceptions\Orders\OrderNotYoursException;
 
 class OrderController extends Controller
 {
-    public function getOrders()
+    public function getAll()
     {
         return response()->json([
             "status" => "success",
-            "orders" => WebshopOrders::getAll(),
+            "orders" => WebshopOrders::getAllPreloaded(),
         ]);
     }
 

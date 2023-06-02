@@ -1,11 +1,12 @@
-<?php 
+<?php
 
 namespace Raw\Webshop\Http\Controllers\Api;
 
 use Exception;
-use WebshopProducts;
 
 use Raw\Webshop\Models\Product;
+
+use Raw\Webshop\Facades\WebshopProducts;
 
 use Raw\Webshop\Http\Controllers\Controller;
 
@@ -21,7 +22,7 @@ class ProductController extends Controller
     {
         return response()->json([
             "status" => "success",
-            "products" => WebshopProducts::getProducts(),
+            "products" => WebshopProducts::getAllPreloaded(),
         ]);
     }
 
