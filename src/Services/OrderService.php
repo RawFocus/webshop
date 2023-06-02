@@ -41,7 +41,7 @@ class OrderService
      * 
      * @return      Collection
      */
-    public function getAll(): Collection
+    public function getAllPreloaded(): Collection
     {
         return $this->getAll()->map(function($order) {
             return $this->preload($order);

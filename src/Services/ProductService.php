@@ -8,6 +8,8 @@ use Raw\Webshop\Http\Requests\Products\CreateProductRequest;
 use Raw\Webshop\Http\Requests\Products\UpdateProductRequest;
 use Raw\Webshop\Http\Requests\Products\DeleteProductRequest;
 
+use Illuminate\Database\Eloquent\Collection;
+
 class ProductService
 {
     /**
