@@ -24,7 +24,7 @@ class FlagOrderArrivedRequest extends FormRequest
     public function rules()
     {
         return [
-            "product_uuid" => "required|exists:products,uuid",
+            "uuid" => "required|exists:orders,uuid",
         ];
     }
 }

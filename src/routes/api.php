@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Raw\Webshop\Http\Controllers\Api\AdminController;
-use Raw\Webshop\Http\Controllers\Api\CheckoutController;
+
 use Raw\Webshop\Http\Controllers\Api\DataController;
+use Raw\Webshop\Http\Controllers\Api\AdminController;
 use Raw\Webshop\Http\Controllers\Api\OrderController;
-use Raw\Webshop\Http\Controllers\Api\ProductController;
 use Raw\Webshop\Http\Controllers\Api\StripeController;
+use Raw\Webshop\Http\Controllers\Api\ProductController;
+use Raw\Webshop\Http\Controllers\Api\CheckoutController;
 
 // Webshop routes
 Route::group(["prefix" => "api/webshop"], function() {
