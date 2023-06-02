@@ -4,8 +4,8 @@ return [
 
     /**
      * Payments
-     * 
-     * Configure Stripe payments
+     * -----------------------------------------------------------------------------
+     * Configure Stripe payments here.
      */
     "payments" => [
         
@@ -25,7 +25,32 @@ return [
 
         // Enable webhook signature validation; see: [link here] for more information
         "enable_webhook_signature_validation" => env("STRIPE_ENABLE_WEBHOOK_SIGNATURE_VALIDATION", false),
-        
+
     ],
+
+    /**
+     * Routing
+     * -----------------------------------------------------------------------------
+     * Configure the middleware that should be used for the webshop routes.
+     */
+    "routing" => [
+
+        "middleware" => [
+
+            // Authenticated only route middlewares
+            "auth" => ["auth:sanctum", "registration"], // TODO: remove registration from package to make the package more agnostic
+
+            // Product route middlewares
+            "products" => ["is_admin"],
+
+            // Order route middlewares
+            "orders" => ["is_admin"],
     
+            // Checkout route middelewares
+            "checkout" => [],
+
+        ],
+
+    ],
+
 ];
