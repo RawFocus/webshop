@@ -7,8 +7,9 @@ use Payments;
 use Exception;
 
 use Raw\Webshop\Http\Controllers\Controller;
-use Raw\Webshop\Http\Requests\CheckoutRequest;
-use Raw\Webshop\Http\Requests\PaymentRetryRequest;
+
+use Raw\Webshop\Http\Requests\Checkout\CheckoutRequest;
+use Raw\Webshop\Http\Requests\Checkout\PaymentRetryRequest;
 
 class CheckoutController extends Controller
 {
@@ -38,7 +39,7 @@ class CheckoutController extends Controller
         try
         {
             $url = Payments::processPaymentRetryFromRequest($request);
-            
+
             return response()->json([
                 "status" => "success",
                 "url" => $url,

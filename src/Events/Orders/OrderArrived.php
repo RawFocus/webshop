@@ -1,13 +1,14 @@
 <?php
 
-namespace Raw\Webshop\Events;
+namespace Raw\Webshop\Events\Orders;
+
+use Raw\Webshop\Models\Order;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Raw\Webshop\Models\Order;
 
-class OrderShipped
+class OrderArrived
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

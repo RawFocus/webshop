@@ -4,19 +4,22 @@ namespace Raw\Webshop\Services;
 
 use Log;
 use Uuid;
-use Webshop;
 use Exception;
-
-use Raw\Webshop\Models\Order;
+use WebshopOrders;
+use WebshopProducts;
 
 use Stripe\Stripe;
 use Stripe\Charge;
-use \Stripe\PaymentIntent;
+use Stripe\PaymentIntent;
 use Stripe\Checkout\Session;
-use Raw\Webshop\Events\OrderCreated;
 use Stripe\Exception\InvalidRequestException;
-use Raw\Webshop\Http\Requests\CheckoutRequest;
-use Raw\Webshop\Http\Requests\PaymentRetryRequest;
+
+use Raw\Webshop\Models\Order;
+
+use Raw\Webshop\Events\Orders\OrderCreated;
+
+use Raw\Webshop\Http\Requests\Checkout\CheckoutRequest;
+use Raw\Webshop\Http\Requests\Checkout\PaymentRetryRequest;
 
 class PaymentService
 {
@@ -44,14 +47,14 @@ class PaymentService
             "address_country" => $checkoutRequest->address_country,
             "address_postal_code" => $checkoutRequest->address_postal_code,
             "address_city" => $checkoutRequest->address_city,
-            "total_price" => Webshop::calculateTotalOrderPrice($checkoutRequest->products)
+            "total_price" => WebshopOrders::calculateTotalOrderPrice($checkoutRequest->products)
         ]);
 
         // Attach products
         foreach ($checkoutRequest->products as $productData)
         {
             // Fetch product
-            $product = Webshop::findProductByUuid($productData["uuid"]);
+            $product = WebshopProducts::findProductByUuid($productData["uuid"]);
 
             // Attach product to order
             $order->products()->attach($product->id, ['quantity' => $productData["quantity"]]);
@@ -76,7 +79,7 @@ class PaymentService
      */
     public function processPaymentRetryFromRequest(PaymentRetryRequest $paymentRetryRequest)
     {
-        $order = Webshop::findOrderByUuid($paymentRetryRequest->order_uuid);
+        $order = WebshopOrders::findOrderByUuid($paymentRetryRequest->order_uuid);
 
         $session = $this->createStripePaymentSession($order);
 
