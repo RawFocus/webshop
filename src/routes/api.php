@@ -10,14 +10,12 @@ use Raw\Webshop\Http\Controllers\Api\StripeController;
 
 Route::group(["prefix" => "api/webshop"], function() {
 
-    Route::get("/", function() {
-        return "webshop";
-    });
-
     // Stripe Endpoints
     Route::group(["prefix" => "stripe"], function() {
+
         // Main webhook that is used to catch completed checkout events
         Route::post("endpoint", [StripeController::class, "postWebhook"])->name("stripe.webhook.endpoint");
+
     });
 
     Route::group(["prefix" => "checkout", "middleware" => ["auth:sanctum", "registration"]], function() {
