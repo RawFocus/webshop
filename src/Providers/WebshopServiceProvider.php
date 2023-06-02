@@ -2,10 +2,13 @@
 
 namespace Raw\Webshop\Providers;
 
-use Illuminate\Support\ServiceProvider;
-use Raw\Webshop\Listeners\OrderEventSubscriber;
+use Raw\Webshop\Services\OrderService;
 use Raw\Webshop\Services\PaymentService;
-use Raw\Webshop\Services\WebshopService;
+use Raw\Webshop\Services\ProductService;
+
+use Raw\Webshop\Listeners\OrderEventSubscriber;
+
+use Illuminate\Support\ServiceProvider;
 
 class WebshopServiceProvider extends ServiceProvider
 {
@@ -16,13 +19,16 @@ class WebshopServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Register the webshop service as a singleton
-        $this->app->singleton("webshop", function() {
-            return new WebshopService;
-        });
-
         $this->app->singleton("payments", function() {
             return new PaymentService;
+        });
+
+        $this->app->singleton("orders", function() {
+            return new OrderService;
+        });
+
+        $this->app->singleton("products", function() {
+            return new ProductService;
         });
     }
 

@@ -2,8 +2,8 @@
 
 namespace Raw\Webshop\Http\Controllers\Api;
 
-use Webshop;
 use Exception;
+use WebshopOrders;
 
 use Raw\Webshop\Http\Controllers\Controller;
 

@@ -2,8 +2,8 @@
 
 namespace Raw\Webshop\Http\Controllers\Api;
 
-use Webshop;
 use Exception;
+use WebshopProducts;
 
 use Raw\Webshop\Models\Product;
 
@@ -87,9 +87,11 @@ class ProductController extends Controller
     {
         try
         {
-            Webshop::processCreateProductFromRequest($request);
+            $product = Webshop::processCreateProductFromRequest($request);
+
             return response()->json([
                 "status" => "success",
+                "product" => $product,
             ]);
         }
         catch (Exception $e)
@@ -105,9 +107,11 @@ class ProductController extends Controller
     {
         try
         {
-            Webshop::processUpdateFromProductRequest($request);
+            $product = Webshop::processUpdateFromProductRequest($request);
+
             return response()->json([
                 "status" => "success",
+                "product" => $product,
             ]);
         }
         catch (Exception $e)
@@ -124,6 +128,7 @@ class ProductController extends Controller
         try
         {
             Webshop::processDeleteProductFromRequest($request);
+
             return response()->json([
                 "status" => "success",
             ]);

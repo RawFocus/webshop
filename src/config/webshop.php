@@ -41,10 +41,10 @@ return [
             "auth" => ["auth:sanctum", "registration"], // TODO: remove registration from package to make the package more agnostic
 
             // Product route middlewares
-            "products" => ["is_admin"],
+            "products" => ["is_admin"], // TODO: remove is_admin from package to make the package more agnostic
 
             // Order route middlewares
-            "orders" => ["is_admin"],
+            "orders" => ["is_admin"], // TODO: remove is_admin from package to make the package more agnostic
     
             // Checkout route middelewares
             "checkout" => [],
