@@ -10,8 +10,8 @@ use Raw\Webshop\Http\Controllers\Controller;
 use Raw\Webshop\Http\Requests\Orders\FlagOrderShippedRequest;
 use Raw\Webshop\Http\Requests\Orders\FlagOrderArrivedRequest;
 
-use Raw\Webshop\Exceptions\OrderNotFoundException;
-use Raw\Webshop\Exceptions\OrderNotYoursException;
+use Raw\Webshop\Exceptions\Orders\OrderNotFoundException;
+use Raw\Webshop\Exceptions\Orders\OrderNotYoursException;
 
 class OrderController extends Controller
 {

@@ -16,7 +16,6 @@ use Raw\Webshop\Enums\PaymentStatusEnum;
 use Raw\Webshop\Events\Orders\PaymentReceived;
 
 use Raw\Webshop\Http\Controllers\Controller;
-
 use Raw\Webshop\Http\Requests\Checkout\StripeWebhookRequest;
 
 class StripeController extends Controller

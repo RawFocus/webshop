@@ -13,7 +13,7 @@ use Raw\Webshop\Http\Requests\Products\CreateProductRequest;
 use Raw\Webshop\Http\Requests\Products\UpdateProductRequest;
 use Raw\Webshop\Http\Requests\Products\DeleteProductRequest;
 
-use Raw\Webshop\Exceptions\ProductNotFoundException;
+use Raw\Webshop\Exceptions\Products\ProductNotFoundException;
 
 class ProductController extends Controller
 {
