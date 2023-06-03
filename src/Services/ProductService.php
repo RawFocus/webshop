@@ -3,6 +3,8 @@
 namespace Raw\Webshop\Services;
 
 use Raw\Webshop\Models\Product;
+use Raw\Webshop\Models\ProductVariant;
+use Raw\Webshop\Models\ProductVariantOption;
 
 use Raw\Webshop\Enums\ProductTypeEnum;
 
@@ -22,14 +24,28 @@ class ProductService
      */
     public function preload(Product $product): Product
     {
-        foreach ($product->images as $image)
-        {
+        // Preload images
+        $product->images = $product->images->map(function($image) {
             $image->path = asset($image->path);
-        }
+            return $image;
+        });
 
+        // Preload variants
+        $product->variants = $product->variants->map(function ($variant) {
+            return $this->preloadProductVariant($variant);
+        });
+
+        // Preload type label
         $product->type_label = ProductTypeEnum::labelFromValue($product->type);
 
         return $product;
+    }
+
+    public function preloadProductVariant(ProductVariant $variant)
+    {
+        $variant->load("options");
+
+        return $variant;
     }
 
     /**

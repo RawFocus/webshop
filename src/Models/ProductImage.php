@@ -19,7 +19,7 @@ class ProductImage extends Model
     {
         parent::boot();
         static::deleting(function($image) {
-            images::delete($image->path);
+            Images::delete($image->path);
         });
     }
 }

@@ -1,12 +1,15 @@
 <?php
 
-namespace Raw\Webshop\database\seeders;
+namespace Raw\Webshop\Database\Seeders;
 
 use DB;
+
+use Raw\Webshop\Models\Product;
 use Raw\Webshop\Models\ProductImage;
+use Raw\Webshop\Models\ProductVariant;
+use Raw\Webshop\Models\ProductVariantOption;
 
 use Illuminate\Database\Seeder;
-use Raw\Webshop\Models\Product;
 
 class ProductSeeder extends Seeder
 {
@@ -35,11 +38,66 @@ class ProductSeeder extends Seeder
                 "stock" => 10,
                 "listed" => true
             ]);
-    
-            ProductImage::create([
+
+            $size = ProductVariant::create([
                 "product_id" => $product->id,
-                "path" => "/storage/images/webshop/products/default.jpg"
+                "name" => [
+                    "en" => "Size",
+                    "nl" => "Maat"
+                ],
             ]);
+
+            ProductVariantOption::create([
+                "product_variant_id" => $size->id,
+                "name" => [
+                    "en" => "S",
+                    "nl" => "S"
+                ],
+            ]);
+            ProductVariantOption::create([
+                "product_variant_id" => $size->id,
+                "name" => [
+                    "en" => "M",
+                    "nl" => "M"
+                ],
+            ]);
+            ProductVariantOption::create([
+                "product_variant_id" => $size->id,
+                "name" => [
+                    "en" => "L",
+                    "nl" => "L"
+                ],
+            ]);
+            ProductVariantOption::create([
+                "product_variant_id" => $size->id,
+                "name" => [
+                    "en" => "XL",
+                    "nl" => "XL"
+                ],
+            ]);
+            ProductVariantOption::create([
+                "product_variant_id" => $size->id,
+                "name" => [
+                    "en" => "XXL",
+                    "nl" => "XXL"
+                ],
+            ]);
+            ProductVariantOption::create([
+                "product_variant_id" => $size->id,
+                "name" => [
+                    "en" => "3XL",
+                    "nl" => "3XL"
+                ],
+            ]);
+    
+            for ($j = 0; $j < 5; $j++)
+            {
+                ProductImage::create([
+                    "product_id" => $product->id,
+                    "path" => "/storage/images/webshop/products/default.jpg"
+                ]);
+            }
+
         }
     }
 }
