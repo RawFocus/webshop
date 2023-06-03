@@ -28,9 +28,9 @@ class CheckoutRequest extends FormRequest
         return [
             "products" => ["required", new ValidProducts],
             "address" => "required",
-            "address_country" => "required",
-            "address_postal_code" => "required",
-            "address_city" => "required"
+            "country" => "required",
+            "postal_code" => "required",
+            "city" => "required"
         ];
     }
 }
