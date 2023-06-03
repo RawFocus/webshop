@@ -2,6 +2,8 @@
 
 namespace Raw\Webshop\Services;
 
+use WebshopProducts;
+
 use Raw\Webshop\Models\Order;
 
 use Raw\Webshop\Enums\OrderStatusEnum;
@@ -23,7 +25,7 @@ class OrderService
     public function preload(Order $order): Order
     {
         $order->products = $order->products->map(function($product) {
-            return $this->preloadProduct($product);
+            return WebshopProducts::preload($product);
         });
 
         return $order;
