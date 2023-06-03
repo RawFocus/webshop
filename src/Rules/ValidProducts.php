@@ -2,7 +2,7 @@
 
 namespace Raw\Webshop\Rules;
 
-use Webshop;
+use WebshopProducts;
 
 use Illuminate\Contracts\Validation\Rule;
 
@@ -17,14 +17,15 @@ class ValidProducts implements Rule
      */
     public function passes($attribute, $value)
     {
-        foreach ($value as $productData)
+        foreach ($value as $data)
         {
-            $product = Webshop::findProductByUuid($productData["uuid"]);
-            if (!$product || $product->stock - $productData["quantity"] <= 0)
+            $product = WebshopProducts::findByUuid($data["product"]["uuid"]);
+            if (!$product || $product->stock - $data["quantity"] <= 0)
             {
                 return false;
             }
         }
+
         return true;
     }
 

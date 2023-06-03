@@ -60,7 +60,7 @@ class ProductService
      * @param       int         $id
      * @return      Product
      */
-    public function findProductById(int $id): ?Product
+    public function findById(int $id): ?Product
     {
         return Product::find($id);
     }
@@ -71,7 +71,7 @@ class ProductService
      * @param       string      $uuid
      * @return      Product
      */
-    public function findProductByUuid(string $uuid): ?Product
+    public function findByUuid(string $uuid): ?Product
     {
         return Product::where("uuid", $uuid)->first();
     }
@@ -82,7 +82,7 @@ class ProductService
      * @param       string      $slug
      * @return      Product
      */
-    public function findProductBySlug(string $slug): ?Product
+    public function findBySlug(string $slug): ?Product
     {
         return Product::where("slug", $slug)->first();
     }
@@ -118,7 +118,7 @@ class ProductService
      */
     public function processUpdateProductFromRequest(UpdateProductRequest $request)
     {
-        $product = $this->findProductByUuid($request->product_uuid);
+        $product = $this->findByUuid($request->product_uuid);
         $product->title = [
             "en" => $request->title_en,
             "nl" => $request->title_nl,
@@ -143,7 +143,7 @@ class ProductService
      */
     public function processDeleteProductFromRequest(DeleteProductRequest $request)
     {
-        $product = $this->findProductByUuid($request->product_uuid);
+        $product = $this->findByUuid($request->product_uuid);
         $product->delete();
     }
 }

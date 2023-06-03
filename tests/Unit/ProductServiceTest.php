@@ -53,29 +53,29 @@ class ProductServiceTest extends TestCase
         $this->assertIsPreloaded($results->get(0));
     }
 
-    public function testFindProductById()
+    public function testFindById()
     {
         $product = ProductFactory::new()->create();
 
-        $result = WebshopProductsFacade::findProductById($product->id);
+        $result = WebshopProductsFacade::findById($product->id);
         $this->assertInstanceOf(Product::class, $result);
         $this->assertEquals($product->id, $result->id);
     }
 
-    public function testFindProductByUuid()
+    public function testFindByUuid()
     {
         $product = ProductFactory::new()->create();
 
-        $result = WebshopProductsFacade::findProductByUuid($product->uuid);
+        $result = WebshopProductsFacade::findByUuid($product->uuid);
         $this->assertInstanceOf(Product::class, $result);
         $this->assertEquals($product->uuid, $result->uuid);
     }
 
-    public function testFindProductBySlug()
+    public function testFindBySlug()
     {
         $product = ProductFactory::new()->create();
 
-        $result = WebshopProductsFacade::findProductBySlug($product->slug);
+        $result = WebshopProductsFacade::findBySlug($product->slug);
         $this->assertInstanceOf(Product::class, $result);
         $this->assertEquals($product->slug, $result->slug);
     }

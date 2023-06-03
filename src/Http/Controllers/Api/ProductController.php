@@ -30,7 +30,7 @@ class ProductController extends Controller
     {
         try
         {
-            $product = WebshopProducts::findProductById($id);
+            $product = WebshopProducts::findById($id);
 
             if (!$product) throw new ProductNotFoundException(__("webshop::validation.product_not_found"));
 
@@ -59,7 +59,7 @@ class ProductController extends Controller
     {
         try
         {
-            $product = WebshopProducts::findProductBySlug($slug);
+            $product = WebshopProducts::findBySlug($slug);
 
             if (!$product) throw new ProductNotFoundException(__("validation.product_not_found"));
 
