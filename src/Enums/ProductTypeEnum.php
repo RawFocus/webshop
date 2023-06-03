@@ -2,6 +2,8 @@
 
 namespace Raw\Webshop\Enums;
 
+use Exception;
+
 enum ProductTypeEnum: string
 {
     case TSHIRT = 'tshirt';
@@ -16,6 +18,18 @@ enum ProductTypeEnum: string
                 return 'Tshirt';
             case self::HOODIE->value:
                 return 'Hoodie';
+        }
+    }
+    
+    public static function labelFromValue(string $value): string 
+    {
+        try
+        {
+            return self::from($value)->label();
+        }
+        catch (Exception $e)
+        {
+            return '';
         }
     }
 }

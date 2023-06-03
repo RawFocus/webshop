@@ -4,6 +4,8 @@ namespace Raw\Webshop\Services;
 
 use Raw\Webshop\Models\Product;
 
+use Raw\Webshop\Enums\ProductTypeEnum;
+
 use Raw\Webshop\Http\Requests\Products\CreateProductRequest;
 use Raw\Webshop\Http\Requests\Products\UpdateProductRequest;
 use Raw\Webshop\Http\Requests\Products\DeleteProductRequest;
@@ -25,7 +27,7 @@ class ProductService
             $image->path = asset($image->path);
         }
 
-        $product->type_label = $product->type->label();
+        $product->type_label = ProductTypeEnum::labelFromValue($product->type);
 
         return $product;
     }
