@@ -3,11 +3,11 @@
 namespace Tests\Unit\Services;
 
 use Mockery;
-use Raw\Webshop\Http\Requests\CheckoutRequest;
 use Raw\Webshop\database\factories\ProductFactory;
 use Raw\Webshop\database\factories\OrderFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Raw\Webshop\Facades\PaymentsFacade;
+use Raw\Webshop\Facades\WebshopPaymentsFacade;
+use Raw\Webshop\Http\Requests\Checkout\CheckoutRequest;
 use Raw\Webshop\Models\Order;
 use Raw\Webshop\Tests\TestCase;
 
@@ -57,7 +57,7 @@ class PaymentServiceTest extends TestCase
         ]);
 
         // Test the method
-        $url = PaymentsFacade::processCheckoutFromRequest($checkoutRequest);
+        $url = WebshopPaymentsFacade::processCheckoutFromRequest($checkoutRequest);
 
         $this->assertNotNull($url);
         $this->assertDatabaseHas('orders', [
@@ -117,7 +117,7 @@ class PaymentServiceTest extends TestCase
             'payment_status' => 'pending',
         ]);
 
-        PaymentsFacade::markOrderAsPaid($order);
+        WebshopPaymentsFacade::markOrderAsPaid($order);
 
         $this->assertDatabaseHas('orders', [
             'id' => $order->id,

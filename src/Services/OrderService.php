@@ -8,6 +8,8 @@ use Raw\Webshop\Http\Requests\Orders\FlagAsShippedRequest;
 use Raw\Webshop\Http\Requests\Orders\FlagAsArrivedRequest;
 
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection as SupportCollection;
+use Raw\Webshop\Enums\OrderStatusEnum;
 
 class OrderService
 {
@@ -51,9 +53,9 @@ class OrderService
     /**
      * Get orders preloaded for current user
      * 
-     * @return      Collection
+     * @return      SupportCollection
      */
-    public function getAllPreloadedForCurrentUser(): Collection
+    public function getAllPreloadedForCurrentUser(): SupportCollection
     {
         $user = auth("sanctum")->user();
         
@@ -128,8 +130,8 @@ class OrderService
      */
     public function processFlagAsArrivedRequest(FlagAsArrivedRequest $request): Order
     {
-        $order = $this->findOrderByUuid($request->order_uuid);
-        $order->status = OrderStatusEnum::ARRIVED;
+        $order = $this->findOrderByUuid($request->uuid);
+        $order->order_status = OrderStatusEnum::ARRIVED;
         $order->save();
 
         return $order;
@@ -143,8 +145,8 @@ class OrderService
      */
     public function processFlagAsShippedRequest(FlagAsShippedRequest $request): Order
     {
-        $order = $this->findOrderByUuid($request->order_uuid);
-        $order->status = OrderStatusEnum::SHIPPED;
+        $order = $this->findOrderByUuid($request->uuid);
+        $order->order_status = OrderStatusEnum::SHIPPED;
         $order->save();
 
         return $order;
