@@ -17,7 +17,7 @@ class CheckoutController extends Controller
     {
         try
         {
-            $url = Payments::processCheckoutFromRequest($request);
+            $url = WebshopPayments::processCheckoutFromRequest($request);
 
             return response()->json([
                 "status" => "success",
@@ -38,7 +38,7 @@ class CheckoutController extends Controller
     {
         try
         {
-            $url = Payments::processPaymentRetryFromRequest($request);
+            $url = WebshopPayments::processPaymentRetryFromRequest($request);
 
             return response()->json([
                 "status" => "success",

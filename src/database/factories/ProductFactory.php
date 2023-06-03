@@ -32,7 +32,8 @@ class ProductFactory extends Factory
             ],
             "price" => 26,
             "stock" => 10,
-            "listed" => true
+            "listed" => true,
+            "type" => "tshirt",
         ];
     }
 }

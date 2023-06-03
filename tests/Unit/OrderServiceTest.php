@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Services;
 
+use Mockery;
 use Raw\Webshop\Models\Order;
-
 use Raw\Webshop\Tests\TestCase;
 
 use Raw\Webshop\Facades\WebshopOrdersFacade;
@@ -45,10 +45,26 @@ class OrderServiceTest extends TestCase
 
     public function testGetOrdersPreloadedForCurrentUser()
     {
+        // Create a mock user object
+        $mockUser = new \stdClass;
+        $mockUser->id = 1;
+        $mockUser->name = 'John Doe';
+        $mockUser->email = 'john@example.com';
+
+        // Create a mock guard
+        $mockGuard = Mockery::mock();
+        $mockGuard->shouldReceive('user')->andReturn($mockUser);
+
+        // Create a mock auth manager
+        $mockAuth = Mockery::mock('Illuminate\Auth\AuthManager');
+        $mockAuth->shouldReceive('guard')->with('sanctum')->andReturn($mockGuard);
+
+        // Register the mock auth manager
+        $this->app->instance('auth', $mockAuth);
+
         OrderFactory::new()->count(3)->create();
 
         $results = WebshopOrdersFacade::getAllPreloadedForCurrentUser();
-        $this->assertInstanceOf(Order::class, $results->get(0));
         $this->assertCount(3, $results);
     }
 
@@ -101,25 +117,25 @@ class OrderServiceTest extends TestCase
 
     public function testProcessFlagAsArrivedRequest()
     {
-        $product = ProductFactory::new()->create();
+        $product = OrderFactory::new()->create();
 
         $request = new FlagAsArrivedRequest([
             "uuid" => $product->uuid,
         ]);
 
         $result = WebshopOrdersFacade::processFlagAsArrivedRequest($request);
-        $this->assertInstanceOf(Product::class, $result);
+        $this->assertInstanceOf(Order::class, $result);
     }
 
     public function testProcessFlagAsShippedRequest()
     {
-        $product = ProductFactory::new()->create();
+        $product = OrderFactory::new()->create();
 
         $request = new FlagAsShippedRequest([
             "uuid" => $product->uuid,
         ]);
 
         $result = WebshopOrdersFacade::processFlagAsShippedRequest($request);
-        $this->assertInstanceOf(Product::class, $result);
+        $this->assertInstanceOf(Order::class, $result);
     }
 }

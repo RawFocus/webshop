@@ -3,9 +3,9 @@
 namespace Raw\Webshop\Http\Controllers\Api;
 
 use Log;
-use Payments;
 use Exception;
 use WebshopOrders;
+use WebshopPayments;
 
 use Stripe\Stripe;
 use Stripe\StripeObject;
@@ -40,7 +40,7 @@ class StripeController extends Controller
             ]);
         }
 
-        $payment = Payments::getStripePayment($stripeObject->payment_intent);
+        $payment = WebshopPayments::getStripePayment($stripeObject->payment_intent);
         if (!$payment) {
             Log::debug("StripeController::handleCheckoutEvent: unable to find payment information: " . $stripeObject);
             return response("Unable to find payment information", 399);
@@ -103,7 +103,7 @@ class StripeController extends Controller
         $paymentIntent = $stripeEvent->data->object;
 
         // Get original stripe session from Stripe
-        $session = Payments::getSession($paymentIntent->id);
+        $session = WebshopPayments::getSession($paymentIntent->id);
         if (!$session) return response("Unable to find session", 403);
 
         // Skip events that don't match the source

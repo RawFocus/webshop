@@ -7,8 +7,8 @@ use Raw\Webshop\Models\Product;
 use Raw\Webshop\Tests\TestCase;
 
 use Raw\Webshop\Facades\WebshopOrdersFacade;
+use Raw\Webshop\Facades\WebshopProductsFacade;
 
-use Raw\Webshop\database\factories\OrderFactory;
 use Raw\Webshop\database\factories\ProductFactory;
 
 use Raw\Webshop\Http\Requests\Products\CreateProductRequest;
@@ -38,7 +38,7 @@ class ProductServiceTest extends TestCase
     {
         ProductFactory::new()->count(3)->create();
 
-        $results = WebshopOrdersFacade::getAll();
+        $results = WebshopProductsFacade::getAll();
         $this->assertCount(3, $results);
         $this->assertInstanceOf(Product::class, $results->get(0));
     }
@@ -47,7 +47,7 @@ class ProductServiceTest extends TestCase
     {
         ProductFactory::new()->count(3)->create();
 
-        $results = WebshopOrdersFacade::getAllPreloaded();
+        $results = WebshopProductsFacade::getAllPreloaded();
         $this->assertCount(3, $results);
         $this->assertInstanceOf(Product::class, $results->get(0));
         $this->assertIsPreloaded($results->get(0));
@@ -57,7 +57,7 @@ class ProductServiceTest extends TestCase
     {
         $product = ProductFactory::new()->create();
 
-        $result = WebshopOrdersFacade::findProductById($product->id);
+        $result = WebshopProductsFacade::findProductById($product->id);
         $this->assertInstanceOf(Product::class, $result);
         $this->assertEquals($product->id, $result->id);
     }
@@ -66,7 +66,7 @@ class ProductServiceTest extends TestCase
     {
         $product = ProductFactory::new()->create();
 
-        $result = WebshopOrdersFacade::findProductByUuid($product->uuid);
+        $result = WebshopProductsFacade::findProductByUuid($product->uuid);
         $this->assertInstanceOf(Product::class, $result);
         $this->assertEquals($product->uuid, $result->uuid);
     }
@@ -75,7 +75,7 @@ class ProductServiceTest extends TestCase
     {
         $product = ProductFactory::new()->create();
 
-        $result = WebshopOrdersFacade::findProductBySlug($product->slug);
+        $result = WebshopProductsFacade::findProductBySlug($product->slug);
         $this->assertInstanceOf(Product::class, $result);
         $this->assertEquals($product->slug, $result->slug);
     }
@@ -92,7 +92,7 @@ class ProductServiceTest extends TestCase
             'listed' => 1,
         ]);
 
-        $result = WebshopOrdersFacade::processCreateProductFromRequest($request);
+        $result = WebshopProductsFacade::processCreateProductFromRequest($request);
         $this->assertInstanceOf(Product::class, $result);
 
         $this->assertDatabaseHas('products', [
@@ -120,7 +120,7 @@ class ProductServiceTest extends TestCase
             'listed' => 0,
         ]);
 
-        $result = WebshopOrdersFacade::processUpdateProductFromRequest($request);
+        $result = WebshopProductsFacade::processUpdateProductFromRequest($request);
         $this->assertInstanceOf(Product::class, $result);
 
         $this->assertDatabaseHas('products', [
@@ -141,7 +141,7 @@ class ProductServiceTest extends TestCase
             'product_uuid' => $product->uuid,
         ]);
 
-        WebshopOrdersFacade::processDeleteProductFromRequest($request);
+        WebshopProductsFacade::processDeleteProductFromRequest($request);
 
         $this->assertDatabaseMissing('products', [
             'id' => $product->id,

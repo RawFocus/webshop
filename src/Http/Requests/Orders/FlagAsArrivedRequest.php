@@ -4,7 +4,7 @@ namespace Raw\Webshop\Http\Requests\Orders;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class FlagOrderArrivedRequest extends FormRequest
+class FlagAsArrivedRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
