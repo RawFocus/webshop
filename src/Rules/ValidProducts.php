@@ -36,6 +36,6 @@ class ValidProducts implements Rule
      */
     public function message()
     {
-        return __("validation.product_not_available");
+        return __("webshop::validation.product_not_available");
     }
 }

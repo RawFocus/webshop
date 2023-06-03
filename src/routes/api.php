@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 use Raw\Webshop\Http\Controllers\Api\DataController;
-use Raw\Webshop\Http\Controllers\Api\AdminController;
 use Raw\Webshop\Http\Controllers\Api\OrderController;
 use Raw\Webshop\Http\Controllers\Api\StripeController;
 use Raw\Webshop\Http\Controllers\Api\ProductController;
@@ -19,7 +18,7 @@ Route::group(["prefix" => "api/webshop"], function() {
         Route::get("data", [DataController::class, "getAll"])->name("webshop.data");
 
         // Checkout endpoints
-        Route::group(["prefix" => "checkout", "middleware" => config("webshop.routing.middleware.checkout")], function() {
+        Route::group(["prefix" => "checkout"], function() {
             Route::post("/", [CheckoutController::class, "postCheckout"])->name("webshop.checkout");
             Route::post("/retry", [CheckoutController::class, "postPaymentRetry"])->name("webshop.checkout.retry");
         });

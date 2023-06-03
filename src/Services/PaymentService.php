@@ -44,9 +44,9 @@ class PaymentService
             "email" => $user->email,
             "user_id" => $user->id,
             "address_street" => $checkoutRequest->address,
-            "address_country" => $checkoutRequest->address_country,
-            "address_postal_code" => $checkoutRequest->address_postal_code,
-            "address_city" => $checkoutRequest->address_city,
+            "address_country" => $checkoutRequest->country,
+            "address_postal_code" => $checkoutRequest->postal_code,
+            "address_city" => $checkoutRequest->city,
             "total_price" => WebshopOrders::calculateTotalOrderPrice($checkoutRequest->products)
         ]);
 
@@ -54,7 +54,7 @@ class PaymentService
         foreach ($checkoutRequest->products as $productData)
         {
             // Fetch product
-            $product = WebshopProducts::findByUuid($productData["uuid"]);
+            $product = WebshopProducts::findByUuid($productData["product"]["uuid"]);
 
             // Attach product to order
             $order->products()->attach($product->id, ['quantity' => $productData["quantity"]]);

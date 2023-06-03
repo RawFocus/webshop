@@ -15,23 +15,23 @@ class CheckoutController extends Controller
 {
     public function postCheckout(CheckoutRequest $request)
     {
-        // try
-        // {
-        //     $url = WebshopPayments::processCheckoutFromRequest($request);
+        try
+        {
+            $url = WebshopPayments::processCheckoutFromRequest($request);
 
-        //     return response()->json([
-        //         "status" => "success",
-        //         "url" => $url
-        //     ]);
-        // }
-        // catch (Exception $e)
-        // {
-        //     Log::error($e);
-        //     return response()->json([
-        //         "status" => "error",
-        //         "error" => __("webshop::validation.general_error")
-        //     ]);
-        // }
+            return response()->json([
+                "status" => "success",
+                "url" => $url
+            ]);
+        }
+        catch (Exception $e)
+        {
+            Log::error($e);
+            return response()->json([
+                "status" => "error",
+                "error" => __("webshop::validation.general_error")
+            ]);
+        }
     }
 
     public function postPaymentRetry(PaymentRetryRequest $request)
