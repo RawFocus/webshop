@@ -8,7 +8,7 @@ return [
      * Configure Stripe payments here.
      */
     "payments" => [
-        
+
         // Endpoints stripe should use for success and cancel redirects
         "urls" => [
             "success" => env("STRIPE_SUCCESS_URL", "https://staging.klimbuddies.nl/"),
@@ -21,7 +21,7 @@ return [
         ],
 
         // Payment methods to use; see: [link here] for more information
-        "payment_method_types" => [explode(",", env("STRIPE_PAYMENT_METHODS", "ideal"))]
+        "payment_method_types" => [explode(",", env("STRIPE_PAYMENT_METHODS", "ideal"))],
 
         // Enable webhook signature validation; see: [link here] for more information
         "enable_webhook_signature_validation" => env("STRIPE_ENABLE_WEBHOOK_SIGNATURE_VALIDATION", false),
@@ -45,7 +45,7 @@ return [
 
             // Order route middlewares
             "orders" => ["is_admin"], // TODO: remove is_admin from package to make the package more agnostic
-    
+
             // Checkout route middelewares
             "checkout" => [],
 

@@ -4,12 +4,13 @@ namespace Raw\Webshop\Services;
 
 use Raw\Webshop\Models\Order;
 
+use Raw\Webshop\Enums\OrderStatusEnum;
+
 use Raw\Webshop\Http\Requests\Orders\FlagAsShippedRequest;
 use Raw\Webshop\Http\Requests\Orders\FlagAsArrivedRequest;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;
-use Raw\Webshop\Enums\OrderStatusEnum;
 
 class OrderService
 {
