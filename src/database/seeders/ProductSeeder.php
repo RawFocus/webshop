@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Database\Seeders;
+namespace Raw\Webshop\database\seeders;
 
 use DB;
 
@@ -24,6 +24,7 @@ class ProductSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++)
         {
+            // Generate a product
             $product = Product::create([
                 "type" => rand(0,1) == 0 ? "tshirt" : "hoodie",
                 "title" => [
@@ -39,6 +40,7 @@ class ProductSeeder extends Seeder
                 "listed" => true
             ]);
 
+            // Generate a product variant (size)
             $size = ProductVariant::create([
                 "product_id" => $product->id,
                 "name" => [
@@ -47,12 +49,14 @@ class ProductSeeder extends Seeder
                 ],
             ]);
 
+            // Generate product variant options (sizes)
             ProductVariantOption::create([
                 "product_variant_id" => $size->id,
                 "name" => [
                     "en" => "S",
                     "nl" => "S"
                 ],
+                "stock" => 1
             ]);
             ProductVariantOption::create([
                 "product_variant_id" => $size->id,
@@ -60,6 +64,7 @@ class ProductSeeder extends Seeder
                     "en" => "M",
                     "nl" => "M"
                 ],
+                "stock" => 2
             ]);
             ProductVariantOption::create([
                 "product_variant_id" => $size->id,
@@ -67,6 +72,7 @@ class ProductSeeder extends Seeder
                     "en" => "L",
                     "nl" => "L"
                 ],
+                "stock" => 3
             ]);
             ProductVariantOption::create([
                 "product_variant_id" => $size->id,
@@ -74,6 +80,7 @@ class ProductSeeder extends Seeder
                     "en" => "XL",
                     "nl" => "XL"
                 ],
+                "stock" => 4
             ]);
             ProductVariantOption::create([
                 "product_variant_id" => $size->id,
@@ -81,6 +88,7 @@ class ProductSeeder extends Seeder
                     "en" => "XXL",
                     "nl" => "XXL"
                 ],
+                "stock" => 5
             ]);
             ProductVariantOption::create([
                 "product_variant_id" => $size->id,
@@ -88,8 +96,10 @@ class ProductSeeder extends Seeder
                     "en" => "3XL",
                     "nl" => "3XL"
                 ],
+                "stock" => 6
             ]);
-    
+            
+            // Generate some product images
             for ($j = 0; $j < 5; $j++)
             {
                 ProductImage::create([

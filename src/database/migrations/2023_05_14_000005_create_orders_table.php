@@ -19,10 +19,10 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger("user_id");
             $table->string('name');
             $table->string('email');
-            $table->string('address_street');
-            $table->string('address_postal_code');
-            $table->string('address_city');
-            $table->string('address_country');
+            $table->string('street');
+            $table->string('postal_code');
+            $table->string('city');
+            $table->string('country');
             $table->string('payment_method')->nullable();
             $table->string('payment_id')->nullable();
             $table->enum('payment_status', ['paid', 'unpaid', 'pending'])->default('unpaid');

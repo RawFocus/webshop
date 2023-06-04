@@ -43,10 +43,10 @@ class PaymentService
             "name" => $user->name,
             "email" => $user->email,
             "user_id" => $user->id,
-            "address_street" => $checkoutRequest->address,
-            "address_country" => $checkoutRequest->country,
-            "address_postal_code" => $checkoutRequest->postal_code,
-            "address_city" => $checkoutRequest->city,
+            "street" => $checkoutRequest->street,
+            "postal_code" => $checkoutRequest->postal_code,
+            "city" => $checkoutRequest->city,
+            "country" => $checkoutRequest->country,
             "total_price" => WebshopOrders::calculateTotalOrderPrice($checkoutRequest->products)
         ]);
 

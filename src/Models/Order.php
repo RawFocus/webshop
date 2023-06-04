@@ -18,10 +18,10 @@ class Order extends Model
         "user_id",
         "name",
         "email",
-        "address_street",
-        "address_country",
-        "address_postal_code",
-        "address_city",
+        "street",
+        "postal_code",
+        "city",
+        "country",
         "total_price",
         "order_status",
         "payment_status",
@@ -57,7 +57,7 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot('quantity');
+        return $this->belongsToMany(Product::class)->withPivot(['quantity', 'variants']);
     }
 
     //
