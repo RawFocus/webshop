@@ -15,19 +15,20 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
+        "uuid",
         "user_id",
+        "order_status",
+        "payment_status",
+        "payment_method",
+        "payment_id",
         "name",
         "email",
         "street",
         "postal_code",
         "city",
         "country",
+        "num_products",
         "total_price",
-        "order_status",
-        "payment_status",
-        "payment_method",
-        "payment_id",
-        "uuid"
     ];
     protected $casts = [
         "payment_status" => PaymentStatusEnum::class,
@@ -57,7 +58,9 @@ class Order extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class)->withPivot(['quantity', 'variants']);
+        return $this->belongsToMany(Product::class)
+            ->withPivot(['quantity', 'variants', 'total_price'])
+            ->using(OrderProduct::class);
     }
 
     //

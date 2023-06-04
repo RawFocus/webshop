@@ -25,6 +25,10 @@ class OrderSeeder extends Seeder
     public function run()
     {
         DB::table("orders")->delete();
+        
+        $product = Product::all()->get(0);
+
+        $totalPrice = $product->price * 2;
 
         $order = Order::create([
             "user_id" => 1,
@@ -34,14 +38,13 @@ class OrderSeeder extends Seeder
             "country" => "The Netherlands",
             "postal_code" => "1234AB",
             "city" => "Utrecht",
-            "total_price" => 100,
+            "num_products" => 2,
+            "total_price" => $totalPrice,
             "order_status" => OrderStatusEnum::OPEN,
             "payment_status" => PaymentStatusEnum::PAID,
             "payment_method" => "ideal",
             "payment_id" => "123456789",
         ]);
-
-        $product = Product::all()->get(0);
 
         $variants = [];
         foreach ($product->variants as $variant)
@@ -53,8 +56,9 @@ class OrderSeeder extends Seeder
         }
 
         $order->products()->attach($product->id, [
-            "quantity" => 1,
-            "variants" => json_encode($variants)
+            "quantity" => 2,
+            "variants" => $variants,
+            "total_price" => $totalPrice,
         ]);
     }
 }

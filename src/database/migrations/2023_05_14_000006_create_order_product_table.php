@@ -19,6 +19,7 @@ class CreateOrderProductTable extends Migration
             $table->foreignId('product_id');
             $table->integer('quantity');
             $table->json('variants')->nullable();
+            $table->unsignedInteger('total_price');
             $table->timestamps();
         });
     }

@@ -29,39 +29,35 @@ class OrderService
     {
         // Preload the products
         $order->products = $order->products->map(function($product) {
-            return WebshopProducts::preload($product);
+            
+            $product = WebshopProducts::preload($product);
+
+            $selectedVariants = [];
+            foreach ($product->pivot->variants as $variant)
+            {
+                $v = ProductVariant::find($variant->product_variant_id);
+                $o = ProductVariantOption::find($variant->product_variant_option_id);
+
+                $selectedVariants[] = [
+                    "variant" => $v->name,
+                    "option" => $o->name,
+                ];
+            }
+            $product->selected_variants = $selectedVariants;
+            
+            return $product;
+
         });
 
         // Preload the order & payment status labels
         $order->order_status_label = OrderStatusEnum::labelFromValue($order->order_status->value);
         $order->payment_status_label = PaymentStatusEnum::labelFromValue($order->payment_status->value);
 
-        // Preload the order's product with useful info we need in order to render the order details
-        $orderProducts = [];
-        foreach ($order->products as $product)
-        {
-            // Preload the selected variants & options
-            $selectedVariants = [];
-            if ($product->pivot->variants !== "") {
-                $variants = json_decode($product->pivot->variants);
-                foreach ($variants as $variant) {
-                    $v = ProductVariant::find($variant->product_variant_id);
-                    $o = ProductVariantOption::find($variant->product_variant_option_id);
-                    $selectedVariants[] = [
-                        "variant" => $v->name,
-                        "option" => $o->name,
-                    ];
-                }
-            }
-            $product->selected_variants = $selectedVariants;
+        // Format the date
+        $order->formatted_created_at = $order->created_at->format("d-m-Y H:i:s");
+        $order->formatted_updated_at = $order->updated_at->format("d-m-Y H:i:s");
 
-            // Preload the product's total price
-            $product->total_price = $product->price * $product->pivot->quantity;
-            
-            $orderProducts[] = $product;
-        }
-        $order->order_products = $orderProducts;
-
+        // Return updated order
         return $order;
     }
 
