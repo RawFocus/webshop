@@ -5,8 +5,11 @@ namespace Raw\Webshop\Services;
 use WebshopProducts;
 
 use Raw\Webshop\Models\Order;
+use Raw\Webshop\Models\ProductVariant;
+use Raw\Webshop\Models\ProductVariantOption;
 
 use Raw\Webshop\Enums\OrderStatusEnum;
+use Raw\Webshop\Enums\PaymentStatusEnum;
 
 use Raw\Webshop\Http\Requests\Orders\FlagAsShippedRequest;
 use Raw\Webshop\Http\Requests\Orders\FlagAsArrivedRequest;
@@ -24,9 +27,40 @@ class OrderService
      */
     public function preload(Order $order): Order
     {
+        // Preload the products
         $order->products = $order->products->map(function($product) {
             return WebshopProducts::preload($product);
         });
+
+        // Preload the order & payment status labels
+        $order->order_status_label = OrderStatusEnum::labelFromValue($order->order_status->value);
+        $order->payment_status_label = PaymentStatusEnum::labelFromValue($order->payment_status->value);
+
+        // Preload the order's product with useful info we need in order to render the order details
+        $orderProducts = [];
+        foreach ($order->products as $product)
+        {
+            // Preload the selected variants & options
+            $selectedVariants = [];
+            if ($product->pivot->variants !== "") {
+                $variants = json_decode($product->pivot->variants);
+                foreach ($variants as $variant) {
+                    $v = ProductVariant::find($variant->product_variant_id);
+                    $o = ProductVariantOption::find($variant->product_variant_option_id);
+                    $selectedVariants[] = [
+                        "variant" => $v->name,
+                        "option" => $o->name,
+                    ];
+                }
+            }
+            $product->selected_variants = $selectedVariants;
+
+            // Preload the product's total price
+            $product->total_price = $product->price * $product->pivot->quantity;
+            
+            $orderProducts[] = $product;
+        }
+        $order->order_products = $orderProducts;
 
         return $order;
     }

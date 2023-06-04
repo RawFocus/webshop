@@ -2,6 +2,8 @@
 
 namespace Raw\Webshop\Enums;
 
+use Exception;
+
 enum PaymentStatusEnum: string
 {
     case PAID = 'paid';
@@ -22,6 +24,18 @@ enum PaymentStatusEnum: string
                 return 'Failed';
             default:
                 return 'Unknown';
+        }
+    }
+    
+    public static function labelFromValue(string $value): string 
+    {
+        try
+        {
+            return self::from($value)->label();
+        }
+        catch (Exception $e)
+        {
+            return '';
         }
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Raw\Webshop\Enums;
 
+use Exception;
+
 enum OrderStatusEnum: string
 {
     case OPEN = 'open';
@@ -21,6 +23,18 @@ enum OrderStatusEnum: string
                 return 'Arrived';
             default:
                 return 'Unknown';
+        }
+    }
+    
+    public static function labelFromValue(string $value): string 
+    {
+        try
+        {
+            return self::from($value)->label();
+        }
+        catch (Exception $e)
+        {
+            return '';
         }
     }
 }
