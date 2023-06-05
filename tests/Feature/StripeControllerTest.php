@@ -3,9 +3,9 @@
 namespace Tests\Unit\Services;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Raw\Webshop\database\factories\OrderFactory;
-use Raw\Webshop\Enums\PaymentStatusEnum;
-use Raw\Webshop\Tests\TestCase;
+use RawFocus\Webshop\database\factories\OrderFactory;
+use RawFocus\Webshop\Enums\PaymentStatusEnum;
+use RawFocus\Webshop\Tests\TestCase;
 
 class StripeControllerTest extends TestCase
 {

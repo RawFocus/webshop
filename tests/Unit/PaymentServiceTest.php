@@ -3,13 +3,13 @@
 namespace Tests\Unit\Services;
 
 use Mockery;
-use Raw\Webshop\database\factories\ProductFactory;
-use Raw\Webshop\database\factories\OrderFactory;
+use RawFocus\Webshop\database\factories\ProductFactory;
+use RawFocus\Webshop\database\factories\OrderFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Raw\Webshop\Facades\WebshopPaymentsFacade;
-use Raw\Webshop\Http\Requests\Checkout\CheckoutRequest;
-use Raw\Webshop\Models\Order;
-use Raw\Webshop\Tests\TestCase;
+use RawFocus\Webshop\Facades\WebshopPaymentsFacade;
+use RawFocus\Webshop\Http\Requests\Checkout\CheckoutRequest;
+use RawFocus\Webshop\Models\Order;
+use RawFocus\Webshop\Tests\TestCase;
 
 class PaymentServiceTest extends TestCase
 {

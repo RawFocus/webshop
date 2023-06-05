@@ -3,16 +3,16 @@
 namespace Tests\Unit\Services;
 
 use Mockery;
-use Raw\Webshop\Models\Order;
-use Raw\Webshop\Tests\TestCase;
+use RawFocus\Webshop\Models\Order;
+use RawFocus\Webshop\Tests\TestCase;
 
-use Raw\Webshop\Facades\WebshopOrdersFacade;
+use RawFocus\Webshop\Facades\WebshopOrdersFacade;
 
-use Raw\Webshop\database\factories\OrderFactory;
-use Raw\Webshop\database\factories\ProductFactory;
+use RawFocus\Webshop\database\factories\OrderFactory;
+use RawFocus\Webshop\database\factories\ProductFactory;
 
-use Raw\Webshop\Http\Requests\Orders\FlagAsArrivedRequest;
-use Raw\Webshop\Http\Requests\Orders\FlagAsShippedRequest;
+use RawFocus\Webshop\Http\Requests\Orders\FlagAsArrivedRequest;
+use RawFocus\Webshop\Http\Requests\Orders\FlagAsShippedRequest;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

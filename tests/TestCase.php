@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Tests;
+namespace RawFocus\Webshop\Tests;
 
 use Stripe\ApiRequestor;
 use Orchestra\Testbench\TestCase as Orchestra;

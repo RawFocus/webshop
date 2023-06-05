@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Tests;
+namespace RawFocus\Webshop\Tests;
 
 use Log;
 use Stripe\HttpClient\ClientInterface;

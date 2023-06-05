@@ -42,7 +42,7 @@ volumes:
 
 Then restart your docker containers using sail:
 ```
-Ctrl+C
+ctrl+c
 sail up
 ```
 

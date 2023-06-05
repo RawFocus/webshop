@@ -2,18 +2,18 @@
 
 namespace Tests\Unit\Services;
 
-use Raw\Webshop\Models\Product;
+use RawFocus\Webshop\Models\Product;
 
-use Raw\Webshop\Tests\TestCase;
+use RawFocus\Webshop\Tests\TestCase;
 
-use Raw\Webshop\Facades\WebshopOrdersFacade;
-use Raw\Webshop\Facades\WebshopProductsFacade;
+use RawFocus\Webshop\Facades\WebshopOrdersFacade;
+use RawFocus\Webshop\Facades\WebshopProductsFacade;
 
-use Raw\Webshop\database\factories\ProductFactory;
+use RawFocus\Webshop\database\factories\ProductFactory;
 
-use Raw\Webshop\Http\Requests\Products\CreateProductRequest;
-use Raw\Webshop\Http\Requests\Products\DeleteProductRequest;
-use Raw\Webshop\Http\Requests\Products\UpdateProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\CreateProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\DeleteProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\UpdateProductRequest;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
