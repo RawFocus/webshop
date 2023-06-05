@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Enums;
+namespace RawFocus\Webshop\Enums;
 
 use Exception;
 

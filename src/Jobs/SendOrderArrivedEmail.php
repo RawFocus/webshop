@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Jobs;
+namespace RawFocus\Webshop\Jobs;
 
 use Mail;
 
@@ -9,9 +9,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Raw\Webshop\Mail\OrderArrivedMail;
-use Raw\Webshop\Mail\OrderCreatedMail;
-use Raw\Webshop\Models\Order;
+use RawFocus\Webshop\Mail\OrderArrivedMail;
+use RawFocus\Webshop\Mail\OrderCreatedMail;
+use RawFocus\Webshop\Models\Order;
 
 class SendOrderArrivedEmail implements ShouldQueue
 {

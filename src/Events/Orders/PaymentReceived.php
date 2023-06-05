@@ -1,8 +1,8 @@
 <?php
 
-namespace Raw\Webshop\Events\Orders;
+namespace RawFocus\Webshop\Events\Orders;
 
-use Raw\Webshop\Models\Order;
+use RawFocus\Webshop\Models\Order;
 
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;

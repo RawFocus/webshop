@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Models;
+namespace RawFocus\Webshop\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

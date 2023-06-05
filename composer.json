@@ -1,5 +1,5 @@
 {
-    "name": "raw/webshop",
+    "name": "raw-focus/webshop",
     "description": "A simple webshop module for Laravel 10+ applications.",
     "authors": [
         {
@@ -15,8 +15,8 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Raw\\Webshop\\": "src/",
-            "Raw\\Webshop\\Tests\\": "tests"
+            "RawFocus\\Webshop\\": "src/",
+            "RawFocus\\Webshop\\Tests\\": "tests"
         }
     },
     "require": {
@@ -31,12 +31,12 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Raw\\Webshop\\Providers\\WebshopServiceProvider"
+                "RawFocus\\Webshop\\Providers\\WebshopServiceProvider"
             ],
             "aliases": {
-                "WebshopOrders": "Raw\\Webshop\\Facades\\WebshopOrdersFacade",
-                "WebshopProducts": "Raw\\Webshop\\Facades\\WebshopProductsFacade",
-                "WebshopPayments": "Raw\\Webshop\\Facades\\WebshopPaymentsFacade"
+                "WebshopOrders": "RawFocus\\Webshop\\Facades\\WebshopOrdersFacade",
+                "WebshopProducts": "RawFocus\\Webshop\\Facades\\WebshopProductsFacade",
+                "WebshopPayments": "RawFocus\\Webshop\\Facades\\WebshopPaymentsFacade"
             }
         }
     },

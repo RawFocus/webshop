@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Exceptions\Orders;
+namespace RawFocus\Webshop\Exceptions\Orders;
 
 use Exception;
 

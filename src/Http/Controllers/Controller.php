@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Http\Controllers;
+namespace RawFocus\Webshop\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

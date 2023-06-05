@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Rules;
+namespace RawFocus\Webshop\Rules;
 
 use WebshopProducts;
 

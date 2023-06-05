@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Exceptions\Products;
+namespace RawFocus\Webshop\Exceptions\Products;
 
 use Exception;
 

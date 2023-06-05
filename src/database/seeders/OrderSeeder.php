@@ -1,17 +1,17 @@
 <?php
 
-namespace Raw\Webshop\database\seeders;
+namespace RawFocus\Webshop\database\seeders;
 
 use DB;
 
-use Raw\Webshop\Enums\OrderStatusEnum;
-use Raw\Webshop\Enums\PaymentStatusEnum;
+use RawFocus\Webshop\Enums\OrderStatusEnum;
+use RawFocus\Webshop\Enums\PaymentStatusEnum;
 
-use Raw\Webshop\Models\Order;
-use Raw\Webshop\Models\Product;
-use Raw\Webshop\Models\ProductImage;
-use Raw\Webshop\Models\ProductVariant;
-use Raw\Webshop\Models\ProductVariantOption;
+use RawFocus\Webshop\Models\Order;
+use RawFocus\Webshop\Models\Product;
+use RawFocus\Webshop\Models\ProductImage;
+use RawFocus\Webshop\Models\ProductVariant;
+use RawFocus\Webshop\Models\ProductVariantOption;
 
 use Illuminate\Database\Seeder;
 

@@ -1,16 +1,16 @@
 <?php
 
-namespace Raw\Webshop\Services;
+namespace RawFocus\Webshop\Services;
 
-use Raw\Webshop\Models\Product;
-use Raw\Webshop\Models\ProductVariant;
-use Raw\Webshop\Models\ProductVariantOption;
+use RawFocus\Webshop\Models\Product;
+use RawFocus\Webshop\Models\ProductVariant;
+use RawFocus\Webshop\Models\ProductVariantOption;
 
-use Raw\Webshop\Enums\ProductTypeEnum;
+use RawFocus\Webshop\Enums\ProductTypeEnum;
 
-use Raw\Webshop\Http\Requests\Products\CreateProductRequest;
-use Raw\Webshop\Http\Requests\Products\UpdateProductRequest;
-use Raw\Webshop\Http\Requests\Products\DeleteProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\CreateProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\UpdateProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\DeleteProductRequest;
 
 use Illuminate\Database\Eloquent\Collection;
 

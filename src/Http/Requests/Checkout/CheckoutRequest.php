@@ -1,8 +1,8 @@
 <?php
 
-namespace Raw\Webshop\Http\Requests\Checkout;
+namespace RawFocus\Webshop\Http\Requests\Checkout;
 
-use Raw\Webshop\Rules\ValidProducts;
+use RawFocus\Webshop\Rules\ValidProducts;
 
 use Illuminate\Foundation\Http\FormRequest;
 

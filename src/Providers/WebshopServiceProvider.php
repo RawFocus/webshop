@@ -1,12 +1,12 @@
 <?php
 
-namespace Raw\Webshop\Providers;
+namespace RawFocus\Webshop\Providers;
 
-use Raw\Webshop\Services\OrderService;
-use Raw\Webshop\Services\PaymentService;
-use Raw\Webshop\Services\ProductService;
+use RawFocus\Webshop\Services\OrderService;
+use RawFocus\Webshop\Services\PaymentService;
+use RawFocus\Webshop\Services\ProductService;
 
-use Raw\Webshop\Listeners\OrderEventSubscriber;
+use RawFocus\Webshop\Listeners\OrderEventSubscriber;
 
 use Illuminate\Support\ServiceProvider;
 

@@ -1,16 +1,16 @@
 <?php
 
-namespace Raw\Webshop\Listeners;
+namespace RawFocus\Webshop\Listeners;
 
 use Illuminate\Events\Dispatcher;
-use Raw\Webshop\Events\OrderArrived;
-use Raw\Webshop\Events\OrderCreated;
-use Raw\Webshop\Events\OrderShipped;
-use Raw\Webshop\Events\PaymentReceived;
-use Raw\Webshop\Jobs\SendOrderArrivedEmail;
-use Raw\Webshop\Jobs\SendOrderCreatedEmail;
-use Raw\Webshop\Jobs\SendOrderShippedEmail;
-use Raw\Webshop\Jobs\SendPaymentReceivedEmail;
+use RawFocus\Webshop\Events\OrderArrived;
+use RawFocus\Webshop\Events\OrderCreated;
+use RawFocus\Webshop\Events\OrderShipped;
+use RawFocus\Webshop\Events\PaymentReceived;
+use RawFocus\Webshop\Jobs\SendOrderArrivedEmail;
+use RawFocus\Webshop\Jobs\SendOrderCreatedEmail;
+use RawFocus\Webshop\Jobs\SendOrderShippedEmail;
+use RawFocus\Webshop\Jobs\SendPaymentReceivedEmail;
 
 class OrderEventSubscriber
 {

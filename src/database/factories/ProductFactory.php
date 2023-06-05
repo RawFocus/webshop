@@ -1,9 +1,10 @@
 <?php
 
-namespace Raw\Webshop\database\factories;
+namespace RawFocus\Webshop\database\factories;
+
+use RawFocus\Webshop\Models\Product;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Raw\Webshop\Models\Product;
 
 class ProductFactory extends Factory
 {

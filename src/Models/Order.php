@@ -1,11 +1,11 @@
 <?php
 
-namespace Raw\Webshop\Models;
+namespace RawFocus\Webshop\Models;
 
 use Uuid;
 
-use Raw\Webshop\Enums\OrderStatusEnum;
-use Raw\Webshop\Enums\PaymentStatusEnum;
+use RawFocus\Webshop\Enums\OrderStatusEnum;
+use RawFocus\Webshop\Enums\PaymentStatusEnum;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

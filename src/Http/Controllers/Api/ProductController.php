@@ -1,20 +1,20 @@
 <?php
 
-namespace Raw\Webshop\Http\Controllers\Api;
+namespace RawFocus\Webshop\Http\Controllers\Api;
 
 use Exception;
 
-use Raw\Webshop\Models\Product;
+use RawFocus\Webshop\Models\Product;
 
-use Raw\Webshop\Facades\WebshopProducts;
+use RawFocus\Webshop\Facades\WebshopProducts;
 
-use Raw\Webshop\Http\Controllers\Controller;
+use RawFocus\Webshop\Http\Controllers\Controller;
 
-use Raw\Webshop\Http\Requests\Products\CreateProductRequest;
-use Raw\Webshop\Http\Requests\Products\UpdateProductRequest;
-use Raw\Webshop\Http\Requests\Products\DeleteProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\CreateProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\UpdateProductRequest;
+use RawFocus\Webshop\Http\Requests\Products\DeleteProductRequest;
 
-use Raw\Webshop\Exceptions\Products\ProductNotFoundException;
+use RawFocus\Webshop\Exceptions\Products\ProductNotFoundException;
 
 class ProductController extends Controller
 {

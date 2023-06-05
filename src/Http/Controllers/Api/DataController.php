@@ -1,11 +1,11 @@
 <?php 
 
-namespace Raw\Webshop\Http\Controllers\Api;
+namespace RawFocus\Webshop\Http\Controllers\Api;
 
 use WebshopOrders;
 use WebshopProducts;
 
-use Raw\Webshop\Http\Controllers\Controller;
+use RawFocus\Webshop\Http\Controllers\Controller;
 
 class DataController extends Controller
 {

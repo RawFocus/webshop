@@ -2,11 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 
-use Raw\Webshop\Http\Controllers\Api\DataController;
-use Raw\Webshop\Http\Controllers\Api\OrderController;
-use Raw\Webshop\Http\Controllers\Api\StripeController;
-use Raw\Webshop\Http\Controllers\Api\ProductController;
-use Raw\Webshop\Http\Controllers\Api\CheckoutController;
+use RawFocus\Webshop\Http\Controllers\Api\DataController;
+use RawFocus\Webshop\Http\Controllers\Api\OrderController;
+use RawFocus\Webshop\Http\Controllers\Api\StripeController;
+use RawFocus\Webshop\Http\Controllers\Api\ProductController;
+use RawFocus\Webshop\Http\Controllers\Api\CheckoutController;
 
 // Webshop routes
 Route::group(["prefix" => "api/webshop"], function() {

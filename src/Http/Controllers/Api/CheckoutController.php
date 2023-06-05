@@ -1,15 +1,15 @@
 <?php
 
-namespace Raw\Webshop\Http\Controllers\Api;
+namespace RawFocus\Webshop\Http\Controllers\Api;
 
 use Log;
 use Exception;
 use WebshopPayments;
 
-use Raw\Webshop\Http\Controllers\Controller;
+use RawFocus\Webshop\Http\Controllers\Controller;
 
-use Raw\Webshop\Http\Requests\Checkout\CheckoutRequest;
-use Raw\Webshop\Http\Requests\Checkout\PaymentRetryRequest;
+use RawFocus\Webshop\Http\Requests\Checkout\CheckoutRequest;
+use RawFocus\Webshop\Http\Requests\Checkout\PaymentRetryRequest;
 
 class CheckoutController extends Controller
 {

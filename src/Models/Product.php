@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Models;
+namespace RawFocus\Webshop\Models;
 
 use Uuid;
 

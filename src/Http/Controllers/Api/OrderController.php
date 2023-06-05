@@ -1,17 +1,17 @@
 <?php 
 
-namespace Raw\Webshop\Http\Controllers\Api;
+namespace RawFocus\Webshop\Http\Controllers\Api;
 
 use Exception;
 use WebshopOrders;
 
-use Raw\Webshop\Http\Controllers\Controller;
+use RawFocus\Webshop\Http\Controllers\Controller;
 
-use Raw\Webshop\Http\Requests\Orders\FlagOrderShippedRequest;
-use Raw\Webshop\Http\Requests\Orders\FlagOrderArrivedRequest;
+use RawFocus\Webshop\Http\Requests\Orders\FlagOrderShippedRequest;
+use RawFocus\Webshop\Http\Requests\Orders\FlagOrderArrivedRequest;
 
-use Raw\Webshop\Exceptions\Orders\OrderNotFoundException;
-use Raw\Webshop\Exceptions\Orders\OrderNotYoursException;
+use RawFocus\Webshop\Exceptions\Orders\OrderNotFoundException;
+use RawFocus\Webshop\Exceptions\Orders\OrderNotYoursException;
 
 class OrderController extends Controller
 {

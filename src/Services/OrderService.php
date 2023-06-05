@@ -1,19 +1,19 @@
 <?php
 
-namespace Raw\Webshop\Services;
+namespace RawFocus\Webshop\Services;
 
 use WebshopProducts;
 
-use Raw\Webshop\Models\Order;
-use Raw\Webshop\Models\ProductVariant;
-use Raw\Webshop\Models\ProductVariantOption;
+use RawFocus\Webshop\Models\Order;
+use RawFocus\Webshop\Models\ProductVariant;
+use RawFocus\Webshop\Models\ProductVariantOption;
 
-use Raw\Webshop\Enums\OrderStatusEnum;
-use Raw\Webshop\Enums\PaymentStatusEnum;
+use RawFocus\Webshop\Enums\OrderStatusEnum;
+use RawFocus\Webshop\Enums\PaymentStatusEnum;
 
-use Raw\Webshop\Http\Requests\Checkout\CheckoutRequest;
-use Raw\Webshop\Http\Requests\Orders\FlagAsShippedRequest;
-use Raw\Webshop\Http\Requests\Orders\FlagAsArrivedRequest;
+use RawFocus\Webshop\Http\Requests\Checkout\CheckoutRequest;
+use RawFocus\Webshop\Http\Requests\Orders\FlagAsShippedRequest;
+use RawFocus\Webshop\Http\Requests\Orders\FlagAsArrivedRequest;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Collection as SupportCollection;

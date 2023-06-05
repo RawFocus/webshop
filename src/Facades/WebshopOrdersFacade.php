@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Facades;
+namespace RawFocus\Webshop\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

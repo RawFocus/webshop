@@ -1,6 +1,6 @@
 <?php
 
-namespace Raw\Webshop\Services;
+namespace RawFocus\Webshop\Services;
 
 use Log;
 use Uuid;
@@ -14,12 +14,12 @@ use Stripe\PaymentIntent;
 use Stripe\Checkout\Session;
 use Stripe\Exception\InvalidRequestException;
 
-use Raw\Webshop\Models\Order;
+use RawFocus\Webshop\Models\Order;
 
-use Raw\Webshop\Events\Orders\OrderCreated;
+use RawFocus\Webshop\Events\Orders\OrderCreated;
 
-use Raw\Webshop\Http\Requests\Checkout\CheckoutRequest;
-use Raw\Webshop\Http\Requests\Checkout\PaymentRetryRequest;
+use RawFocus\Webshop\Http\Requests\Checkout\CheckoutRequest;
+use RawFocus\Webshop\Http\Requests\Checkout\PaymentRetryRequest;
 
 class PaymentService
 {

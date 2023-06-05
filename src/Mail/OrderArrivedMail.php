@@ -1,11 +1,11 @@
 <?php
 
-namespace Raw\Webshop\Mail;
+namespace RawFocus\Webshop\Mail;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-use Raw\Webshop\Models\Order;
+use RawFocus\Webshop\Models\Order;
 
 class OrderArrivedMail extends Mailable
 {
