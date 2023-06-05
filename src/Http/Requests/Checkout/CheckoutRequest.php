@@ -27,10 +27,10 @@ class CheckoutRequest extends FormRequest
     {
         return [
             "products" => ["required", new ValidProducts],
-            "address" => "required",
-            "country" => "required",
+            "street" => "required",
             "postal_code" => "required",
-            "city" => "required"
+            "city" => "required",
+            "country" => "required",
         ];
     }
 }

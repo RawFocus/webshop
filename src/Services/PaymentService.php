@@ -31,38 +31,12 @@ class PaymentService
     /**
      * Checkout from request
      *
-     * @param CheckoutRequest $checkoutRequest
-     * @return string
+     * @param       CheckoutRequest $checkoutRequest
+     * @return      string
      */
-    public function processCheckoutFromRequest(CheckoutRequest $checkoutRequest)
+    public function processCheckoutFromRequest(CheckoutRequest $request)
     {
-        $user = auth("sanctum")->user();
-
-        // Create order
-        $order = Order::create([
-            "name" => $user->name,
-            "email" => $user->email,
-            "user_id" => $user->id,
-            "street" => $checkoutRequest->street,
-            "postal_code" => $checkoutRequest->postal_code,
-            "city" => $checkoutRequest->city,
-            "country" => $checkoutRequest->country,
-            "total_price" => WebshopOrders::calculateTotalOrderPrice($checkoutRequest->products)
-        ]);
-
-        // Attach products
-        foreach ($checkoutRequest->products as $productData)
-        {
-            // Fetch product
-            $product = WebshopProducts::findByUuid($productData["product"]["uuid"]);
-
-            // Attach product to order
-            $order->products()->attach($product->id, ['quantity' => $productData["quantity"]]);
-
-            // Decrease stock from product
-            $product->stock -= $productData["quantity"];
-            $product->save();
-        }
+        $order = WebshopOrders::createFromCheckoutRequest($request);
 
         $session = $this->createStripePaymentSession($order);
 
@@ -74,12 +48,12 @@ class PaymentService
     /**
      * Process payment retry from request
      *
-     * @param PaymentRetryRequest $paymentRetryRequest
-     * @return string
+     * @param       PaymentRetryRequest     $paymentRetryRequest
+     * @return      string
      */
-    public function processPaymentRetryFromRequest(PaymentRetryRequest $paymentRetryRequest)
+    public function processPaymentRetryFromRequest(PaymentRetryRequest $request)
     {
-        $order = WebshopOrders::findOrderByUuid($paymentRetryRequest->order_uuid);
+        $order = WebshopOrders::findOrderByUuid($request->order_uuid);
 
         $session = $this->createStripePaymentSession($order);
 
@@ -89,8 +63,8 @@ class PaymentService
     /**
      * Get a payment session from Stripe
      *
-     * @param string $paymentId
-     * @return StripeObject
+     * @param       string                  $paymentId
+     * @return      StripeObject
      */        
     public function getSession(string $paymentId)
     {
@@ -116,8 +90,8 @@ class PaymentService
     /**
      * Create a payment session
      *
-     * @param Order $order
-     * @return StripeObject
+     * @param       Order                   $order
+     * @return      StripeObject
      */
     private function createStripePaymentSession(Order $order)
     {
@@ -157,8 +131,8 @@ class PaymentService
     /**
      * Get a payment from Stripe
      *
-     * @param string $paymentId
-     * @return Charge|null
+     * @param       string                  $paymentId
+     * @return      Charge|null
      */
     public function getStripePayment(string $paymentId): Charge|null
     {
@@ -189,6 +163,11 @@ class PaymentService
         }
     }
 
+    /**
+     * Mark order as paid
+     * 
+     * @param       Order  $order           The order
+     */
     public function markOrderAsPaid(Order $order)
     {
         $order->payment_status = "paid";

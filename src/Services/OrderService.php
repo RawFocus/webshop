@@ -11,6 +11,7 @@ use Raw\Webshop\Models\ProductVariantOption;
 use Raw\Webshop\Enums\OrderStatusEnum;
 use Raw\Webshop\Enums\PaymentStatusEnum;
 
+use Raw\Webshop\Http\Requests\Checkout\CheckoutRequest;
 use Raw\Webshop\Http\Requests\Orders\FlagAsShippedRequest;
 use Raw\Webshop\Http\Requests\Orders\FlagAsArrivedRequest;
 
@@ -123,6 +124,79 @@ class OrderService
         return Order::where("uuid", $uuid)->first();
     }
     
+    /**
+     * Create order from request
+     * 
+     * @param       CheckoutRequest              $request
+     * @return      Order
+     */
+    public function createFromCheckoutRequest(CheckoutRequest $request): Order
+    {
+        // Grab the logged in user
+        $user = auth("sanctum")->user();
+
+        // Create order
+        $order = Order::create([
+            "name" => $user->name,
+            "email" => $user->email,
+            "user_id" => $user->id,
+            "street" => $request->street,
+            "postal_code" => $request->postal_code,
+            "city" => $request->city,
+            "country" => $request->country,
+            "num_products" => $this->calculateTotalNumberOfProduct($request->products),
+            "total_price" => $this->calculateTotalOrderPrice($request->products),
+        ]);
+
+        // Attach products
+        foreach ($request->products as $productData)
+        {
+            // Fetch product
+            $product = WebshopProducts::findByUuid($productData["product"]["uuid"]);
+
+            // Generate the array of variants to save on the pivot table
+            $variants = [];
+            foreach ($productData["variants"] as $variant)
+            {
+                $variants[] = [
+                    "product_variant_id" => $variant["variant_id"],
+                    "product_variant_option_id" => $variant["variant_option_id"],
+                ];
+            }
+
+            // Attach product to order
+            $order->products()->attach($product->id, [
+                'quantity' => $productData["quantity"],
+                'variants' => $variants,
+                'total_price' => $product->price * $productData["quantity"],
+            ]);
+
+            // Decrease stock from product
+            $product->stock -= $productData["quantity"];
+            $product->save();
+        }
+
+        // Return refreshed user
+        return $order->refresh();
+    }
+
+    /**
+     * Calculate total number of product
+     * 
+     * @param       array                       $productData
+     * @return      int
+     */
+    public function calculateTotalNumberOfProduct(array $productData): int
+    {
+        $out = 0;
+        foreach ($productData as $productItem)
+        {
+            $out += $productItem["quantity"];
+        }  
+
+        return $out;     
+    }
+
     /**
      * Calculate total order price
      * 
