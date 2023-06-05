@@ -3,10 +3,6 @@
     "description": "A simple webshop module for Laravel 10+ applications.",
     "authors": [
         {
-            "name": "Nick Verheijen",
-            "email": "verheijen.webdevelopment@gmail.com"
-        },
-        {
             "name": "Yvo von Berg",
             "email": "pobox99991@protonmail.com"
         }
