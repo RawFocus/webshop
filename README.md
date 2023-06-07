@@ -2,85 +2,69 @@
 
 This is a Laravel 10 package that provides you with an API to handle a simple webshop powered by Stripe.
 
-[Check out the official Laravel docs](https://laravel.com/docs/10.x/packages)
-
-## Stripe
-
-Install the Stripe CLI: https://stripe.com/docs/stripe-cli
-
-1. Run the Stripe login command: stripe login
-2. stripe listen --forward-to http://localhost/api/webshop/stripe/endpoint
-3. The backend application should now be able to receive webhook requests from Stripe
-
 ## Installation
 
-Install by running:
-```
-sail composer require raw-focus/webshop
+#### Package
+
+```sh
+composer require raw-focus/webshop
 ```
 
-After installing the package you should:
-```
-sail artisan migrate
-sail artisan lang:publish --provider=Raw\Webshop\Providers\WebshopServiceProvider
+#### Database
+
+After installing the package you should migrate the package's migration files with:
+```sh
+php artisan migrate
 ```
 
+We have defined some seeders for testing purposes which you can publish, edit and use yourselves with:
+```sh
+php artisan vendor:publish --tag=webshop-seeders
+```
+
+Then add the seeders to your `database\seeders\DatabaseSeeder.php` file:
+```php
+<?php
+
+namespace Database\Seeders;
+
+...
+
+use RawFocus\Webshop\database\seeders\OrderSeeder;
+use RawFocus\Webshop\database\seeders\ProductSeeder;
+
+...
+
+class DatabaseSeeder extends Seeder
+{
+    public function run()
+    {
+        ...
+
+        $this->call(ProductSeeder::class);
+        $this->call(OrderSeeder::class);
+    }
+}
+```
+
+#### Configuration
+
+Publish the config file with:
+```sh
+php artisan vendor:publish --tag=webshop-config
+```
+
+#### Language files
+
+Publish the language files with:
+```sh
+php artisan vendor:publish --tag=webshop-lang
+```
+
+#### 
+ 
 ## Usage
 
-## Development
 
-First of all clone the repository in a directory next to your `climbing-buddies-backend` directory with the following command:
-
-```sh
-cd ~/Code
-git clone git@github.com:RawFocus/webshop.git package-webshop
-```
-
-Until we have a stable v1.0.0 we will be working in the `webshop` branch of the `climbing-buddies-backend` repository. So checkout that branch and it should be configured for loading the package locally:
-
-```sh
-cd ../climbing-buddies-backend
-git fetch
-git checkout webshop
-```
-
-Notice the `repositories` entry in the `composer.json` file:
-
-```json
-"repositories": [
-    {
-        "type": "path",
-        "url": "../package-webshop",
-        "options": {
-            "symlink": true
-        }
-    }
-]
-```
-
-Since we are running Laravel sail (aka Docker) the package won't be automatically available within our docker environment. To make the package directory available we add the following to the `volumes` section of the `docker-compose.yaml` of the `climbing-buddies-backend` project, like so:
-
-```
-volumes:
-    - '.:/var/www/html'
-    - '../package-webshop:/var/www/package-webshop'
-```
-
-Then restart your docker containers using sail:
-
-```
-ctrl+c
-sail up
-```
-
-Run the following command to symlink the package into the climbing buddies backend:
-
-```sh
-composer require raw-focus/webshop:dev-master
-```
-
-The `dev-` tells composer we want to load a local package and not a tag and the `master` is the branch we want to load. 
-
-After that the package should be loaded and you can develop it in it's own directory without having to update.
 
 ## Publishing
