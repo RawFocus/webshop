@@ -31,8 +31,8 @@ class Order extends Model
         "total_price",
     ];
     protected $casts = [
-        "payment_status" => PaymentStatusEnum::class,
         "order_status" => OrderStatusEnum::class,
+        "payment_status" => PaymentStatusEnum::class,
     ];
 
     //

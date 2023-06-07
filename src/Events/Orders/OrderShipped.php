@@ -14,12 +14,12 @@ class OrderShipped
 
     private $order;
 
-    public $userId;
+    public $orderUuid;
 
     public function __construct(Order $order)
     {
         $this->order = $order;
-        $this->orderId = $order->id;
+        $this->orderUuid = $order->uuid;
     }
 
     public function getOrder()
