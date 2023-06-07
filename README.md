@@ -2,12 +2,28 @@
 
 This is a Laravel 10 package that provides you with an API to handle a simple webshop powered by Stripe.
 
+## Todo
+
+- [ ] Product version support (multi-variant products)
+
 ## Installation
 
 #### Package
 
 ```sh
 composer require raw-focus/webshop
+```
+
+#### Environment file
+
+Add the following entries to your `.env` file:
+```
+# Your Stripe API key
+STRIPE_PRIVATE_KEY=
+
+# Your Stripe success & fail URLS where your customer will be redirected to. The endpoints are appended with the /:order-id
+STRIPE_SUCCESS_URL=http://localhost:5173/webshop/checkout/succeeded
+STRIPE_CANCEL_URL=http://localhost:5173/webshop/checkout/failed
 ```
 
 #### Database
@@ -60,11 +76,51 @@ Publish the language files with:
 ```sh
 php artisan vendor:publish --tag=webshop-lang
 ```
-
-#### 
  
 ## Usage
 
+The package primarily provides you with a `Product` and `Order` model and an API that you can use to manage those products & orders.
 
+For all actions that are performed **events** are fired which you can listen for in your application. The package does not provide any email sending or other consequences that usually happen after for example placing an order. So it's up to you to build that functionality yourself.
 
-## Publishing
+## Models
+
+The following models are provided by the package:
+
+```
+Product > ProductVariant > ProductVariantOption
+        > ProductImage
+
+Order` > OrderProduct
+```
+
+## API Endpoints
+
+- `GET` `api/webshop/data`
+
+- `POST` `api/webshop/checkout`
+- `POST` `api/webshop/checkout/retry`
+
+- `GET` `api/webshop/products`
+- `GET` `api/webshop/products/find-by-id/{slug}`
+- `GET` `api/webshop/products/find-by-slug/{slug}`
+- `POST` `api/webshop/products/create`
+- `POST` `api/webshop/products/update`
+- `POST` `api/webshop/products/delete`
+
+- `GET` `api/webshop/orders`
+- `GET` `api/webshop/orders/find-by-id/{id}`
+- `GET` `api/webshop/orders/find-by-uuid/{uuid}`
+- `POST` `api/webshop/orders/flag-as-shipped`
+- `POST` `api/webshop/orders/flag-as-arrived`
+
+- `POST` `api/webshop/stripe/endpoint`
+
+## Security
+
+You can specify the `middleware` you want to protected your routes with in the `webshop.php` config file.
+The package uses the `auth:sanctum` middleware for all endpoints except for the Stripe webhook by default.
+
+## Stripe
+
+coming soon..
