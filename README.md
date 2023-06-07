@@ -11,7 +11,7 @@ This is a Laravel 10 package that provides you with an API to handle a simple we
 #### Package
 
 ```sh
-composer require raw-focus/webshop
+composer require raw-focus/webshop:^1.0
 ```
 
 #### Environment file
