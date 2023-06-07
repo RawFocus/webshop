@@ -11,8 +11,8 @@ return [
 
         // Endpoints stripe should use for success and cancel redirects
         "urls" => [
-            "success" => env("STRIPE_SUCCESS_URL", "https://staging.klimbuddies.nl/"),
-            "cancel" => env("STRIPE_CANCEL_URL", "https://staging.klimbuddies.nl/"),
+            "success" => env("STRIPE_SUCCESS_URL", ""),
+            "cancel" => env("STRIPE_CANCEL_URL", ""),
         ],
 
         // Tax rates to use; see: [link here] for more information
@@ -38,13 +38,13 @@ return [
         "middleware" => [
 
             // Authenticated only route middlewares
-            "auth" => ["auth:sanctum", "registration"], // TODO: remove registration from package to make the package more agnostic
+            "auth" => ["auth:sanctum"],
 
             // Product route middlewares
-            "products" => ["is_admin"], // TODO: remove is_admin from package to make the package more agnostic
+            "products" => [],
 
             // Order route middlewares
-            "orders" => ["is_admin"], // TODO: remove is_admin from package to make the package more agnostic
+            "orders" => [],
 
             // Checkout route middelewares
             "checkout" => [],
