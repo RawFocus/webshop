@@ -168,10 +168,11 @@ At this point we can update the order payment status to PENDING.
 2. handleCheckoutEvent -> handles the webhook event that get's fired after there was an attempt to make a payment.
 This method updates the payment status to paid or failed and also handles sending emails etc.
 
-Note about signature webhook validation:
+### Signature webhook validation:
+
 In order to prevent 'replay' attacks you can enable webhook signature validation.
 
-Make sure the STRIPE_WEBHOOK_SECRET is set to the correct value. You can find this in the Stripe dashboard.
-And the enable_webhook_signature_validation value to true.
+Make sure the STRIPE_WEBHOOK_SECRET is set to the correct value. You can find this in the Stripe dashboard here: https://dashboard.stripe.com/test/webhooks
+And set the config("webshop.payments.enable_webhook_signature_validation") value to true.
 
 Read https://stripe.com/docs/webhooks/signatures for more information
