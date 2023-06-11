@@ -35,33 +35,51 @@ class StripeController extends Controller
         // Skip events that don't match the source
         if (!$stripeEvent->livemode && $metadata["source"] != env("APP_ENV"))
         {
+            Log::debug("[stripe controller] handleCheckoutEvent: skipping event because source doesn't match: " . $metadata["source"] . " != " . env("APP_ENV"));
+
             return response()->json([
-                "status" => "skipped"
-            ]);
+                "status" => "skipped",
+                "message" => __("webshop::validation.stripe.sources_dont_match")
+            ], 200);
         }
 
+        // Retrieve the stripe payment
         $payment = WebshopPayments::getStripePayment($stripeObject->payment_intent);
-        if (!$payment) {
-            Log::debug("StripeController::handleCheckoutEvent: unable to find payment information: " . $stripeObject);
-            return response("Unable to find payment information", 399);
+        if (!$payment)
+        {
+            Log::debug("[stripe controller] handleCheckoutEvent: unable to find payment information: " . $stripeObject);
+
+            return response()->json([
+                "status" => "failed",
+                "message" => __("webshop::validation.stripe.payment_not_found")
+            ], 399);
         }
 
+        // Retrieve the payment method from the Stripe payment object
         $paymentMethod = $payment->payment_method_details->type;
 
         // Attempt to find order using client_reference_id
         $order = WebshopOrders::findOrderByUuid($stripeObject->client_reference_id);
         if (!$order)
         {
-            Log::debug("StripeController::handleCheckoutEvent: Unable to find order with id: " . $stripeObject->client_reference_id);
-            return response("Unable to find order", 404);
+            Log::debug("[stripe controller] handleCheckoutEvent: unable to find order with id: " . $stripeObject->client_reference_id);
+
+            return response()->json([
+                "status" => "failed",
+                "message" => __("webshop::validation.stripe.order_not_found")
+            ], 404);
         }
 
         // Check if the order has been set to paid already, it should never be able to change after that
         // Once the order is paid this webhook should not be able to change data ever
         if ($order->payment_status == PaymentStatusEnum::PAID)
         {
-            Log::debug("Received duplicated webhook event from Stripe. Order: " . $order->uuid);
-            return response()->json(["status" => "already_paid"]);
+            Log::debug("[stripe controller] handleCheckoutEvent: received duplicated webhook event from Stripe. Order: " . $order->uuid);
+
+            return response()->json([
+                "status" => "already_paid"
+                "message" => __("webshop::validation.stripe.payment_already_processed")
+            ], 200);
         }
 
         // Update order's payment status
@@ -73,23 +91,29 @@ class StripeController extends Controller
         // Check if the payment has been made
         if ($stripeObject->payment_status == PaymentStatusEnum::PAID->value)
         {
-            // Flag order as paid
-            $order->payment_status = PaymentStatusEnum::PAID;
+            // Flag payment as paid
+            $order->payment_status = PaymentStatusEnum::PAID; 
+            $order->save();
 
-            // Payment received
-            event(new PaymentReceived($order));
+            // Payment received failed event
+            PaymentReceived::dispatch($order);
         }
         // The payment has failed
         else
         {
+            // Revert stock decreases
             WebshopOrders::revertStockDecreases($order);
+
+            // Flag payment as failed
             $order->payment_status = PaymentStatusEnum::FAILED;
+            $order->save();
+
+            // Dispatch payment failed event
+            PaymentFailed::dispatch($order);
         }
 
-        $order->save();
-
         // Return success response
-        return response()->json(["status" => "succeeded"]);
+        return response()->json(["status" => "success"]);
     }
 
     /**
@@ -100,33 +124,44 @@ class StripeController extends Controller
      */
     public function handlePaymentIntentCreated(StripeObject $stripeEvent)
     {
+        // Grab the payment intent data from the stripe event
         $paymentIntent = $stripeEvent->data->object;
 
-        // Get original stripe session from Stripe
+        // Get the Stripe session
         $session = WebshopPayments::getSession($paymentIntent->id);
-        if (!$session) return response("Unable to find session", 403);
+        if (!$session)
+        {
+            return response()->json([
+                "status" => "failed",
+                "message" => __("webshop::validation.stripe.session_not_found")
+            ], 403);
+        }
 
         // Skip events that don't match the source
         if (!$stripeEvent->livemode && $session->metadata["source"] != env("APP_ENV"))
         {
             return response()->json([
-                "status" => "skipped"
-            ]);
+                "status" => "skipped",
+                "message" => __("webshop::validation.stripe.sources_dont_match")
+            ], 200);
         }
 
+        // Grab the order associated with the Stripe session
         $order = WebshopOrders::findOrderByUuid($session->client_reference_id);
         if (!$order)
         {
-            return response("Unable to find order", 404);
+            return response()-json([
+                "status" => "failed",
+                "message" => __("webshop::validation.stripe.order_not_found")
+            ], 404);
         }
 
         // Set the payment status to 'pending'
         $order->payment_status = PaymentStatusEnum::PENDING;
         $order->save();
 
-        return response()->json([
-            "status" => "succeeded"
-        ]);
+        // Return success response
+        return response()->json(["status" => "success"]);
     }
 
     /**
@@ -138,7 +173,9 @@ class StripeController extends Controller
     public function handleCustomerCreated(StripeObject $stripeEvent)
     {
         // TODO: save some details on the user this will be used to set some default settings for a next order
+        
         // $customer = $stripeEvent->data->object;
+
         // $user = Users::findByEmail($customer->email);
         // if (!$user) response("Unable to find user", 404);
 
@@ -147,9 +184,7 @@ class StripeController extends Controller
         //     return response("Unable to save payment driver ID", 500);
         // }
 
-        return response()->json([
-            "status" => "succeeded"
-        ]);
+        return response()->json(["status" => "success"]);
     }
 
     /**
@@ -180,29 +215,49 @@ class StripeController extends Controller
         }
         catch(\UnexpectedValueException $e)
         {
-            // Invalid payload
-            Log::error("Invalid payload coming from Stripe! " . $request->ip());
-            return response('Invalid payload', 400);
+            Log::error("[stripe controller] postWebhook: invalid payload coming from Stripe! " . $request->ip());
+
+            return response()->json([
+                "status" => "invalid_payload",
+                "message" => __("webshop::validation.stripe.invalid_payload")
+            ], 400);
         }
         catch(\Stripe\Exception\SignatureVerificationException $e)
         {
-            // Invalid payload
-            Log::error("Signature verification mismatch! " . $request->ip());
-            return response('Invalid payload', 400);
+            Log::error("[stripe controller] postWebhook: signature verification mismatch! " . $request->ip());
+
+            return response()->json([
+                "status" => "invalid_payload",
+                "message" => __("webshop::validation.stripe.signature_mismatch")
+            ], 400);
         }
 
         if (!$stripeEvent->livemode && env("APP_ENV") == "production")
         {
-            throw new Exception("This webhook request has livemode set to false");
+            // TODO: waarom gooien we hier een exception ipv een error zoals hierboven in alle checks?
+            throw new Exception(__("webshop::validation.stripe.webhook_not_in_live_mode"));
         }
 
         // Handle the event
-        if ($stripeEvent->type == "checkout.session.completed") return $this->handleCheckoutEvent($stripeEvent);
-        if ($stripeEvent->type == "payment_intent.created") return $this->handlePaymentIntentCreated($stripeEvent);
+        if ($stripeEvent->type == "checkout.session.completed")
+        {
+            return $this->handleCheckoutEvent($stripeEvent);
+        }
+
+        if ($stripeEvent->type == "payment_intent.created")
+        {
+            return $this->handlePaymentIntentCreated($stripeEvent);
+        }
+
         // TODO: if ($stripeEvent->type == "customer.created") return $this->handleCustomerCreated($stripeEvent);
 
+        // Debug
+        Log::error("[stripe controller] postWebhook: unknown or unsupported checkout event type: " . $stripeEvent->type . " ID: " . $stripeEvent->id);
+        
         // Unknown or unsupported checkout event type
-        Log::error("Unknown or unsupported checkout event type: " . $stripeEvent->type . " ID: " . $stripeEvent->id);
-        return response("Invalid payload", 400);
+        return response()->json([
+            "status" => "invalid_payload",
+            "message" => __("webshop::validation.stripe.unknown_event_type")
+        ], 400);
     }
 }
