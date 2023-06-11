@@ -86,12 +86,13 @@ class OrderServiceTest extends TestCase
 
     public function testCalculateTotalOrderPrice()
     {
-        $products = [
-            [
-                'quantity' => 2,
+        $products = [[
+            'product' => [
+                
                 'price' => 26,
             ],
-        ];
+            'quantity' => 2,
+        ]];
 
         $totalPrice = WebshopOrdersFacade::calculateTotalOrderPrice($products);
 
@@ -105,7 +106,11 @@ class OrderServiceTest extends TestCase
         ]);
 
         $order = OrderFactory::new()->create();
-        $order->products()->attach($product->id, ['quantity' => 3]);
+        $order->products()->attach($product->id, [
+            "quantity" => 3,
+            "variants" => [],
+            "total_price" => 3 * $product->price,
+        ]);
 
         WebshopOrdersFacade::revertStockDecreases($order);
 

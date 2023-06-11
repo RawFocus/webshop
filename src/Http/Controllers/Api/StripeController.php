@@ -77,7 +77,7 @@ class StripeController extends Controller
             Log::debug("[stripe controller] handleCheckoutEvent: received duplicated webhook event from Stripe. Order: " . $order->uuid);
 
             return response()->json([
-                "status" => "already_paid"
+                "status" => "already_paid",
                 "message" => __("webshop::validation.stripe.payment_already_processed")
             ], 200);
         }

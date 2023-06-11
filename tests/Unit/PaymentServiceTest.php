@@ -43,17 +43,19 @@ class PaymentServiceTest extends TestCase
             "stock" => 10,
         ]);
         $checkoutRequest = new CheckoutRequest([
-            'products' => [
+            'products' => [[
+                'product' =>
                 [
                     'uuid' => $product->uuid,
-                    'quantity' => 2,
                     'price' => 26,
-                ]
-            ],
-            'address' => 'Test Street',
-            'address_country' => 'NL',
-            'address_postal_code' => '1234 AA',
-            'address_city' => 'Test City',
+                ],
+                'quantity' => 2,
+                'variants' => [],
+            ]],
+            'street' => 'Test Street',
+            'country' => 'NL',
+            'postal_code' => '1234 AA',
+            'city' => 'Test City',
         ]);
 
         // Test the method
@@ -63,10 +65,10 @@ class PaymentServiceTest extends TestCase
         $this->assertDatabaseHas('orders', [
             'name' => 'John Doe',
             'email' => 'john@example.com',
-            'address_street' => 'Test Street',
-            'address_country' => 'NL',
-            'address_postal_code' => '1234 AA',
-            'address_city' => 'Test City',
+            'street' => 'Test Street',
+            'country' => 'NL',
+            'postal_code' => '1234 AA',
+            'city' => 'Test City',
             'total_price' => 5200,
         ]);
         $this->assertDatabaseHas('order_product', [

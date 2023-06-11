@@ -23,7 +23,7 @@ class StripeControllerTest extends TestCase
             "allow_promotion_codes" => null,
             "amount_subtotal" => 2600,
             "amount_total" => 2600,
-            "billing_address_collection" => null,
+            "billing_collection" => null,
             "cancel_url" => "http://localhost/success",
             "client_reference_id" => $order->uuid,
             "currency" => "usd",
@@ -40,7 +40,7 @@ class StripeControllerTest extends TestCase
             "payment_status" => "paid",
             "setup_intent" => null,
             "shipping" => null,
-            "shipping_address_collection" => null,
+            "shipping_collection" => null,
             "submit_type" => null,
             "subscription" => null,
             "success_url" => "http://localhost/success",
@@ -70,7 +70,7 @@ class StripeControllerTest extends TestCase
 
         $this->post(route("stripe.webhook.endpoint"), $request)
             // ->assertStatus(200) // disable for debugging the route
-            ->assertJson(["status" => "succeeded"]);
+            ->assertJson(["status" => "success"]);
 
         $order = $order->refresh();
 

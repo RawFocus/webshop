@@ -26,15 +26,17 @@ class OrderFactory extends Factory
             "user_id" => 1,
             "name" => $this->faker->name,
             "email" => $this->faker->email,
-            "address_street" => $this->faker->streetAddress,
-            "address_country" => "NL",
-            "address_postal_code" => $this->faker->postcode,
-            "address_city" => $this->faker->city,
+            "street" => $this->faker->streetAddress,
+            "country" => "NL",
+            "postal_code" => $this->faker->postcode,
+            "city" => $this->faker->city,
             "total_price" => $this->faker->randomFloat(2, 0, 100),
             "order_status" => "open",
             "payment_status" => "pending",
             "payment_method" => "ideal",
-            "payment_id" => null
+            "payment_id" => null,
+            "num_products" => 1,	
+            "total_price" => 1
         ];
     }
 }
