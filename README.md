@@ -162,10 +162,10 @@ See StripeController.php for the webhook listener.
 
 Two important methods:
 
-1. handlePaymentIntentCreated -> handles the webhook event that get's fired right after the checkout session has been created.
+1. handlePaymentIntentCreated -> handles the webhook event that is fired right after the checkout session has been created.
 At this point we can update the order payment status to PENDING.
 
-2. handleCheckoutEvent -> handles the webhook event that get's fired after there was an attempt to make a payment.
+2. handleCheckoutEvent -> handles the webhook event that is fired after there was an attempt to make a payment.
 This method updates the payment status to paid or failed and also handles sending emails etc.
 
 ### Signature webhook validation:
@@ -176,3 +176,9 @@ Make sure the STRIPE_WEBHOOK_SECRET is set to the correct value. You can find th
 
 And set the config("webshop.payments.enable_webhook_signature_validation") value to true.
 
+
+### Stripe local webhook listener
+
+1. Download the correct Stripe listener cli exe. Read more information here: https://stripe.com/docs/stripe-cli or go straight to: https://github.com/stripe/stripe-cli/releases/tag/v1.14.7
+2. Run ```sh stripe login``` and complete the login procedure. It should redirect to your webbrowser, there you should login to Stripe.
+3. Run ```sh stripe listen --forward-to http://localhost/api/webshop/stripe/endpoint``` (Change --forward-to to point to your Laravel webhook controller)
