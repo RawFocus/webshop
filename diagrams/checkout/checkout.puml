@@ -29,7 +29,7 @@ start
     if (payment successful) then (true)
         : Stripe will send a webhook to the backend;
         : Update Order status to "paid";
-        : Dispatch PaymentReceived event
+        : Dispatch PaymentReceived event;
     else (false)
         : Stripe will send a webhook to the backend;
         : Update Order status to "failed";
