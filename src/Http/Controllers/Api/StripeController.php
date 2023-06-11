@@ -234,8 +234,13 @@ class StripeController extends Controller
 
         if (!$stripeEvent->livemode && env("APP_ENV") == "production")
         {
-            // TODO: waarom gooien we hier een exception ipv een error zoals hierboven in alle checks?
-            throw new Exception(__("webshop::validation.stripe.webhook_not_in_live_mode"));
+            Log::error("[stripe controller] postWebhook: Production application has received test webhook events! " . $request->ip());
+
+            // Application is not configured correctly because it is receiving test webhook events
+            return response()->json([
+                "status" => "invalid_payload",
+                "message" => __("webshop::validation.stripe.signature_mismatch")
+            ], 400);
         }
 
         // Handle the event

@@ -1,0 +1,42 @@
+
+start
+: Receive postCheckout request;
+: Create Order;
+    note right
+        "name" => current logged in user name
+        "email" => current logged in user email
+        "user_id" => current logged in user id
+        "street" => street from the request
+        "postal_code" => postal code from the request
+        "city" => city from the request
+        "country" => country from the request
+        "num_products" => total number of products
+        "total_price" => total price of all products (taking quantity into account)
+    end note    
+
+    : Attach products to Order;
+    : Decrease stock from every product;
+    : Create Stripe payment session;
+        note right
+            This will create a new Stripe session.
+            https://stripe.com/docs/api/checkout/sessions
+        end note
+
+    : Return Stripe session url to the frontend;
+
+    : Frontend will redirect to the Stripe checkout page;
+
+    if (payment successful) then (true)
+        : Stripe will send a webhook to the backend;
+        : Update Order status to "paid";
+        : Send email to the customer;
+    else (false)
+        : Stripe will send a webhook to the backend;
+        : Update Order status to "failed";
+    endif
+
+    : Customer will return to the frontend after payment;
+
+stop
+
+

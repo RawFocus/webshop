@@ -123,4 +123,64 @@ The package uses the `auth:sanctum` middleware for all endpoints except for the 
 
 ## Stripe
 
-coming soon..
+First add your private key to the laravel .env file:
+
+```sh
+STRIPE_PRIVATE_KEY=stripe-private-key 
+STRIPE_WEBHOOK_SECRET=stripe-webhook-secret # only used when webshop.payments.enable_webhook_signature_validation is set to true
+```
+
+After creating the Order the Stripe payment session will be created:
+
+When setting up the payment session we have to define the products that will be shown in the Stripe checkout.
+And also the success and cancel urls.
+
+```php
+"client_reference_id" => // order uuid
+"success_url" => config("webshop.payments.urls.success") url + order uuid
+"cancel_url" => config("webshop.payments.urls.cancel") url + order uuid
+"payment_method_types" => [config("webshop.payments.payment_method_types")],
+"mode" => "payment",
+"metadata" => [
+    // using the source we can differentiate between the different environments
+    // useful for when using local listeners for webhooks
+    "source" => env("APP_ENV"), 
+],
+```
+```php
+    // products line items
+    "price_data" => [
+        "currency" => "eur", // Stripe only accepts lowercase for currency
+        "product_data" => [
+            "name" => $product->title["nl"],
+        ],
+        // Stripe api handles 10,00 like 1000. Hence, why the value is multiplied by 100
+        "unit_amount_decimal" => round($product->price * 100)
+    ],
+    // The quantity will be displayed to the customer
+    "quantity" => $product->pivot->quantity,
+    // Tax rates are objects that can be created and managed using the Stripe dashboard
+    "tax_rates" => [config("webshop.payments.tax_rates.high")],
+```
+
+### Checkout flow
+
+![Alt text](diagrams/checkout/checkout.png)
+
+### Webhooks
+
+See StripeController.php for the webhook listener. 
+
+Two important methods:
+
+1. handlePaymentIntentCreated -> handles the webhook event that get's fired right after the checkout session has been created.
+At this point we can update the order payment status to PENDING.
+
+2. handleCheckoutEvent -> handles the webhook event that get's fired after there was an attempt to make a payment.
+This method updates the payment status to paid or failed and also handles sending emails etc.
+
+Note about signature webhook validation:
+In order to prevent 'replay' attacks you can enable webhook signature validation.
+
+Make sure the STRIPE_WEBHOOK_SECRET is set to the correct value. You can find this in the Stripe dashboard.
+And the enable_webhook_signature_validation value to true.
